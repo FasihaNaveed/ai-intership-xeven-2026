@@ -1,65 +1,86 @@
-# AI Engineer Internship - Xeven Solutions
+# AI Engineer Internship 2026
 
-## Day 1
+## Introduction
 
-### Objective
-Learn AI fundamentals and set up the development environment.
+Hello! My name is **Fasiha Naveed**, and I am participating in the **AI Engineer Internship Program at Xeven Solutions**. This repository documents my daily learning journey, practical implementations, research findings, and projects completed throughout the internship.
 
-### Tasks Completed
-- Installed Python
-- Installed VS Code
-- Configured Git
-- Created first Python program
-- Learned basic AI concepts
-    - What is AI?
-        - Examples
-        - Simple Definition
-    - Types of AI
-        - Narrow AI
-            - Examples 
-        - General AI
-            - Examples 
-    - AI Fields
-        - Machine Learning (ML)
-            - Examples 
-        - Deep Learning (DL)
-            - Examples 
-        - NLP
-            - Examples 
-        - Computer Vision
-            - Examples 
-    - AI Domains
-        - Healthcare (Diagnosis)
-            - Examples 
-            - Real World 
-        - Finance (Fraud Detection)
-            - Examples 
-            - Uses
-        - Education (Personalized Learning)
-            - Examples 
-            - Platforms
-        - Marketing (Recommendations)
-            - Examples 
-        - SMarketing (Recommendations)
-            - Examples 
-    - Role of an AI Engineer
-    - Training vs Inference
-        - Training
-            - Examples 
-        - Inference
-            - Examples 
+---
 
-### Project Structure
+## Internship Overview
 
+This internship focuses on building strong foundations in:
+
+* Python Programming
+* Artificial Intelligence Fundamentals
+* Machine Learning Concepts
+* Data Handling and Analysis
+* AI Tools and Frameworks
+* Software Development Best Practices
+* Research and Problem-Solving Skills
+
+---
+
+## Repository Structure
+
+```text
 ai-internship-xeven-2026/
 │
+├── day01/
+├── day02/
+├── day03/
+├── ...
 ├── README.md
-├── LEARNING.md
-├── .gitignore
-│
-└── day01/
-    └── app.py
+└── LEARNINGS.md
+```
 
+Each folder contains:
+
+* Research Notes
+* Python Scripts
+* Jupyter Notebooks
+* Daily Learnings
+* Practical Assignments
+
+---
+
+## Progress
+
+### Days Completed
+
+* ✅ Day 1 – Environment Setup & First Python Program
+* ✅ Day 2 – Variables, Data Types, Input/Output, and Memory Basics
+
+### Overall Progress
+
+Completed foundational Python concepts and established a structured workflow for learning, coding, documentation, and version control.
+
+---
+
+## My Goals
+
+Through this internship, I aim to:
+
+* Develop strong Python programming skills
+* Build practical AI and Machine Learning projects
+* Learn industry-standard development practices
+* Improve problem-solving and research abilities
+* Gain experience with modern AI tools and technologies
+* Build a professional portfolio of projects
+
+---
+
+## Expectations from This Internship
+
+I expect this internship to provide:
+
+* Hands-on learning experience
+* Exposure to real-world AI applications
+* Industry best practices
+* Professional coding standards
+* Research and analytical thinking skills
+* Guidance from experienced mentors
+
+---
 
 # What is AI and the Role of an AI Engineer
 
@@ -73,3 +94,9 @@ AI matters because it helps people work more efficiently, saves time, improves a
 An AI Engineer is a professional who designs, develops, and maintains AI systems. They work with data, create intelligent models, test AI applications, and ensure that these systems function correctly. AI Engineers help transform ideas into practical solutions that can improve people's lives and support innovation across different industries.
 
 As AI continues to grow, the role of AI Engineers becomes increasingly important in building smart, reliable, and responsible technology for the future.
+
+## Author
+
+**Fasiha Naveed**
+AI Engineer Intern
+Xeven Solutions
