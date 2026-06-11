@@ -20,18 +20,25 @@ This internship focuses on building strong foundations in:
 
 ---
 
-## Repository Structure
-
-```text
 ai-internship-xeven-2026/
 │
 ├── day01/
+│   ├── first_script.py
+│   ├── day01_notes.ipynb
+│
 ├── day02/
+│   ├── calculator.py
+│   ├── data_types_explorer.py
+│   ├── day02_notes.ipynb
+│   ├── LEARNINGS.md
+│
 ├── day03/
-├── ...
+│   ├── age_verification.py
+│   ├── grade_calculator.py
+│   ├── day03_notes.ipynb
+│
 ├── README.md
 └── LEARNINGS.md
-```
 
 Each folder contains:
 
@@ -49,6 +56,7 @@ Each folder contains:
 
 * ✅ Day 1 – Environment Setup & First Python Program
 * ✅ Day 2 – Variables, Data Types, Input/Output, and Memory Basics
+* ✅ Day 3 – Conditional Statements, Boolean Logic, and Flow Control
 
 ### Overall Progress
 
