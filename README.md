@@ -41,6 +41,12 @@ ai-internship-xeven-2026/
 │   ├── calculator.py
 │   ├── day04_notes.ipynb
 │
+├── day05/
+│   ├── loops_practice.py
+│   ├── number_guessing_game.py
+│   ├── multiplication_table.py
+│   ├── day05_notes.ipynb
+│
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -57,12 +63,13 @@ Each folder contains:
 
 ## Progress
 
-### Days Completed
+## Days Completed
 
 * ✅ Day 1 – Environment Setup & First Python Program
 * ✅ Day 2 – Variables, Data Types, Input/Output, and Memory Basics
 * ✅ Day 3 – Conditional Statements, Boolean Logic, and Flow Control
-* ✅ Day 4 – Operators, Type Conversion, Login System, Calculator Development, and Operator Precedence
+* ✅ Day 4 – Learned Python operators, type conversion, operator precedence, built an advanced login system and a multi-operation calculator with error handling.
+* ✅ Day 5 – Loops (for, while), Iteration Control, Pattern Printing, Number Guessing Game, and Practical Problem Solving
 
 ### Overall Progress
 
