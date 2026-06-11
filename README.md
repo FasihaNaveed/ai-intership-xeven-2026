@@ -47,6 +47,12 @@ ai-internship-xeven-2026/
 │   ├── multiplication_table.py
 │   ├── day05_notes.ipynb
 │
+├── day06/
+│   ├── student_management.py
+│   ├── grade_tracker.py
+│   ├── list_slicing.py
+│   ├── day06_notes.ipynb
+│
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -68,8 +74,9 @@ Each folder contains:
 * ✅ Day 1 – Environment Setup & First Python Program
 * ✅ Day 2 – Variables, Data Types, Input/Output, and Memory Basics
 * ✅ Day 3 – Conditional Statements, Boolean Logic, and Flow Control
-* ✅ Day 4 – Learned Python operators, type conversion, operator precedence, built an advanced login system and a multi-operation calculator with error handling.
+* ✅ Day 4 – Python Operators, Type Conversion, Operator Precedence, Login System, and Calculator with Error Handling
 * ✅ Day 5 – Loops (for, while), Iteration Control, Pattern Printing, Number Guessing Game, and Practical Problem Solving
+* ✅ Day 6 – Python Lists, List Methods (append, insert, remove, pop), Slicing, Sorting, and Student Management System
 
 ### Overall Progress
 
