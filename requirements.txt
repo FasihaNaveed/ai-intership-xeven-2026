@@ -1,0 +1,50 @@
+# Core Python Development
+
+jupyter
+notebook
+ipykernel
+
+# Code Formatting & Quality
+
+black
+flake8
+
+# Environment Management
+
+uv
+
+# Notebook Support
+
+matplotlib
+
+### 📌 Ye packages kyun?
+
+| Package      | Purpose                                             |
+| ------------ | --------------------------------------------------- |
+| `jupyter`    | Notebook chalane ke liye                            |
+| `notebook`   | Jupyter Notebook interface                          |
+| `ipykernel`  | Notebook ko Python environment se connect karta hai |
+| `black`      | Python code formatting                              |
+| `flake8`     | PEP 8 checking                                      |
+| `uv`         | Fast package/environment manager                    |
+| `matplotlib` | Future notebook visualization support               |
+
+### Folder placement:
+
+```text
+ai-internship-xeven-2026/
+│
+├── day01/
+├── day02/
+├── day03/
+├── day04/
+├── requirements.txt
+├── README.md
+└── LEARNINGS.md
+```
+
+### Install later:
+
+```bash
+pip install -r requirements.txt
+```
