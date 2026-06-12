@@ -52,7 +52,21 @@ ai-internship-xeven-2026/
 │   ├── grade_tracker.py
 │   ├── list_slicing.py
 │   ├── day06_notes.ipynb
+|
+|── day07/
+│   ├── WEEK1_PRESENTATION.md
+│   ├── FEEDBACK_WEEK1.md
+│   ├── DAY7_LEARNINGS.md
+│   ├── week1_assessment.py
+│   ├── day07_notes.ipynb
 │
+├── day08/
+│   ├── student_grade_manager.py
+│   ├── shopping_cart.py
+│   ├── data_cleaning.py
+│   ├── DAY8_LEARNINGS.md
+│   ├── day08_notes.ipynb
+|
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -77,6 +91,8 @@ Each folder contains:
 * ✅ Day 4 – Python Operators, Type Conversion, Operator Precedence, Login System, and Calculator with Error Handling
 * ✅ Day 5 – Loops (for, while), Iteration Control, Pattern Printing, Number Guessing Game, and Practical Problem Solving
 * ✅ Day 6 – Python Lists, List Methods (append, insert, remove, pop), Slicing, Sorting, and Student Management System
+* ✅ Day 7 – Week 1 Assessment, Presentation, Documentation, Research Comparison, and Learning Reflection
+* ✅ Day 8 – Advanced List Operations, List Comprehensions, Student Grade Manager, Shopping Cart System, and Data Cleaning Pipeline
 
 ### Overall Progress
 
