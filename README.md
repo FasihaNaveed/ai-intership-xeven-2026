@@ -67,6 +67,13 @@ ai-internship-xeven-2026/
 │   ├── DAY8_LEARNINGS.md
 │   ├── day08_notes.ipynb
 |
+├──day09/
+|    ├── geographic_coordinates_system.py
+|    ├── unique_visitor_tracker.py
+|    ├── email_validation_system.py
+│    ├── LEARNINGS.md
+|    ├── day09_notes.ipynb
+│
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -93,6 +100,7 @@ Each folder contains:
 * ✅ Day 6 – Python Lists, List Methods (append, insert, remove, pop), Slicing, Sorting, and Student Management System
 * ✅ Day 7 – Week 1 Assessment, Presentation, Documentation, Research Comparison, and Learning Reflection
 * ✅ Day 8 – Advanced List Operations, List Comprehensions, Student Grade Manager, Shopping Cart System, and Data Cleaning Pipeline
+* ✅ Day 9 – Tuples, Tuple Packing & Unpacking, Sets, Set Operations, Geographic Coordinates System, Unique Visitor Tracker, and Email Validation System
 
 ### Overall Progress
 
