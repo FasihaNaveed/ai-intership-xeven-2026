@@ -1,0 +1,14 @@
+{
+    "101": {
+        "name": "laptop",
+        "price": 80000.0,
+        "quantity": 4,
+        "category": "electronics"
+    },
+    "102": {
+        "name": "mouse",
+        "price": 2000.0,
+        "quantity": 3,
+        "category": "electronics"
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "database":"localhost",
+    "api_key":"12345",
+    "features":["login","dashboard"]
+}

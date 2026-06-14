@@ -51,3 +51,8 @@ try:
     location[0] = "Karachi"
 except TypeError as e:
     print("Immutability Error:", e)
+
+
+
+# HaverSine Formula
+# https://chatgpt.com/c/6a2e8421-ce38-83ee-b7b9-220b05bad38f

@@ -35,6 +35,11 @@ clean_data = [
     for item in clean_data
 ]
 
+# List Comprehension
+# Combine Step 2&3
+# clean_data = [
+#    item.strip().title()
+#    for item in clean_data ]
 
 # Step 3 — Normalize Case
 
