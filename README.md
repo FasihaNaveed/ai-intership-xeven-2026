@@ -111,6 +111,7 @@ ai-internship-xeven-2026/
 |   ├── LEARNINGS.md
 |   ├── day13_notes.ipynb
 |   └── log.txt
+|
 ├──day14/
 │
 |   ├── data_structure_cheatsheet.md
@@ -118,6 +119,17 @@ ai-internship-xeven-2026/
 |   ├── contacts.json
 |   ├── utils.py
 |   └── LEARNINGS.md
+|
+├──day15/
+|
+|   ├── chatbot.py
+|   ├── test_parameters.py
+|   ├── openai_setup.py
+|   ├── .env
+|   ├── .gitignore
+|   ├── day15_notes.ipynb
+|   ├── LEARNINGS.md
+|   └── requirements.txt
 |
 ├── README.md
 ├── LEARNINGS.md
@@ -151,6 +163,7 @@ Each folder contains:
 * ✅ Day 12 – Function Definition, Parameters, Return Values, Positional Arguments, Keyword Arguments, Default Parameters, Argument Unpacking, Local & Global Scope, Function Design Principles, Docstrings, Math Utility Library, Text Processing Functions, and Validation Function Suite.
 * ✅ Day 13 – Advanced Functions: *args, **kwargs, Lambda Functions, map(), filter(), sorted(), List & Dictionary Comprehensions, Nested Comprehensions, Performance Comparison, Flexible Logger System, Data Transformer Suite, and Comprehension-based Data Processing.
 * ✅ Day 14 – Week 2 Review & Mini Project: Data Structures Comparison (List, Tuple, Set, Dictionary), Time Complexity Analysis, Contact Management System, CRUD Operations (Add, Search, Update, Delete Contacts), Tag Management using Sets, Advanced Search with Comprehensions, JSON File Handling (Save & Load), Statistics (Total Contacts, Most Used Tags), and CLI-based Interactive Menu System.
+* ✅ Day 15 – Introduction to Large Language Models: Understanding Transformers, Attention Mechanism, Tokens, Context Window, Temperature, API Parameters, LLM Providers, Use Cases, Limitations, and Building a Basic AI Chatbot using API Integration.
 
 ### Overall Progress
 
