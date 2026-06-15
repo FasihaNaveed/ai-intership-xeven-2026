@@ -101,6 +101,17 @@ ai-internship-xeven-2026/
 │   ├── LEARNINGS.md
 │   └── day12_notes.ipynb
 │
+├──day13/
+|
+|   ├── flexible_logger.py
+|   ├── data_transformer.py
+|   ├── comprehensions_suite.py
+|   ├── performance_comparison.py
+|   ├── sample_data.py
+|   ├── LEARNINGS.md
+|   ├── day13_notes.ipynb
+|   └── log.txt
+
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -131,6 +142,8 @@ Each folder contains:
 * ✅ Day 10 – Dictionaries, Dictionary Methods, Nested Dictionaries, JSON Handling, Dictionary Comprehension, Student Information System, Product Inventory Manager, and Configuration Manager
 * ✅ Day 11 – For Loops, While Loops, range(), enumerate(), zip(), Break Statement, Continue Statement, Else with Loops, Nested Loops, Data Processing Pipeline, Pattern Generators, Matrix Operations, Prime Number Finder, Factorial Calculator, Fibonacci Sequence, and Number Guessing Game.
 * ✅ Day 12 – Function Definition, Parameters, Return Values, Positional Arguments, Keyword Arguments, Default Parameters, Argument Unpacking, Local & Global Scope, Function Design Principles, Docstrings, Math Utility Library, Text Processing Functions, and Validation Function Suite.
+* ✅ Day 13 – Advanced Functions: *args, **kwargs, Lambda Functions, map(), filter(), sorted(), List & Dictionary Comprehensions, Nested Comprehensions, Performance Comparison, Flexible Logger System, Data Transformer Suite, and Comprehension-based Data Processing.
+
 ### Overall Progress
 
 Completed foundational Python concepts and established a structured workflow for learning, coding, documentation, and version control.
