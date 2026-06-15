@@ -111,7 +111,14 @@ ai-internship-xeven-2026/
 |   ├── LEARNINGS.md
 |   ├── day13_notes.ipynb
 |   └── log.txt
-
+├──day14/
+│
+|   ├── data_structure_cheatsheet.md
+|   ├── contact_manager.py
+|   ├── contacts.json
+|   ├── utils.py
+|   └── LEARNINGS.md
+|
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -143,6 +150,7 @@ Each folder contains:
 * ✅ Day 11 – For Loops, While Loops, range(), enumerate(), zip(), Break Statement, Continue Statement, Else with Loops, Nested Loops, Data Processing Pipeline, Pattern Generators, Matrix Operations, Prime Number Finder, Factorial Calculator, Fibonacci Sequence, and Number Guessing Game.
 * ✅ Day 12 – Function Definition, Parameters, Return Values, Positional Arguments, Keyword Arguments, Default Parameters, Argument Unpacking, Local & Global Scope, Function Design Principles, Docstrings, Math Utility Library, Text Processing Functions, and Validation Function Suite.
 * ✅ Day 13 – Advanced Functions: *args, **kwargs, Lambda Functions, map(), filter(), sorted(), List & Dictionary Comprehensions, Nested Comprehensions, Performance Comparison, Flexible Logger System, Data Transformer Suite, and Comprehension-based Data Processing.
+* ✅ Day 14 – Week 2 Review & Mini Project: Data Structures Comparison (List, Tuple, Set, Dictionary), Time Complexity Analysis, Contact Management System, CRUD Operations (Add, Search, Update, Delete Contacts), Tag Management using Sets, Advanced Search with Comprehensions, JSON File Handling (Save & Load), Statistics (Total Contacts, Most Used Tags), and CLI-based Interactive Menu System.
 
 ### Overall Progress
 
