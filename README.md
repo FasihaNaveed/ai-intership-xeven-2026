@@ -131,6 +131,16 @@ ai-internship-xeven-2026/
 |   ├── LEARNINGS.md
 |   └── requirements.txt
 |
+├──day16/
+│
+|   ├── 1_basic_chain.py
+|   ├── 2_prompt_template.py
+|   ├── 3_document_loader.py
+|   ├── 4_pdf_loader.py
+|   ├── 5_csv_loader.py
+|   ├── 6_web_loader.py
+|   └── sample.txt
+|
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -164,6 +174,7 @@ Each folder contains:
 * ✅ Day 13 – Advanced Functions: *args, **kwargs, Lambda Functions, map(), filter(), sorted(), List & Dictionary Comprehensions, Nested Comprehensions, Performance Comparison, Flexible Logger System, Data Transformer Suite, and Comprehension-based Data Processing.
 * ✅ Day 14 – Week 2 Review & Mini Project: Data Structures Comparison (List, Tuple, Set, Dictionary), Time Complexity Analysis, Contact Management System, CRUD Operations (Add, Search, Update, Delete Contacts), Tag Management using Sets, Advanced Search with Comprehensions, JSON File Handling (Save & Load), Statistics (Total Contacts, Most Used Tags), and CLI-based Interactive Menu System.
 * ✅ Day 15 – Introduction to Large Language Models: Understanding Transformers, Attention Mechanism, Tokens, Context Window, Temperature, API Parameters, LLM Providers, Use Cases, Limitations, and Building a Basic AI Chatbot using API Integration.
+* ✅ Day 16 – LangChain Setup & First Chains: Understanding LangChain framework, LCEL (Expression Language), Prompt Templates, Document Loaders (Text, PDF, Web, CSV), and building a basic Document Q&A system using chained LLM workflows.
 
 ### Overall Progress
 

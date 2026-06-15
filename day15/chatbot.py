@@ -24,11 +24,13 @@ import sys
 from dotenv import load_dotenv
 from groq import Groq
 
+# from langchain_groq import ChatGroq
+
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
 
-MODEL = "llama-3.3-70b-versatile" 
+MODEL = "openai/gpt-oss-120b" 
 MAX_TOKENS_PER_TURN = 300
 TEMPERATURE = 0.7
 
