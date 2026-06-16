@@ -1,0 +1,21 @@
+[
+    {
+        "title": "AI Future",
+        "author": "John",
+        "published_date": "2026",
+        "summary": "AI is growing",
+        "tags": [
+            "AI",
+            "ML"
+        ]
+    },
+    {
+        "title": "Python",
+        "author": "Sara",
+        "published_date": "2026",
+        "summary": "Python is popular",
+        "tags": [
+            "Python"
+        ]
+    }
+]

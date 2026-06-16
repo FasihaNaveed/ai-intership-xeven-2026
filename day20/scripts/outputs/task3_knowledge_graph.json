@@ -1,0 +1,29 @@
+{
+    "knowledge_graph": {
+        "company": "OpenAI",
+        "location": "USA",
+        "employees": [
+            {
+                "name": "Ali",
+                "title": "Engineer",
+                "skills": [
+                    "Python",
+                    "ML"
+                ]
+            },
+            {
+                "name": "Sara",
+                "title": "Developer",
+                "skills": [
+                    "Java",
+                    "AI"
+                ]
+            }
+        ]
+    },
+    "accuracy": {
+        "total_entities": 2,
+        "correct_entities": 2,
+        "accuracy": "100%"
+    }
+}

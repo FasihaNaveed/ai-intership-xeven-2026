@@ -174,6 +174,19 @@ ai-internship-xeven-2026/
 │   │    │      ├── task3_robustness.json
 │   └── LEARNINGS.md
 │
+├──day20/
+│
+│   ├── scripts/
+│   │   ├── task1_pydantic_models.py
+│   │   ├── task2_structured_pipeline.py
+│   │   ├── task3_entity_extraction.py
+│   │   ├── outputs/
+│   │   │       ├── task1_validation_report.json
+│   │   │       ├── task2_articles_dataset.json
+│   │   │       ├── task2_errors.json
+│   │   │       ├── task3_knowledge_graph.json
+│   └── day20_notes.ipynb
+│
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -210,7 +223,8 @@ Each folder contains:
 * ✅ Day 16 – LangChain Setup & First Chains: Understanding LangChain framework, LCEL (Expression Language), Prompt Templates, Document Loaders (Text, PDF, Web, CSV), and building a basic Document Q&A system using chained LLM workflows.
 * ✅ Day 17 – Text Embeddings & Semantic Search: Learned how embeddings represent text as numerical vectors and capture semantic relationships. Explored embedding models, vector spaces, and similarity techniques. Built practical implementations including sentence similarity comparison, semantic search over a knowledge base, and document similarity detection using cosine similarity and vector embeddings.
 * ✅ Day 18 – Text Splitters & Chunking Strategies: Learned how long documents are divided into smaller chunks for efficient embedding and retrieval in LLM systems. Explored different chunking methods including fixed-size, recursive, and semantic-aware splitting along with chunk size optimization and overlap techniques. Built practical implementations to compare chunking strategies, experiment with different chunk sizes for retrieval quality, and design a smart document processor that automatically detects document type (text, markdown, code), applies appropriate splitters, and preserves metadata for better context retention in downstream AI applications.
-* ✅ Day19 - Compared different prompting techniques, design structured prompts, enforce output control 
+* ✅ Day 19 - Compared different prompting techniques, design structured prompts, enforce output control 
+* ✅ Day 20 - Focused on structured outputs using Pydantic, implemented data validation, type safety, nested models, and ensured LLM-like outputs follow strict schemas with error handling and JSON serialization.
 
 ### Overall Progress
 
