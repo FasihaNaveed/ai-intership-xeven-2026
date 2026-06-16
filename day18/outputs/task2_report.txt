@@ -1,0 +1,34 @@
+
+Chunk Size: 200
+Total Chunks: 2
+Sample Chunk: Machine learning helps computers learn from data.
+Artificial intelligence is a broad field.
+Deep learning is part of machine learning.
+Python is widely used in AI development.
+
+
+Chunk Size: 500
+Total Chunks: 1
+Sample Chunk: Machine learning helps computers learn from data.
+Artificial intelligence is a broad field.
+Deep learning is part of machine learning.
+Python is widely used in AI development.
+Data science involves statistics and programming.
+
+
+Chunk Size: 1000
+Total Chunks: 1
+Sample Chunk: Machine learning helps computers learn from data.
+Artificial intelligence is a broad field.
+Deep learning is part of machine learning.
+Python is widely used in AI development.
+Data science involves statistics and programming.
+
+
+Chunk Size: 2000
+Total Chunks: 1
+Sample Chunk: Machine learning helps computers learn from data.
+Artificial intelligence is a broad field.
+Deep learning is part of machine learning.
+Python is widely used in AI development.
+Data science involves statistics and programming.
