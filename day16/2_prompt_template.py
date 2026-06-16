@@ -7,3 +7,5 @@ template = ChatPromptTemplate.from_template(
 prompt = template.invoke({"concept": "Loops in Python"})
 
 print(prompt)
+
+#https://chatgpt.com/c/6a30dc63-1048-83e8-8e2a-4f896de99db0

@@ -141,6 +141,13 @@ ai-internship-xeven-2026/
 |   ├── 6_web_loader.py
 |   └── sample.txt
 |
+├──day17/
+│
+|   ├── day17_notes.ipynb
+|   ├── task1_embeddings.py
+|   ├── task2_semantic_search.py
+|   └── task3_document_similarity.py
+|
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -175,6 +182,7 @@ Each folder contains:
 * ✅ Day 14 – Week 2 Review & Mini Project: Data Structures Comparison (List, Tuple, Set, Dictionary), Time Complexity Analysis, Contact Management System, CRUD Operations (Add, Search, Update, Delete Contacts), Tag Management using Sets, Advanced Search with Comprehensions, JSON File Handling (Save & Load), Statistics (Total Contacts, Most Used Tags), and CLI-based Interactive Menu System.
 * ✅ Day 15 – Introduction to Large Language Models: Understanding Transformers, Attention Mechanism, Tokens, Context Window, Temperature, API Parameters, LLM Providers, Use Cases, Limitations, and Building a Basic AI Chatbot using API Integration.
 * ✅ Day 16 – LangChain Setup & First Chains: Understanding LangChain framework, LCEL (Expression Language), Prompt Templates, Document Loaders (Text, PDF, Web, CSV), and building a basic Document Q&A system using chained LLM workflows.
+* ✅ Day 17 – Text Embeddings & Semantic Search: Learned how embeddings represent text as numerical vectors and capture semantic relationships. Explored embedding models, vector spaces, and similarity techniques. Built practical implementations including sentence similarity comparison, semantic search over a knowledge base, and document similarity detection using cosine similarity and vector embeddings.
 
 ### Overall Progress
 

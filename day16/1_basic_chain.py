@@ -27,3 +27,9 @@ chain = prompt | model | parser
 # Run
 result = chain.invoke({"topic": "Python"})
 print(result)
+
+
+# chain.ainvoke
+# chain.batch
+# chain.abatch
+# https://chatgpt.com/c/6a30da84-cb00-83ee-b488-e601db166975

@@ -1,3 +1,5 @@
+#https://chatgpt.com/c/6a30de8b-36ec-83e8-9e68-9af8a0af7ff6
+
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_community.document_loaders import TextLoader
@@ -8,7 +10,7 @@ import os
 load_dotenv()
 
 # Load document
-loader = TextLoader("day16\sample.txt")
+loader = TextLoader("sample.txt")
 docs = loader.load()
 
 text = docs[0].page_content
