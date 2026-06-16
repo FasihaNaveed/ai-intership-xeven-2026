@@ -1,0 +1,23 @@
+{
+    "summarization": {
+        "system_message": "You are a helpful summarizer.",
+        "rendered_prompt": "Summarize the text: AI is transforming industries rapidly with automation.",
+        "expected_format": "bullet points",
+        "test_status": "passed",
+        "notes": "Prompt generated successfully"
+    },
+    "extraction": {
+        "system_message": "You extract important information.",
+        "rendered_prompt": "Extract entities from: AI is transforming industries rapidly with automation.",
+        "expected_format": "JSON list",
+        "test_status": "passed",
+        "notes": "Prompt generated successfully"
+    },
+    "analysis": {
+        "system_message": "You are a text analyst.",
+        "rendered_prompt": "Analyze sentiment: AI is transforming industries rapidly with automation.",
+        "expected_format": "label + explanation",
+        "test_status": "passed",
+        "notes": "Prompt generated successfully"
+    }
+}

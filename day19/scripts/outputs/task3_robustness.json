@@ -1,0 +1,176 @@
+[
+    {
+        "input": "Generate user profile JSON",
+        "json_output": {
+            "type": "JSON",
+            "schema": {
+                "name": "string",
+                "age": "number"
+            },
+            "input": "Generate user profile JSON"
+        },
+        "table_output": {
+            "type": "Markdown Table",
+            "columns": [
+                "Name",
+                "Value"
+            ],
+            "input": "Generate user profile JSON"
+        },
+        "code_output": {
+            "type": "Python Code",
+            "rules": [
+                "use functions",
+                "add docstrings",
+                "PEP8 style"
+            ],
+            "input": "Generate user profile JSON"
+        },
+        "edge_case_test": "passed"
+    },
+    {
+        "input": "Create student marks table",
+        "json_output": {
+            "type": "JSON",
+            "schema": {
+                "name": "string",
+                "age": "number"
+            },
+            "input": "Create student marks table"
+        },
+        "table_output": {
+            "type": "Markdown Table",
+            "columns": [
+                "Name",
+                "Value"
+            ],
+            "input": "Create student marks table"
+        },
+        "code_output": {
+            "type": "Python Code",
+            "rules": [
+                "use functions",
+                "add docstrings",
+                "PEP8 style"
+            ],
+            "input": "Create student marks table"
+        },
+        "edge_case_test": "passed"
+    },
+    {
+        "input": "Write Python function",
+        "json_output": {
+            "type": "JSON",
+            "schema": {
+                "name": "string",
+                "age": "number"
+            },
+            "input": "Write Python function"
+        },
+        "table_output": {
+            "type": "Markdown Table",
+            "columns": [
+                "Name",
+                "Value"
+            ],
+            "input": "Write Python function"
+        },
+        "code_output": {
+            "type": "Python Code",
+            "rules": [
+                "use functions",
+                "add docstrings",
+                "PEP8 style"
+            ],
+            "input": "Write Python function"
+        },
+        "edge_case_test": "passed"
+    },
+    {
+        "input": "",
+        "json_output": {
+            "type": "JSON",
+            "schema": {
+                "name": "string",
+                "age": "number"
+            },
+            "input": ""
+        },
+        "table_output": {
+            "type": "Markdown Table",
+            "columns": [
+                "Name",
+                "Value"
+            ],
+            "input": ""
+        },
+        "code_output": {
+            "type": "Python Code",
+            "rules": [
+                "use functions",
+                "add docstrings",
+                "PEP8 style"
+            ],
+            "input": ""
+        },
+        "edge_case_test": "passed"
+    },
+    {
+        "input": "Random invalid input ###",
+        "json_output": {
+            "type": "JSON",
+            "schema": {
+                "name": "string",
+                "age": "number"
+            },
+            "input": "Random invalid input ###"
+        },
+        "table_output": {
+            "type": "Markdown Table",
+            "columns": [
+                "Name",
+                "Value"
+            ],
+            "input": "Random invalid input ###"
+        },
+        "code_output": {
+            "type": "Python Code",
+            "rules": [
+                "use functions",
+                "add docstrings",
+                "PEP8 style"
+            ],
+            "input": "Random invalid input ###"
+        },
+        "edge_case_test": "passed"
+    },
+    {
+        "input": "Very long text with missing format",
+        "json_output": {
+            "type": "JSON",
+            "schema": {
+                "name": "string",
+                "age": "number"
+            },
+            "input": "Very long text with missing format"
+        },
+        "table_output": {
+            "type": "Markdown Table",
+            "columns": [
+                "Name",
+                "Value"
+            ],
+            "input": "Very long text with missing format"
+        },
+        "code_output": {
+            "type": "Python Code",
+            "rules": [
+                "use functions",
+                "add docstrings",
+                "PEP8 style"
+            ],
+            "input": "Very long text with missing format"
+        },
+        "edge_case_test": "passed"
+    }
+]

@@ -1,0 +1,29 @@
+{
+    "summarization": {
+        "system": "You are a helpful summarizer.",
+        "user": "Summarize the text: {text}",
+        "output_format": "bullet points",
+        "examples": [
+            "Input: Long article",
+            "Output: Short bullet summary"
+        ]
+    },
+    "extraction": {
+        "system": "You extract important information.",
+        "user": "Extract entities from: {text}",
+        "output_format": "JSON list",
+        "examples": [
+            "Input: Apple created iPhone",
+            "Output: ['Apple','iPhone']"
+        ]
+    },
+    "analysis": {
+        "system": "You are a text analyst.",
+        "user": "Analyze sentiment: {text}",
+        "output_format": "label + explanation",
+        "examples": [
+            "Input: I love this",
+            "Output: Positive"
+        ]
+    }
+}

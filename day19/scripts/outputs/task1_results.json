@@ -1,0 +1,20 @@
+{
+    "zero_shot": {
+        "accuracy": "90.0%",
+        "speed_seconds": 7e-05,
+        "cost": "low",
+        "best_use_case": "simple tasks"
+    },
+    "few_shot": {
+        "accuracy": "90.0%",
+        "speed_seconds": 6e-05,
+        "cost": "low",
+        "best_use_case": "better accuracy tasks"
+    },
+    "chain_of_thought": {
+        "accuracy": "90.0%",
+        "speed_seconds": 5e-05,
+        "cost": "low",
+        "best_use_case": "complex reasoning"
+    }
+}

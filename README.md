@@ -158,8 +158,21 @@ ai-internship-xeven-2026/
 │   │   ├── task1_output.txt
 │   │   ├── task2_report.txt
 │   │   ├── task3_chunks.json
-│   │   ├── chunk_compare.png
-│   └── day18.ipynb   (optional)
+│   └── day18_notes.ipynb   
+│
+├──day19/
+│
+│   ├── day19_notes.ipynb
+│   ├── scripts/
+│   │    ├── task1_technique_comparison.py
+│   │    ├── task2_template_library.py
+│   │    ├── task3_output_control.py
+│   │    ├── outputs/
+│   │    │      ├── task1_results.json
+│   │    │      ├── prompt_templates.json
+│   │    │      ├── task2_render_report.json
+│   │    │      ├── task3_robustness.json
+│   └── LEARNINGS.md
 │
 ├── README.md
 ├── LEARNINGS.md
@@ -197,6 +210,7 @@ Each folder contains:
 * ✅ Day 16 – LangChain Setup & First Chains: Understanding LangChain framework, LCEL (Expression Language), Prompt Templates, Document Loaders (Text, PDF, Web, CSV), and building a basic Document Q&A system using chained LLM workflows.
 * ✅ Day 17 – Text Embeddings & Semantic Search: Learned how embeddings represent text as numerical vectors and capture semantic relationships. Explored embedding models, vector spaces, and similarity techniques. Built practical implementations including sentence similarity comparison, semantic search over a knowledge base, and document similarity detection using cosine similarity and vector embeddings.
 * ✅ Day 18 – Text Splitters & Chunking Strategies: Learned how long documents are divided into smaller chunks for efficient embedding and retrieval in LLM systems. Explored different chunking methods including fixed-size, recursive, and semantic-aware splitting along with chunk size optimization and overlap techniques. Built practical implementations to compare chunking strategies, experiment with different chunk sizes for retrieval quality, and design a smart document processor that automatically detects document type (text, markdown, code), applies appropriate splitters, and preserves metadata for better context retention in downstream AI applications.
+* ✅ Day19 - Compared different prompting techniques, design structured prompts, enforce output control 
 
 ### Overall Progress
 
