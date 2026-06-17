@@ -1,0 +1,9 @@
+{
+    "chunks": 3,
+    "entities": {
+        "names": [],
+        "organizations": [],
+        "locations": []
+    },
+    "top_results": "11-06-2026\nrequiremens file\n\nuv search\nchange python version\n\n12-06-2026\nList Comprehension\nCombine Step 2&3\nHaverSine Formula\n\n15-06-2026\nopenai use because paid\ngroq installation\n\nchain.ainvoke\nchain.batch\nchain.abatch\nChatPromptTemplate\nTextLoader and other loaders\nmodel used llama and check to use openai\n16-06-2026\ninstallation issues\nOPENAI_API_KEY=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\n\n17-06-2026\nfolder issues\npdf file loading\nterminal output\nstreamlit instal and upload files \n\npython embeddings_index.py\nhang here model = SentenceTransformer(\"sentence-transformers/all-MiniLM-L6-v2\")"
+}

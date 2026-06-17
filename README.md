@@ -187,6 +187,30 @@ ai-internship-xeven-2026/
 │   │   │       ├── task3_knowledge_graph.json
 │   └── day20_notes.ipynb
 │
+├──day21/    
+│                     
+│    ├── scripts/
+│    │   ├── app.py                     
+│    │   ├── document_loader.py          
+│    │   ├── chunker.py                  
+│    │   ├── embeddings_index.py         
+│    │   ├── entity_extraction.py        
+│    │   ├── analyzer.py                 
+│    │   ├── run_demo.py                 
+│    │   ├── analyze_my_doc.py           
+│    │   ├── verify_pipeline.py          
+│    │   ├── outputs/
+│    │   │       ├── analysis_report.json
+│    │   ├── data/
+│    │   │       ├── contract_summary.pdf
+│    │   │       ├── memo_cloud.txt
+│    │   │       ├── research_note.txt
+│    ├── day21_notes.ipynb                     
+│    ├── architecture.md                 
+│    ├── REFLECTION.md                   
+│    ├── FEEDBACK_WEEK3.md               
+│    └── LEARNINGS.md          
+│ 
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -225,6 +249,7 @@ Each folder contains:
 * ✅ Day 18 – Text Splitters & Chunking Strategies: Learned how long documents are divided into smaller chunks for efficient embedding and retrieval in LLM systems. Explored different chunking methods including fixed-size, recursive, and semantic-aware splitting along with chunk size optimization and overlap techniques. Built practical implementations to compare chunking strategies, experiment with different chunk sizes for retrieval quality, and design a smart document processor that automatically detects document type (text, markdown, code), applies appropriate splitters, and preserves metadata for better context retention in downstream AI applications.
 * ✅ Day 19 - Compared different prompting techniques, design structured prompts, enforce output control 
 * ✅ Day 20 - Focused on structured outputs using Pydantic, implemented data validation, type safety, nested models, and ensured LLM-like outputs follow strict schemas with error handling and JSON serialization.
+* ✅ Day 21 - Integrated all Week 3 concepts into a complete Document Analyzer, including document loading, smart chunking with RecursiveCharacterTextSplitter, semantic search using embeddings, structured entity extraction with Pydantic, and generation of analysis reports through an end-to-end pipeline.
 
 ### Overall Progress
 
