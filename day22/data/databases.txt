@@ -1,0 +1,9 @@
+Databases store and organize information.
+
+SQL databases include MySQL and PostgreSQL.
+
+NoSQL databases include MongoDB.
+
+Vector databases store embeddings.
+
+FAISS and Chroma are popular vector stores.

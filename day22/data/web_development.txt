@@ -1,0 +1,9 @@
+Web development involves building websites and applications.
+
+Frontend technologies include HTML, CSS and JavaScript.
+
+Backend technologies include Node.js and Django.
+
+React is a popular frontend library.
+
+Full-stack developers work on both frontend and backend.

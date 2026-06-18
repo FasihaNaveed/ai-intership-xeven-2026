@@ -1,0 +1,9 @@
+Machine learning allows computers to learn from data.
+
+Supervised learning uses labeled data.
+
+Unsupervised learning finds hidden patterns.
+
+Reinforcement learning learns through rewards.
+
+Machine learning powers many modern applications.

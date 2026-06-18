@@ -1,0 +1,16 @@
+{
+    "documents_loaded": 5,
+    "chunks_created": 5,
+    "faiss": {
+        "indexing_time_seconds": 0.2085,
+        "query_latency_seconds": 0.0265,
+        "results_returned": 5
+    },
+    "chroma": {
+        "indexing_time_seconds": 1.7825,
+        "query_latency_seconds": 0.0399,
+        "results_returned": 5
+    },
+    "memory_usage_mb": 530.27,
+    "conclusion": "FAISS is faster for local similarity search. Chroma provides persistence and richer database features."
+}

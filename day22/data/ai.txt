@@ -1,0 +1,10 @@
+Artificial Intelligence is the simulation of human intelligence.
+
+AI systems can learn, reason and make decisions.
+
+Examples include chatbots, recommendation systems
+and self-driving cars.
+
+Machine learning is a subset of AI.
+
+Deep learning is a specialized area of machine learning.
