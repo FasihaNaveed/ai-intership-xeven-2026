@@ -1,0 +1,3 @@
+Artificial Intelligence is the field of building intelligent systems.
+AI includes machine learning, deep learning and natural language processing.
+AI systems can understand text and generate answers.

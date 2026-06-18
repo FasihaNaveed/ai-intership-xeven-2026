@@ -1,0 +1,3 @@
+RAG means Retrieval Augmented Generation.
+RAG combines document retrieval with language models.
+It helps AI answer questions using external knowledge.
