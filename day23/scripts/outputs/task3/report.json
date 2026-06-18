@@ -1,0 +1,27 @@
+[
+    {
+        "source": "rag.txt",
+        "source_type": "text",
+        "score": 1.084999680519104
+    },
+    {
+        "source": "sample.pdf",
+        "source_type": "pdf",
+        "score": 1.2331116199493408
+    },
+    {
+        "source": "databases.txt",
+        "source_type": "text",
+        "score": 1.8594261407852173
+    },
+    {
+        "source": "python.txt",
+        "source_type": "text",
+        "score": 1.9775493144989014
+    },
+    {
+        "source": "ai.txt",
+        "source_type": "text",
+        "score": 2.072652816772461
+    }
+]

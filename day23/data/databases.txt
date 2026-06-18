@@ -1,0 +1,5 @@
+Vector databases store embeddings.
+
+FAISS is a popular vector search library.
+
+Chroma is a vector database with persistence support.

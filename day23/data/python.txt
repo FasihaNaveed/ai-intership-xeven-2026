@@ -1,0 +1,6 @@
+Python is a high-level programming language.
+
+Python is used for web development, data science,
+automation and artificial intelligence.
+
+Popular frameworks include Django and Flask.
