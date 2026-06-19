@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+langchain
+langchain-community
+langchain-huggingface
+faiss-cpu
+sentence-transformers
+rank-bm25
+python-multipart
+pypdf
+psutil

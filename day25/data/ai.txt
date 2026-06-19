@@ -1,0 +1,5 @@
+Artificial Intelligence (AI) is the simulation of human intelligence in machines.
+
+AI systems can learn, reason, and make decisions.
+
+Applications include chatbots, recommendation systems, and self-driving cars.s
