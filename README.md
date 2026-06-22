@@ -210,7 +210,106 @@ ai-internship-xeven-2026/
 │    ├── REFLECTION.md                   
 │    ├── FEEDBACK_WEEK3.md               
 │    └── LEARNINGS.md          
-│ 
+│
+├──day22/
+│
+│   ├── data/
+│   │   ├── python.txt
+│   │   ├── ai.txt
+│   │   ├── machine_learning.txt
+│   │   ├── databases.txt
+│   │   └── web_development.txt
+│   ├── scripts/
+│   │   ├── task1_faiss_operations.py
+│   │   ├── task2_document_library.py
+│   │   ├── task3_vector_store_comparison.py
+│   ├── outputs/
+│   │   ├── task1/
+│   │   │   └── faiss_index/
+│   │   ├── task2/
+│   │   │   └── stats.json
+│   │   └── task3/
+│   │       └── comparison_report.json
+│   └── day22.ipynb
+│
+├──day23/
+│
+│   ├── data/
+│   │   ├── python.txt
+│   │   ├── ai.txt
+│   │   ├── rag.txt
+│   │   └── databases.txt
+│   ├── scripts/
+│   │   ├── task1_simple_rag.py
+│   │   ├── task2_custom_prompt_rag.py
+│   │   ├── task3_multi_document_rag.py
+│   │   ├── outputs/
+│   │   │   ├── task1/
+│   │   │   ├── task2/
+│   │   │   └── task3/
+│   └── day23_notes.ipynb
+│
+├──day24/
+│   ├── rag_system/
+│   │   ├── rag_core.py
+│   │   ├── memory.py
+│   │   └── data/
+│   │   │    ├── python.txt
+│   │   │    ├── ai.txt
+│   │   │    ├── rag.txt
+│   ├── api/
+│   │   └── main.py
+│   └── requirements.txt
+│
+├──day25/
+│
+|   ├── app/
+│   │   ├── models/
+│   │   │   └── schemas.py
+│   │   ├── services/
+│   │   │   ├── bm25_search.py
+│   │   │   ├── hybrid_search.py
+│   │   │   ├── reranker.py
+│   │   │   └── rag_core.py
+│   |   ├── main.py
+│   |   ├── memory.py
+│   |   ├── logger.py
+│   ├── data/
+│   ├── uploads/
+│   ├── logs/
+│   └── requirements.txt
+|
+├──day26/
+│
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── agent.py
+│   │   ├── tools.py
+│   │   ├── rag_tool.py
+│   │   └── memory.py
+│   ├── data/
+│   │   ├── ai.txt
+│   │   └── python.txt
+│   ├── .env
+│   └── requirements.txt
+│
+├──day27/
+│
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── database.py
+│   │   ├── models.py
+│   │   ├── schemas.py
+│   │   └── crud.py
+│   ├── data/
+│   ├── tests/
+│   ├── docs/
+│   ├── requirements.txt
+│   └── README.md
+|
+├──day28/
+│   ├──day28_notes.ipynb/
+|
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -249,7 +348,14 @@ Each folder contains:
 * ✅ Day 18 – Text Splitters & Chunking Strategies: Learned how long documents are divided into smaller chunks for efficient embedding and retrieval in LLM systems. Explored different chunking methods including fixed-size, recursive, and semantic-aware splitting along with chunk size optimization and overlap techniques. Built practical implementations to compare chunking strategies, experiment with different chunk sizes for retrieval quality, and design a smart document processor that automatically detects document type (text, markdown, code), applies appropriate splitters, and preserves metadata for better context retention in downstream AI applications.
 * ✅ Day 19 - Compared different prompting techniques, design structured prompts, enforce output control 
 * ✅ Day 20 - Focused on structured outputs using Pydantic, implemented data validation, type safety, nested models, and ensured LLM-like outputs follow strict schemas with error handling and JSON serialization.
-* ✅ Day 21 - Integrated all Week 3 concepts into a complete Document Analyzer, including document loading, smart chunking with RecursiveCharacterTextSplitter, semantic search using embeddings, structured entity extraction with Pydantic, and generation of analysis reports through an end-to-end pipeline.
+* ✅ Day 21 - Week 3 Presentations & Review - Integrated all Week 3 concepts into a complete Document Analyzer, including document loading, smart chunking with RecursiveCharacterTextSplitter, semantic search using embeddings, structured entity extraction with Pydantic, and generation of analysis reports through an end-to-end pipeline.
+* ✅ Day 22 - Vector Stores & Databases - Explored Vector Databases and implemented practical vector search workflows using FAISS and Chroma. Created vector stores from document embeddings, performed similarity search with top-K retrieval, implemented index save/load operations, added metadata-based filtering, and built a searchable document library. Compared FAISS and Chroma by measuring indexing time, query latency, memory usage, and retrieval performance, gaining hands-on experience with vector storage, semantic search, embeddings, and vector database evaluation.
+* ✅ Day 23 - RAG Pipeline Development – Implemented Retrieval Augmented Generation (RAG) pipelines and explored advanced retrieval techniques. Learned how document chunking, embeddings, vector stores, and similarity search work together to provide relevant context to LLMs. Built a complete RAG workflow by loading documents, splitting text into chunks, creating embeddings, storing vectors, retrieving relevant information, and generating context-aware responses. Improved understanding of semantic search, retrieval pipelines, prompt context, and AI knowledge augmentation.
+* ✅ Day 24 - Context Engineering & FastAPI Basics – Explored Context Engineering and FastAPI fundamentals for building production-ready AI applications. Implemented conversational RAG with memory by maintaining previous question-answer history, managing context limits, and applying memory pruning concepts. Built a FastAPI application with REST endpoints, Pydantic validation, automatic Swagger documentation, and startup-based RAG loading. Created an AI-powered `/ask` API endpoint that performs document retrieval, processes queries, and returns structured responses with answers and sources. Gained practical experience with context management, API development, AI backend architecture, and deploying RAG workflows through web services.
+* ✅ Day 25 – Production-Ready RAG & FastAPI Integration - Explored advanced Retrieval-Augmented Generation (RAG) techniques including dense retrieval (embeddings), sparse retrieval (BM25), hybrid search, re-ranking, query expansion, self-querying, and parent document retrieval. Implemented a hybrid retrieval system by combining FAISS semantic search with BM25 keyword search to improve retrieval quality and recall. Added a re-ranking layer to evaluate retrieved chunks and select the most relevant context before generating responses. Enhanced the FastAPI RAG service with multiple endpoints for document management, semantic search, question answering, and health monitoring. Applied request validation using Pydantic models, error handling, logging, asynchronous API design concepts, and production-ready project structure. Gained practical experience in building scalable RAG pipelines, improving retrieval accuracy, and exposing AI services through REST APIs.
+* ✅ Day 26 – LangChain Agents & Tool Calling -Explored the fundamentals of AI agents, including the ReAct (Reason → Act → Observe → Repeat) framework, autonomous decision-making, tool selection, and agent execution workflows. Studied different agent types, tool integration strategies, and challenges such as tool misuse, reasoning failures, and iteration control. Built custom tools including a Calculator Tool, Web Search Tool, RAG Search Tool, and Date/Time Tool with proper input handling and error management. Developed an agent system capable of analyzing user queries, selecting the appropriate tool, executing tasks, and returning structured results. Integrated the agent with FastAPI to expose API endpoints for interactive tool-based reasoning. Implemented conversation memory to retain previous interactions and maintain context across requests. Gained hands-on experience with agent architectures, tool calling workflows, retrieval integration, memory management, and AI-powered task automation.
+* ✅ Day 27: Weekend Integration - Full-Stack RAG Application - Designed and implemented a production-ready full-stack RAG (Retrieval-Augmented Generation) system with a scalable backend architecture using FastAPI, FAISS, LangChain, and Docker. Structured the project into modular components including API layer, document processing pipeline, vector database integration, and testing environment.
+* ✅ Day 28: Final Presentations & Portfolio Building – Final Presentation & Portfolio Building Finalized AI Document Intelligence project presentation, demo workflow, and GitHub portfolio documentation. Improved project README with architecture, features, and setup details.
 
 ### Overall Progress
 
