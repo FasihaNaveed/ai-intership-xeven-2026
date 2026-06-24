@@ -1,0 +1,4 @@
+2026-06-24 11:18:12.479 | INFO     | main:log_requests:65 - GET http://127.0.0.1:8000/docs 200
+2026-06-24 11:18:12.884 | INFO     | main:log_requests:65 - GET http://127.0.0.1:8000/openapi.json 200
+2026-06-24 11:22:36.532 | INFO     | main:log_requests:65 - GET http://127.0.0.1:8000/users 200
+2026-06-24 11:29:41.578 | INFO     | main:log_requests:65 - POST http://127.0.0.1:8000/user/save 201
