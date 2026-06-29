@@ -1,11 +1,9 @@
 from fastapi import FastAPI
 
-from app.api.user_routes import router
-from app.middlewares.request_logger import log_requests
-
-from app.database import engine
-from app.models import Base
-
+from src.api.user_routes import router
+from src.middlewares.request_logger import log_requests
+from src.database import engine
+from src.models import Base
 
 app = FastAPI()
 

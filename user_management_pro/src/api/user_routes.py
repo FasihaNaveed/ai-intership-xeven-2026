@@ -10,8 +10,8 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
-from app.database import get_db
-from app.models import User
+from src.database import get_db
+from src.models import User
 
 router = APIRouter()
 
@@ -62,6 +62,25 @@ async def save_user(
     db: AsyncSession = Depends(get_db)
 ):
 
+    # Check if email already exists
+    result = await db.execute(
+        select(User).where(
+            User.email == email
+        )
+    )
+
+    existing_user = result.scalar_one_or_none()
+
+    if existing_user:
+
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={
+                "message": "Email already exists"
+            }
+        )
+
+    # Create new user
     user = User(
         name=name,
         email=email

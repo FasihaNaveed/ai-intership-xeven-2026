@@ -1,5 +1,5 @@
 import time
-from app.core.logger import logger
+from src.core.logger import logger
 
 async def log_requests(request, call_next):
 
