@@ -1,22 +1,9 @@
-from typing import List
-
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from src.database import get_db
-
-from src.subjects.schemas import (
-    SubjectCreate,
-    SubjectResponse,
-)
-
-from src.subjects.services import (
-    create_subject_service,
-    get_subjects_service,
-    get_single_subject_service,
-    update_subject_service,
-    delete_subject_service,
-)
+from src.subjects.schemas import SubjectCreate, SubjectCountRequest
+from src.subjects.services import SubjectService
 
 router = APIRouter(
     prefix="/subjects",
@@ -24,36 +11,42 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=SubjectResponse)
-def create_subject(
+@router.post("/")
+async def create_subject(
     subject: SubjectCreate,
     db: Session = Depends(get_db),
 ):
-    return create_subject_service(db, subject)
+    return await SubjectService.create_subject(
+        db,
+        subject,
+    )
 
 
-@router.get("/", response_model=List[SubjectResponse])
-def get_subjects(
+@router.get("/")
+async def get_subjects(
     db: Session = Depends(get_db),
 ):
-    return get_subjects_service(db)
+    return await SubjectService.get_subjects(db)
 
 
-@router.get("/{subject_id}", response_model=SubjectResponse)
-def get_subject(
+@router.get("/{subject_id}")
+async def get_subject(
     subject_id: int,
     db: Session = Depends(get_db),
 ):
-    return get_single_subject_service(db, subject_id)
+    return await SubjectService.get_subject(
+        db,
+        subject_id,
+    )
 
 
-@router.put("/{subject_id}", response_model=SubjectResponse)
-def update_subject(
+@router.put("/{subject_id}")
+async def update_subject(
     subject_id: int,
     subject: SubjectCreate,
     db: Session = Depends(get_db),
 ):
-    return update_subject_service(
+    return await SubjectService.update_subject(
         db,
         subject_id,
         subject,
@@ -61,8 +54,33 @@ def update_subject(
 
 
 @router.delete("/{subject_id}")
-def delete_subject(
+async def delete_subject(
     subject_id: int,
     db: Session = Depends(get_db),
 ):
-    return delete_subject_service(db, subject_id)
+    return await SubjectService.delete_subject(
+        db,
+        subject_id,
+    )
+
+
+@router.post("/student-count")
+async def get_student_count(
+    data: SubjectCountRequest,
+    db: Session = Depends(get_db),
+):
+    return await SubjectService.get_student_count(
+        db,
+        data.subject_id,
+    )
+
+
+@router.post("/instructor-count")
+async def get_instructor_count(
+    data: SubjectCountRequest,
+    db: Session = Depends(get_db),
+):
+    return await SubjectService.get_instructor_count(
+        db,
+        data.subject_id,
+    )

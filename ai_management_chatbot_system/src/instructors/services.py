@@ -3,149 +3,212 @@ from sqlalchemy.orm import Session
 
 from src.instructors.models import Instructor
 from src.instructors.schemas import InstructorCreate
-from src.instructors.utils import (
-    get_instructor_by_email,
-    get_instructor_by_id,
-    get_all_instructors,
-    delete_instructor,
-)
-
-from src.subjects.utils import get_subject_by_id
-
-def create_instructor_service(db: Session, instructor: InstructorCreate):
-
-    existing = get_instructor_by_email(
-        db,
-        instructor.email
-    )
-
-    if existing:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Instructor already exists."
-        )
-
-    new_instructor = Instructor(
-        first_name=instructor.first_name,
-        last_name=instructor.last_name,
-        email=instructor.email,
-        specialization=instructor.specialization,
-    )
-
-    db.add(new_instructor)
-    db.commit()
-    db.refresh(new_instructor)
-
-    return new_instructor
+from src.instructors.utils import InstructorUtils
+from src.subjects.utils import SubjectUtils
 
 
-def get_instructors_service(db: Session):
-    return get_all_instructors(db)
+class InstructorService:
 
+    @staticmethod
+    async def create_instructor(
+        db: Session,
+        instructor_data: InstructorCreate,
+    ):
+        try:
+            existing = await InstructorUtils.get_instructor_by_email(
+                db,
+                instructor_data.email,
+            )
 
-def get_single_instructor_service(
-    db: Session,
-    instructor_id: int,
-):
-    instructor = get_instructor_by_id(
-        db,
-        instructor_id
-    )
+            if existing:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Instructor already exists."
+                )
 
-    if not instructor:
-        raise HTTPException(
-            status_code=404,
-            detail="Instructor not found."
-        )
+            instructor = Instructor(
+                first_name=instructor_data.first_name,
+                last_name=instructor_data.last_name,
+                email=instructor_data.email,
+                specialization=instructor_data.specialization,
+            )
 
-    return instructor
+            db.add(instructor)
+            db.commit()
+            db.refresh(instructor)
 
+            return instructor
 
-def update_instructor_service(
-    db: Session,
-    instructor_id: int,
-    instructor_data: InstructorCreate,
-):
+        except HTTPException:
+            raise
 
-    instructor = get_instructor_by_id(
-        db,
-        instructor_id
-    )
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=500,
+                detail=str(e),
+            )
 
-    if not instructor:
-        raise HTTPException(
-            status_code=404,
-            detail="Instructor not found."
-        )
+    @staticmethod
+    async def get_instructors(db: Session):
+        try:
+            return await InstructorUtils.get_all_instructors(db)
 
-    instructor.first_name = instructor_data.first_name
-    instructor.last_name = instructor_data.last_name
-    instructor.email = instructor_data.email
-    instructor.specialization = instructor_data.specialization
+        except HTTPException:
+            raise
 
-    db.commit()
-    db.refresh(instructor)
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=str(e),
+            )
 
-    return instructor
+    @staticmethod
+    async def get_single_instructor(
+        db: Session,
+        instructor_id: int,
+    ):
+        try:
+            instructor = await InstructorUtils.get_instructor_by_id(
+                db,
+                instructor_id,
+            )
 
+            if not instructor:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Instructor not found."
+                )
 
-def delete_instructor_service(
-    db: Session,
-    instructor_id: int,
-):
+            return instructor
 
-    instructor = get_instructor_by_id(
-        db,
-        instructor_id
-    )
+        except HTTPException:
+            raise
 
-    if not instructor:
-        raise HTTPException(
-            status_code=404,
-            detail="Instructor not found."
-        )
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=str(e),
+            )
 
-    delete_instructor(db, instructor)
+    @staticmethod
+    async def update_instructor(
+        db: Session,
+        instructor_id: int,
+        instructor_data: InstructorCreate,
+    ):
+        try:
+            instructor = await InstructorUtils.get_instructor_by_id(
+                db,
+                instructor_id,
+            )
 
-    return {
-        "message": "Instructor deleted successfully."
-    }
+            if not instructor:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Instructor not found."
+                )
 
+            instructor.first_name = instructor_data.first_name
+            instructor.last_name = instructor_data.last_name
+            instructor.email = instructor_data.email
+            instructor.specialization = instructor_data.specialization
 
-def assign_subject_service(
-    db: Session,
-    instructor_id: int,
-    subject_id: int
-):
+            db.commit()
+            db.refresh(instructor)
 
-    instructor = get_instructor_by_id(
-        db,
-        instructor_id
-    )
+            return instructor
 
-    if not instructor:
-        raise HTTPException(
-            status_code=404,
-            detail="Instructor not found."
-        )
+        except HTTPException:
+            raise
 
-    subject = get_subject_by_id(
-        db,
-        subject_id
-    )
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=500,
+                detail=str(e),
+            )
 
-    if not subject:
-        raise HTTPException(
-            status_code=404,
-            detail="Subject not found."
-        )
+    @staticmethod
+    async def delete_instructor(
+        db: Session,
+        instructor_id: int,
+    ):
+        try:
+            instructor = await InstructorUtils.get_instructor_by_id(
+                db,
+                instructor_id,
+            )
 
-    if subject not in instructor.subjects:
-        instructor.subjects.append(subject)
+            if not instructor:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Instructor not found."
+                )
 
-    db.commit()
-    db.refresh(instructor)
+            await InstructorUtils.delete_instructor(
+                db,
+                instructor,
+            )
 
-    return {
-        "message": "Subject assigned to instructor successfully."
-    }
+            return {
+                "message": "Instructor deleted successfully."
+            }
+
+        except HTTPException:
+            raise
+
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=str(e),
+            )
+
+    @staticmethod
+    async def assign_subject(
+        db: Session,
+        instructor_id: int,
+        subject_id: int,
+    ):
+        try:
+            instructor = await InstructorUtils.get_instructor_by_id(
+                db,
+                instructor_id,
+            )
+
+            if not instructor:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Instructor not found."
+                )
+
+            subject = await SubjectUtils.get_subject_by_id(
+                db,
+                subject_id,
+            )
+
+            if not subject:
+                raise HTTPException(
+                    status_code=404,
+                    detail="Subject not found."
+                )
+
+            if subject not in instructor.subjects:
+                instructor.subjects.append(subject)
+
+            db.commit()
+            db.refresh(instructor)
+
+            return {
+                "message": "Subject assigned successfully."
+            }
+
+        except HTTPException:
+            raise
+
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=500,
+                detail=str(e),
+            )

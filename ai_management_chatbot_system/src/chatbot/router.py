@@ -1,39 +1,26 @@
-from fastapi import (
-    APIRouter,
-    UploadFile,
-    File,
-)
+# src/chatbot/router.py
 
-from src.chatbot.schemas import (
-    QuestionRequest,
-    QuestionResponse,
-)
+from fastapi import APIRouter, UploadFile, File, Form
+from src.chatbot.utils import ChatbotUtils
 
-from src.chatbot.services import (
-    upload_document_service,
-    ask_question_service,
-)
-
-router = APIRouter(
-    prefix="/chatbot",
-    tags=["Chatbot"]
-)
+router = APIRouter(prefix="/chatbot", tags=["Chatbot"])
 
 
-@router.post("/upload-document")
-def upload_document(
-    file: UploadFile = File(...)
-):
-    return upload_document_service(file)
+@router.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    file_path = await ChatbotUtils.save_uploaded_file(file)
+
+    docs = await ChatbotUtils.load_document(file_path)
+    chunks = await ChatbotUtils.split_document(docs)
+    await ChatbotUtils.create_vector_store(chunks)
+
+    return {
+        "message": "File uploaded and processed successfully"
+    }
 
 
-@router.post(
-    "/ask-question",
-    response_model=QuestionResponse,
-)
-def ask_question(
-    request: QuestionRequest,
-):
-    return ask_question_service(
-        request.question
-    )
+@router.post("/ask")
+async def ask_question(question: str = Form(...)):
+    response = await ChatbotUtils.ask_question(question)
+
+    return response

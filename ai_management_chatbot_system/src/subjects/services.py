@@ -3,88 +3,110 @@ from sqlalchemy.orm import Session
 
 from src.subjects.models import Subject
 from src.subjects.schemas import SubjectCreate
-from src.subjects.utils import (
-    get_subject_by_name,
-    get_subject_by_id,
-    get_all_subjects,
-    delete_subject,
-)
+from src.subjects.utils import SubjectUtils
+from src.instructors.utils import InstructorUtils
 
 
-def create_subject_service(db: Session, subject: SubjectCreate):
+class SubjectService:
 
-    existing_subject = get_subject_by_name(db, subject.name)
+    @staticmethod
+    async def create_subject(db: Session, subject_data: SubjectCreate):
+        try:
 
-    if existing_subject:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Subject already exists."
-        )
+            existing = await SubjectUtils.get_subject_by_name(db, subject_data.name)
+            if existing:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Subject already exists."
+                )
 
-    new_subject = Subject(
-        name=subject.name,
-        description=subject.description,
-    )
+            subject = Subject(
+                name=subject_data.name,
+                description=subject_data.description
+            )
 
-    db.add(new_subject)
-    db.commit()
-    db.refresh(new_subject)
+            db.add(subject)
+            db.commit()
+            db.refresh(subject)
 
-    return new_subject
+            # DEFAULT INSTRUCTOR RULE
+            instructors = await InstructorUtils.get_all_instructors(db)
 
+            if instructors:
+                subject.instructors.append(instructors[0])
+                db.commit()
+                db.refresh(subject)
 
-def get_subjects_service(db: Session):
-    return get_all_subjects(db)
+            return subject
 
+        except HTTPException:
+            raise
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(status_code=500, detail=str(e))
 
-def get_single_subject_service(db: Session, subject_id: int):
+    @staticmethod
+    async def get_subjects(db: Session):
+        return await SubjectUtils.get_all_subjects(db)
 
-    subject = get_subject_by_id(db, subject_id)
+    @staticmethod
+    async def get_subject(db: Session, subject_id: int):
+        subject = await SubjectUtils.get_subject_by_id(db, subject_id)
 
-    if not subject:
-        raise HTTPException(
-            status_code=404,
-            detail="Subject not found."
-        )
+        if not subject:
+            raise HTTPException(status_code=404, detail="Subject not found")
 
-    return subject
+        return subject
 
+    @staticmethod
+    async def update_subject(db: Session, subject_id: int, subject_data: SubjectCreate):
+        subject = await SubjectUtils.get_subject_by_id(db, subject_id)
 
-def update_subject_service(
-    db: Session,
-    subject_id: int,
-    subject_data: SubjectCreate,
-):
+        if not subject:
+            raise HTTPException(status_code=404, detail="Subject not found")
 
-    subject = get_subject_by_id(db, subject_id)
+        subject.name = subject_data.name
+        subject.description = subject_data.description
 
-    if not subject:
-        raise HTTPException(
-            status_code=404,
-            detail="Subject not found."
-        )
+        db.commit()
+        db.refresh(subject)
 
-    subject.name = subject_data.name
-    subject.description = subject_data.description
+        return subject
 
-    db.commit()
-    db.refresh(subject)
+    @staticmethod
+    async def delete_subject(db: Session, subject_id: int):
+        subject = await SubjectUtils.get_subject_by_id(db, subject_id)
 
-    return subject
+        if not subject:
+            raise HTTPException(status_code=404, detail="Subject not found")
 
+        db.delete(subject)
+        db.commit()
 
-def delete_subject_service(db: Session, subject_id: int):
+        return {"message": "Subject deleted successfully"}
 
-    subject = get_subject_by_id(db, subject_id)
+    @staticmethod
+    async def get_student_count(db: Session, subject_id: int):
+        subject = await SubjectUtils.get_subject_by_id(db, subject_id)
 
-    if not subject:
-        raise HTTPException(
-            status_code=404,
-            detail="Subject not found."
-        )
+        if not subject:
+            raise HTTPException(status_code=404, detail="Subject not found")
 
-    delete_subject(db, subject)
+        return {
+            "subject_id": subject.id,
+            "subject_name": subject.name,
+            "student_count": len(subject.users)
+        }
 
-    return {
-        "message": "Subject deleted successfully."
-    }
+    @staticmethod
+    async def get_instructor_count(db: Session, subject_id: int):
+        subject = await SubjectUtils.get_subject_by_id(db, subject_id)
+
+        if not subject:
+            raise HTTPException(status_code=404, detail="Subject not found")
+
+        return {
+            "subject_id": subject.id,
+            "subject_name": subject.name,
+            "instructor_count": len(subject.instructors)
+        }

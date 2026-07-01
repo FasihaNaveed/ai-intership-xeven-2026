@@ -1,107 +1,119 @@
 import streamlit as st
 import requests
 
-API_URL = "http://127.0.0.1:8000"
+BASE_URL = "http://127.0.0.1:8000"
 
 
 def users_page():
 
-    st.title("👤 User Management")
+    st.title("👤 Users")
 
-    menu = st.selectbox(
-        "Select Operation",
-        (
-            "Create User",
-            "Get All Users",
-            "Get User By ID",
-        )
-    )
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "Create",
+        "Get All",
+        "Get One",
+        "Delete",
+        "Assign"
+    ])
 
-    # -----------------------------
-    # CREATE USER
-    # -----------------------------
-
-    if menu == "Create User":
+    with tab1:
 
         st.subheader("Create User")
 
         first_name = st.text_input("First Name")
         last_name = st.text_input("Last Name")
         email = st.text_input("Email")
-        password = st.text_input(
-            "Password",
-            type="password"
-        )
+        password = st.text_input("Password", type="password")
 
-        if st.button("Create"):
-
-            payload = {
-                "first_name": first_name,
-                "last_name": last_name,
-                "email": email,
-                "password": password
-            }
+        if st.button("Create User"):
 
             response = requests.post(
-                f"{API_URL}/users/",
-                json=payload
+                f"{BASE_URL}/users/",
+                json={
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "email": email,
+                    "password": password
+                }
             )
 
-            if response.status_code == 200:
-                st.success("User Created Successfully")
-                st.json(response.json())
+            st.json(response.json())
 
-            else:
-                st.error(response.text)
+    with tab2:
 
-    # -----------------------------
-    # GET ALL USERS
-    # -----------------------------
+        if st.button("Get All Users"):
 
-    elif menu == "Get All Users":
+            response = requests.get(f"{BASE_URL}/users/")
+            st.json(response.json())
 
-        st.subheader("All Users")
+    with tab3:
 
-        if st.button("Load Users"):
+        user_id = st.number_input("User ID", min_value=1)
+
+        if st.button("Get User"):
 
             response = requests.get(
-                f"{API_URL}/users/"
+                f"{BASE_URL}/users/{user_id}"
             )
 
-            if response.status_code == 200:
+            st.json(response.json())
 
-                users = response.json()
+    with tab4:
 
-                st.table(users)
-
-            else:
-
-                st.error(response.text)
-
-    # -----------------------------
-    # GET USER BY ID
-    # -----------------------------
-
-    elif menu == "Get User By ID":
-
-        st.subheader("Search User")
-
-        user_id = st.number_input(
-            "User ID",
-            min_value=1,
-            step=1
+        delete_id = st.number_input(
+            "Delete User ID",
+            min_value=1
         )
 
-        if st.button("Search"):
+        if st.button("Delete User"):
 
-            response = requests.get(
-                f"{API_URL}/users/{user_id}"
+            response = requests.delete(
+                f"{BASE_URL}/users/{delete_id}"
             )
 
-            if response.status_code == 200:
+            st.json(response.json())
 
-                st.json(response.json())
+    with tab5:
 
-            else:
+        st.subheader("Assign Subject")
 
-                st.error(response.text)
+        uid = st.number_input(
+            "User ID",
+            min_value=1,
+            key="uid"
+        )
+
+        sid = st.number_input(
+            "Subject ID",
+            min_value=1,
+            key="sid"
+        )
+
+        if st.button("Assign Subject"):
+
+            response = requests.post(
+                f"{BASE_URL}/users/{uid}/assign-subject",
+                json={
+                    "subject_id": sid
+                }
+            )
+
+            st.json(response.json())
+
+        st.subheader("Assign Instructor")
+
+        iid = st.number_input(
+            "Instructor ID",
+            min_value=1
+        )
+
+        if st.button("Assign Instructor"):
+
+            response = requests.post(
+                f"{BASE_URL}/users/{uid}/assign-instructor",
+                json={
+                    "instructor_id": iid
+                }
+            )
+
+            st.json(response.json())

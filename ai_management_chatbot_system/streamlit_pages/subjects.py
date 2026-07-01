@@ -1,98 +1,123 @@
 import streamlit as st
 import requests
 
-API_URL = "http://127.0.0.1:8000"
+BASE_URL = "http://127.0.0.1:8000"
 
 
 def subjects_page():
 
-    st.title("📚 Subject Management")
+    st.title("📚 Subjects")
 
-    menu = st.selectbox(
-        "Select Operation",
-        (
-            "Create Subject",
-            "Get All Subjects",
-            "Get Subject By ID",
-        )
-    )
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+        "Create",
+        "Get",
+        "Delete",
+        "Student Count",
+        "Instructor Count",
+        "Update"
+    ])
 
-    # -----------------------------
-    # CREATE SUBJECT
-    # -----------------------------
-
-    if menu == "Create Subject":
-
-        st.subheader("Create Subject")
+    with tab1:
 
         name = st.text_input("Subject Name")
 
+        description = st.text_area("Description")
+
         if st.button("Create Subject"):
 
-            payload = {
-                "name": name
-            }
-
             response = requests.post(
-                f"{API_URL}/subjects/",
-                json=payload
+                f"{BASE_URL}/subjects/",
+                json={
+                    "name": name,
+                    "description": description
+                }
             )
 
-            if response.status_code == 200:
-                st.success("Subject Created Successfully")
-                st.json(response.json())
+            st.json(response.json())
 
-            else:
-                st.error(response.text)
+    with tab2:
 
-    # -----------------------------
-    # GET ALL SUBJECTS
-    # -----------------------------
-
-    elif menu == "Get All Subjects":
-
-        st.subheader("All Subjects")
-
-        if st.button("Load Subjects"):
+        if st.button("Get Subjects"):
 
             response = requests.get(
-                f"{API_URL}/subjects/"
+                f"{BASE_URL}/subjects/"
             )
 
-            if response.status_code == 200:
+            st.json(response.json())
 
-                subjects = response.json()
-
-                st.table(subjects)
-
-            else:
-
-                st.error(response.text)
-
-    # -----------------------------
-    # GET SUBJECT BY ID
-    # -----------------------------
-
-    elif menu == "Get Subject By ID":
-
-        st.subheader("Search Subject")
+    with tab3:
 
         subject_id = st.number_input(
             "Subject ID",
-            min_value=1,
-            step=1
+            min_value=1
         )
 
-        if st.button("Search Subject"):
+        if st.button("Delete Subject"):
 
-            response = requests.get(
-                f"{API_URL}/subjects/{subject_id}"
+            response = requests.delete(
+                f"{BASE_URL}/subjects/{subject_id}"
             )
 
-            if response.status_code == 200:
+            st.json(response.json())
 
-                st.json(response.json())
+    with tab4:
 
-            else:
+        sid = st.number_input(
+            "Subject ID for Student Count",
+            min_value=1,
+            key="student"
+        )
 
-                st.error(response.text)
+        if st.button("Student Count"):
+
+            response = requests.post(
+                f"{BASE_URL}/subjects/student-count",
+                json={
+                    "subject_id": sid
+                }
+            )
+
+            st.json(response.json())
+
+    with tab5:
+
+        sid2 = st.number_input(
+            "Subject ID for Instructor Count",
+            min_value=1,
+            key="ins"
+        )
+
+        if st.button("Instructor Count"):
+
+            response = requests.post(
+                f"{BASE_URL}/subjects/instructor-count",
+                json={
+                    "subject_id": sid2
+                }
+            )
+
+            st.json(response.json())
+
+    with tab6:
+
+        uid = st.number_input(
+            "Subject ID",
+            min_value=1,
+            key="update"
+        )
+
+        new_name = st.text_input("New Name")
+
+        new_desc = st.text_area("New Description")
+
+        if st.button("Update Subject"):
+
+            response = requests.put(
+                f"{BASE_URL}/subjects/{uid}",
+                json={
+                    "name": new_name,
+                    "description": new_desc
+                }
+            )
+
+            st.json(response.json())

@@ -21,5 +21,6 @@ class UserResponse(BaseModel):
 class AssignSubject(BaseModel):
     subject_id: int
 
+
 class AssignInstructor(BaseModel):
     instructor_id: int

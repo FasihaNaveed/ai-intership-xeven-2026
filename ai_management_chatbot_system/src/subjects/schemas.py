@@ -13,3 +13,7 @@ class SubjectResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class SubjectCountRequest(BaseModel):
+    subject_id: int

@@ -1,161 +1,125 @@
+# src/chatbot/utils.py
+
 import os
-import pickle
-
-from langchain_community.document_loaders import (
-    PyPDFLoader,
-    Docx2txtLoader,
-    TextLoader,
-)
-
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
 from langchain_community.vectorstores import FAISS
-
 from langchain_huggingface import HuggingFaceEmbeddings
-
 from langchain_groq import ChatGroq
 
 from src.settings import GROQ_API_KEY
-
 
 DOCUMENT_FOLDER = "documents"
 VECTOR_STORE_FOLDER = "vector_store"
 
 
-# -----------------------------
-# Save Uploaded File
-# -----------------------------
-def save_uploaded_file(upload_file):
+class ChatbotUtils:
 
-    os.makedirs(DOCUMENT_FOLDER, exist_ok=True)
+    @staticmethod
+    async def save_uploaded_file(upload_file):
+        try:
+            os.makedirs(DOCUMENT_FOLDER, exist_ok=True)
 
-    file_path = os.path.join(
-        DOCUMENT_FOLDER,
-        upload_file.filename
-    )
+            file_path = os.path.join(DOCUMENT_FOLDER, upload_file.filename)
 
-    with open(file_path, "wb") as file:
-        file.write(upload_file.file.read())
+            with open(file_path, "wb") as f:
+                f.write(upload_file.file.read())
 
-    return file_path
+            return file_path
 
+        except Exception as e:
+            raise Exception(f"Failed to save file: {e}")
 
-# -----------------------------
-# Load Document
-# -----------------------------
-def load_document(file_path):
+    @staticmethod
+    async def load_document(file_path: str):
+        try:
+            ext = file_path.split(".")[-1].lower()
 
-    extension = file_path.split(".")[-1].lower()
+            if ext == "pdf":
+                loader = PyPDFLoader(file_path)
+            elif ext == "docx":
+                loader = Docx2txtLoader(file_path)
+            elif ext == "txt":
+                loader = TextLoader(file_path)
+            else:
+                raise Exception("Unsupported file format")
 
-    if extension == "pdf":
-        loader = PyPDFLoader(file_path)
+            return loader.load()
 
-    elif extension == "docx":
-        loader = Docx2txtLoader(file_path)
+        except Exception as e:
+            raise Exception(f"Failed to load document: {e}")
 
-    elif extension == "txt":
-        loader = TextLoader(file_path)
+    @staticmethod
+    async def split_document(documents):
+        try:
+            splitter = RecursiveCharacterTextSplitter(
+                chunk_size=1000,
+                chunk_overlap=200,
+            )
+            return splitter.split_documents(documents)
 
-    else:
-        raise Exception("Unsupported file format.")
+        except Exception as e:
+            raise Exception(f"Failed to split document: {e}")
 
-    return loader.load()
+    @staticmethod
+    async def get_embeddings():
+        return HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
+        )
 
+    @staticmethod
+    async def create_vector_store(chunks):
+        try:
+            embeddings = await ChatbotUtils.get_embeddings()
 
-# -----------------------------
-# Split Document
-# -----------------------------
-def split_document(documents):
+            vector_store = FAISS.from_documents(chunks, embeddings)
 
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1000,
-        chunk_overlap=200,
-    )
+            os.makedirs(VECTOR_STORE_FOLDER, exist_ok=True)
+            vector_store.save_local(VECTOR_STORE_FOLDER)
 
-    return splitter.split_documents(documents)
+            return vector_store
 
+        except Exception as e:
+            raise Exception(f"Failed to create vector store: {e}")
 
-# -----------------------------
-# Embedding Model
-# -----------------------------
-def get_embeddings():
+    @staticmethod
+    async def load_vector_store():
+        try:
+            embeddings = await ChatbotUtils.get_embeddings()
 
-    return HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
+            return FAISS.load_local(
+                VECTOR_STORE_FOLDER,
+                embeddings,
+                allow_dangerous_deserialization=True,
+            )
 
+        except Exception as e:
+            raise Exception(f"Failed to load vector store: {e}")
 
-# -----------------------------
-# Create Vector Store
-# -----------------------------
-def create_vector_store(chunks):
+    @staticmethod
+    async def get_llm():
+        return ChatGroq(
+            groq_api_key=GROQ_API_KEY,
+            model_name="meta-llama/llama-4-scout-17b-16e-instruct",
+        )
 
-    embeddings = get_embeddings()
+    @staticmethod
+    async def get_retriever():
+        vector_store = await ChatbotUtils.load_vector_store()
+        return vector_store.as_retriever()
 
-    vector_store = FAISS.from_documents(
-        chunks,
-        embeddings,
-    )
+    @staticmethod
+    async def ask_question(question: str):
+        try:
+            retriever = await ChatbotUtils.get_retriever()
+            docs = retriever.invoke(question)
 
-    os.makedirs(VECTOR_STORE_FOLDER, exist_ok=True)
+            context = "\n\n".join([d.page_content for d in docs])
 
-    vector_store.save_local(VECTOR_STORE_FOLDER)
+            llm = await ChatbotUtils.get_llm()
 
-    return vector_store
-
-
-# -----------------------------
-# Load Vector Store
-# -----------------------------
-def load_vector_store():
-
-    embeddings = get_embeddings()
-
-    return FAISS.load_local(
-        VECTOR_STORE_FOLDER,
-        embeddings,
-        allow_dangerous_deserialization=True,
-    )
-
-
-# -----------------------------
-# LLM
-# -----------------------------
-def get_llm():
-
-    return ChatGroq(
-        groq_api_key=GROQ_API_KEY,
-        model_name="meta-llama/llama-4-scout-17b-16e-instruct",
-    )
-
-
-# -----------------------------
-# Retriever
-# -----------------------------
-def get_retriever():
-
-    vector_store = load_vector_store()
-
-    return vector_store.as_retriever()
-
-
-# -----------------------------
-# Ask Question
-# -----------------------------
-def ask_question(question):
-
-    retriever = get_retriever()
-
-    docs = retriever.invoke(question)
-
-    context = "\n\n".join(
-        [doc.page_content for doc in docs]
-    )
-
-    llm = get_llm()
-
-    prompt = f"""
-Use only the context below to answer the user's question.
+            prompt = f"""
+Use only the context below to answer the question.
 
 Context:
 {context}
@@ -166,6 +130,8 @@ Question:
 Answer:
 """
 
-    response = llm.invoke(prompt)
+            response = llm.invoke(prompt)
+            return {"answer": response.content}
 
-    return response.content
+        except Exception as e:
+            raise Exception(f"Failed to answer question: {e}")

@@ -1,25 +1,13 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from typing import List
 
 from src.database import get_db
-
 from src.users.schemas import (
     UserCreate,
-    UserResponse,
     AssignSubject,
     AssignInstructor,
 )
-
-from src.users.services import (
-    create_user_service,
-    get_users_service,
-    get_single_user_service,
-    update_user_service,
-    delete_user_service,
-    assign_subject_service,
-    assign_instructor_service,
-)
+from src.users.services import UserService
 
 router = APIRouter(
     prefix="/users",
@@ -27,64 +15,66 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=UserResponse)
-def create_user(
+@router.post("/")
+async def create_user(
     user: UserCreate,
     db: Session = Depends(get_db)
 ):
-    return create_user_service(db, user)
+    return await UserService.create_user(db, user)
 
 
-@router.get("/", response_model=List[UserResponse])
-def get_users(
+@router.get("/")
+async def get_users(
     db: Session = Depends(get_db)
 ):
-    return get_users_service(db)
+    return await UserService.get_users(db)
 
 
-@router.get("/{user_id}", response_model=UserResponse)
-def get_single_user(
+@router.get("/{user_id}")
+async def get_user(
     user_id: int,
     db: Session = Depends(get_db)
 ):
-    return get_single_user_service(db, user_id)
+    return await UserService.get_user(db, user_id)
 
 
-@router.put("/{user_id}", response_model=UserResponse)
-def update_user(
+@router.put("/{user_id}")
+async def update_user(
     user_id: int,
     user: UserCreate,
     db: Session = Depends(get_db)
 ):
-    return update_user_service(db, user_id, user)
+    return await UserService.update_user(db, user_id, user)
 
 
 @router.delete("/{user_id}")
-def delete_user(
+async def delete_user(
     user_id: int,
     db: Session = Depends(get_db)
 ):
-    return delete_user_service(db, user_id)
+    return await UserService.delete_user(db, user_id)
+
 
 @router.post("/{user_id}/assign-subject")
-def assign_subject(
+async def assign_subject(
     user_id: int,
     data: AssignSubject,
     db: Session = Depends(get_db)
 ):
-    return assign_subject_service(
+    return await UserService.assign_subject(
         db,
         user_id,
         data.subject_id
     )
 
+
 @router.post("/{user_id}/assign-instructor")
-def assign_instructor(
+async def assign_instructor(
     user_id: int,
     data: AssignInstructor,
     db: Session = Depends(get_db)
 ):
-    return assign_instructor_service(
+    return await UserService.assign_instructor(
         db,
         user_id,
         data.instructor_id

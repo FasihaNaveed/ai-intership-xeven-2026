@@ -18,5 +18,6 @@ class InstructorResponse(BaseModel):
     class Config:
         from_attributes = True
 
+
 class AssignSubject(BaseModel):
     subject_id: int

@@ -8,10 +8,10 @@ def chatbot_page():
 
     st.title("🤖 AI Chatbot")
 
-    st.markdown("### Upload a Document")
+    st.subheader("📄 Upload Document")
 
     uploaded_file = st.file_uploader(
-        "Choose a PDF, DOCX or TXT file",
+        "Choose PDF, DOCX or TXT",
         type=["pdf", "docx", "txt"]
     )
 
@@ -23,56 +23,43 @@ def chatbot_page():
                 "file": (
                     uploaded_file.name,
                     uploaded_file.getvalue(),
-                    uploaded_file.type
+                    uploaded_file.type,
                 )
             }
 
             response = requests.post(
-                f"{API_URL}/chatbot/upload-document",
-                files=files
+                f"{API_URL}/chatbot/upload",
+                files=files,
             )
 
             if response.status_code == 200:
-
-                st.success("✅ Document Uploaded Successfully")
-
+                st.success("✅ Document uploaded successfully")
                 st.json(response.json())
-
             else:
-
                 st.error(response.text)
 
     st.divider()
 
-    st.markdown("### Ask a Question")
+    st.subheader("💬 Ask Question")
 
-    question = st.text_area(
-        "Enter your question"
-    )
+    question = st.text_area("Enter your question")
 
-    if st.button("Get Answer"):
+    if st.button("Ask"):
 
         if question.strip() == "":
-
             st.warning("Please enter a question.")
 
         else:
 
             response = requests.post(
-                f"{API_URL}/chatbot/ask-question",
-                json={
+                f"{API_URL}/chatbot/ask",
+                data={
                     "question": question
-                }
+                },
             )
 
             if response.status_code == 200:
-
-                data = response.json()
-
                 st.success("Answer")
-
-                st.write(data["answer"])
-
+                st.write(response.json()["answer"])
             else:
-
                 st.error(response.text)
