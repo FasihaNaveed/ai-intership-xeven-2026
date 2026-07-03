@@ -15,6 +15,7 @@ class InstructorService:
         instructor_data: InstructorCreate,
     ):
         try:
+
             existing = await InstructorUtils.get_instructor_by_email(
                 db,
                 instructor_data.email,
@@ -23,7 +24,7 @@ class InstructorService:
             if existing:
                 raise HTTPException(
                     status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Instructor already exists."
+                    detail="Instructor already exists.",
                 )
 
             instructor = Instructor(
@@ -43,21 +44,37 @@ class InstructorService:
             raise
 
         except Exception as e:
+
             db.rollback()
+
             raise HTTPException(
                 status_code=500,
                 detail=str(e),
             )
 
     @staticmethod
-    async def get_instructors(db: Session):
+    async def get_instructors(
+        db: Session,
+        enable_pagination: bool = False,
+        page_size: int = 12,
+        page_no: int = 1,
+        search: str = "",
+    ):
         try:
-            return await InstructorUtils.get_all_instructors(db)
+
+            return await InstructorUtils.get_all_instructors(
+                db=db,
+                enable_pagination=enable_pagination,
+                page_size=page_size,
+                page_no=page_no,
+                search=search,
+            )
 
         except HTTPException:
             raise
 
         except Exception as e:
+
             raise HTTPException(
                 status_code=500,
                 detail=str(e),
@@ -69,6 +86,7 @@ class InstructorService:
         instructor_id: int,
     ):
         try:
+
             instructor = await InstructorUtils.get_instructor_by_id(
                 db,
                 instructor_id,
@@ -77,7 +95,7 @@ class InstructorService:
             if not instructor:
                 raise HTTPException(
                     status_code=404,
-                    detail="Instructor not found."
+                    detail="Instructor not found.",
                 )
 
             return instructor
@@ -86,11 +104,11 @@ class InstructorService:
             raise
 
         except Exception as e:
+
             raise HTTPException(
                 status_code=500,
                 detail=str(e),
             )
-
     @staticmethod
     async def update_instructor(
         db: Session,
@@ -98,6 +116,7 @@ class InstructorService:
         instructor_data: InstructorCreate,
     ):
         try:
+
             instructor = await InstructorUtils.get_instructor_by_id(
                 db,
                 instructor_id,
@@ -106,7 +125,7 @@ class InstructorService:
             if not instructor:
                 raise HTTPException(
                     status_code=404,
-                    detail="Instructor not found."
+                    detail="Instructor not found.",
                 )
 
             instructor.first_name = instructor_data.first_name
@@ -123,7 +142,9 @@ class InstructorService:
             raise
 
         except Exception as e:
+
             db.rollback()
+
             raise HTTPException(
                 status_code=500,
                 detail=str(e),
@@ -135,6 +156,7 @@ class InstructorService:
         instructor_id: int,
     ):
         try:
+
             instructor = await InstructorUtils.get_instructor_by_id(
                 db,
                 instructor_id,
@@ -143,7 +165,7 @@ class InstructorService:
             if not instructor:
                 raise HTTPException(
                     status_code=404,
-                    detail="Instructor not found."
+                    detail="Instructor not found.",
                 )
 
             await InstructorUtils.delete_instructor(
@@ -159,11 +181,11 @@ class InstructorService:
             raise
 
         except Exception as e:
+
             raise HTTPException(
                 status_code=500,
                 detail=str(e),
             )
-
     @staticmethod
     async def assign_subject(
         db: Session,
@@ -171,6 +193,7 @@ class InstructorService:
         subject_id: int,
     ):
         try:
+
             instructor = await InstructorUtils.get_instructor_by_id(
                 db,
                 instructor_id,
@@ -179,7 +202,7 @@ class InstructorService:
             if not instructor:
                 raise HTTPException(
                     status_code=404,
-                    detail="Instructor not found."
+                    detail="Instructor not found.",
                 )
 
             subject = await SubjectUtils.get_subject_by_id(
@@ -190,7 +213,7 @@ class InstructorService:
             if not subject:
                 raise HTTPException(
                     status_code=404,
-                    detail="Subject not found."
+                    detail="Subject not found.",
                 )
 
             if subject not in instructor.subjects:
@@ -207,7 +230,9 @@ class InstructorService:
             raise
 
         except Exception as e:
+
             db.rollback()
+
             raise HTTPException(
                 status_code=500,
                 detail=str(e),

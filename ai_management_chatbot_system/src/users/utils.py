@@ -1,4 +1,7 @@
+from math import ceil
+
 from fastapi import HTTPException
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 from src.users.models import User
@@ -29,9 +32,79 @@ class UserUtils:
             )
 
     @staticmethod
-    async def get_all_users(db: Session):
+    async def get_all_users(
+        db: Session,
+        enable_pagination: bool = False,
+        page_size: int = 12,
+        page_no: int = 1,
+        search: str = "",
+    ):
+        """
+        Get Users Listing
+
+        Features:
+        - Pagination
+        - Search
+        - Offset
+        - Limit
+        """
+
         try:
-            return db.query(User).all()
+
+            query = db.query(User)
+
+            # -----------------------------
+            # Search
+            # -----------------------------
+            if search:
+
+                query = query.filter(
+                    or_(
+                        User.first_name.ilike(f"%{search}%"),
+                        User.last_name.ilike(f"%{search}%"),
+                        User.email.ilike(f"%{search}%"),
+                    )
+                )
+
+            total_records = query.count()
+
+            # -----------------------------
+            # Pagination
+            # -----------------------------
+            if enable_pagination:
+
+                offset = (page_no - 1) * page_size
+
+                users = (
+                    query
+                    .offset(offset)
+                    .limit(page_size)
+                    .all()
+                )
+
+                total_pages = (
+                    ceil(total_records / page_size)
+                    if total_records > 0
+                    else 1
+                )
+
+            else:
+
+                users = query.all()
+
+                page_no = 1
+                page_size = total_records
+                total_pages = 1
+
+            return {
+                "success": True,
+                "message": "Users fetched successfully.",
+                "total_records": total_records,
+                "page_no": page_no,
+                "page_size": page_size,
+                "total_pages": total_pages,
+                "data": users,
+            }
 
         except Exception as e:
             raise HTTPException(
@@ -42,6 +115,7 @@ class UserUtils:
     @staticmethod
     async def create_user(db: Session, user_data):
         try:
+
             existing_user = await UserUtils.get_user_by_email(
                 db,
                 user_data.email
@@ -70,6 +144,7 @@ class UserUtils:
             raise
 
         except Exception as e:
+
             db.rollback()
 
             raise HTTPException(
@@ -110,6 +185,7 @@ class UserUtils:
             raise
 
         except Exception as e:
+
             db.rollback()
 
             raise HTTPException(
@@ -124,6 +200,7 @@ class UserUtils:
         subject_id: int,
     ):
         try:
+
             from src.subjects.utils import SubjectUtils
 
             user = await UserUtils.get_user_by_id(
@@ -162,6 +239,7 @@ class UserUtils:
             raise
 
         except Exception as e:
+
             db.rollback()
 
             raise HTTPException(
@@ -176,6 +254,7 @@ class UserUtils:
         instructor_id: int,
     ):
         try:
+
             from src.instructors.utils import InstructorUtils
 
             user = await UserUtils.get_user_by_id(
@@ -214,6 +293,7 @@ class UserUtils:
             raise
 
         except Exception as e:
+
             db.rollback()
 
             raise HTTPException(
@@ -227,12 +307,14 @@ class UserUtils:
         user: User,
     ):
         try:
+
             db.delete(user)
             db.commit()
 
             return True
 
         except Exception as e:
+
             db.rollback()
 
             raise HTTPException(

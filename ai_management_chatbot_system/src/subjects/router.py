@@ -1,13 +1,19 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
+print("========== SUBJECT ROUTER LOADED ==========")
+
 from src.database import get_db
-from src.subjects.schemas import SubjectCreate, SubjectCountRequest
+from src.subjects.schemas import (
+    SubjectCreate,
+    SubjectCountRequest,
+)
 from src.subjects.services import SubjectService
+
 
 router = APIRouter(
     prefix="/subjects",
-    tags=["Subjects"]
+    tags=["Subjects"],
 )
 
 
@@ -24,9 +30,35 @@ async def create_subject(
 
 @router.get("/")
 async def get_subjects(
+    enable_pagination: bool = Query(
+        default=False,
+        description="Enable or disable pagination",
+    ),
+    page_size: int = Query(
+        default=12,
+        ge=1,
+        description="Number of records per page",
+    ),
+    page_no: int = Query(
+        default=1,
+        ge=1,
+        description="Current page number",
+    ),
+    search: str = Query(
+        default="",
+        description="Search subject by name or description",
+    ),
     db: Session = Depends(get_db),
 ):
-    return await SubjectService.get_subjects(db)
+    print("SUBJECT GET API CALLED")
+    
+    return await SubjectService.get_subjects(
+        db=db,
+        enable_pagination=enable_pagination,
+        page_size=page_size,
+        page_no=page_no,
+        search=search,
+    )
 
 
 @router.get("/{subject_id}")

@@ -30,9 +30,19 @@ class UserService:
     @staticmethod
     async def get_users(
         db: Session,
+        enable_pagination: bool = False,
+        page_size: int = 12,
+        page_no: int = 1,
+        search: str = "",
     ):
         try:
-            return await UserUtils.get_all_users(db)
+            return await UserUtils.get_all_users(
+                db=db,
+                enable_pagination=enable_pagination,
+                page_size=page_size,
+                page_no=page_no,
+                search=search,
+            )
 
         except HTTPException:
             raise
