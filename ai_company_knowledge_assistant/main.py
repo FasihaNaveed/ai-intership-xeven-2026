@@ -8,6 +8,8 @@ import src.users.models
 
 from src.auth.router import router as auth_router
 
+from src.documents.router import router as documents_router
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
@@ -21,7 +23,7 @@ app = FastAPI(
 )
 
 app.include_router(auth_router)
-
+app.include_router(documents_router)
 
 @app.get("/")
 async def root():
