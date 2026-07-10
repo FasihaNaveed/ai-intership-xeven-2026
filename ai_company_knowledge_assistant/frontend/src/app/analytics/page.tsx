@@ -1,17 +1,84 @@
+"use client";
+
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+} from "recharts";
+
+
 export default function AnalyticsPage() {
+
+  const topicData = [
+    {
+      topic: "HR Policies",
+      questions: 35,
+    },
+    {
+      topic: "Engineering SOPs",
+      questions: 27,
+    },
+    {
+      topic: "Onboarding",
+      questions: 18,
+    },
+    {
+      topic: "Finance",
+      questions: 12,
+    },
+    {
+      topic: "IT Support",
+      questions: 8,
+    },
+  ];
+
+  const departmentData = [
+    {
+      name: "Engineering",
+      value: 45,
+    },
+    {
+      name: "HR",
+      value: 30,
+    },
+    {
+      name: "Finance",
+      value: 15,
+    },
+    {
+      name: "Operations",
+      value: 10,
+    },
+  ];
+
+  const COLORS = [
+    "#8b5cf6", // Purple
+    "#10b981", // Green
+    "#f59e0b", // Orange
+    "#ef4444", // Red
+  ];
+
   return (
     <DashboardLayout>
       <div className="space-y-6 pb-10">
         {/* Header */}
-        <div>
+        <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-gray-900">
-            Analytics Dashboard
+            Analytics
           </h1>
 
           <p className="text-gray-600 mt-2">
-            Monitor platform usage, AI performance and employee engagement.
+            Track usage trends and assistant performance.
           </p>
         </div>
 
@@ -39,37 +106,27 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Most Asked Topics */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-900 mb-6">
-            Most Asked Topics
-          </h2>
-
-          <div className="space-y-4">
-            <div className="flex justify-between">
-              <span>HR Policies</span>
-              <span className="font-semibold">35%</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>Engineering SOPs</span>
-              <span className="font-semibold">27%</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>Onboarding Process</span>
-              <span className="font-semibold">18%</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>Finance Policies</span>
-              <span className="font-semibold">12%</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>IT Support</span>
-              <span className="font-semibold">8%</span>
-            </div>
-          </div>
+        <div className="h-96">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              layout="vertical"
+              data={topicData}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis type="number" />
+              <YAxis
+                type="category"
+                dataKey="topic"
+                width={120}
+              />
+              <Tooltip />
+              <Bar
+                dataKey="questions"
+                fill="#3b82f6"
+                radius={[0, 10, 10, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
 
         {/* Department Usage */}
@@ -78,41 +135,31 @@ export default function AnalyticsPage() {
             Department Usage
           </h2>
 
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="text-left py-3">Department</th>
-                <th className="text-left py-3">Queries</th>
-                <th className="text-left py-3">Usage</th>
-              </tr>
-            </thead>
+          <div className="h-96">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={departmentData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  label
+                >
+                  {departmentData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
 
-            <tbody>
-              <tr className="border-b">
-                <td className="py-4">Engineering</td>
-                <td>421</td>
-                <td>45%</td>
-              </tr>
-
-              <tr className="border-b">
-                <td className="py-4">HR</td>
-                <td>276</td>
-                <td>30%</td>
-              </tr>
-
-              <tr className="border-b">
-                <td className="py-4">Finance</td>
-                <td>143</td>
-                <td>15%</td>
-              </tr>
-
-              <tr>
-                <td className="py-4">Operations</td>
-                <td>92</td>
-                <td>10%</td>
-              </tr>
-            </tbody>
-          </table>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </DashboardLayout>

@@ -1,100 +1,83 @@
-import Link from "next/link";
+import Link from 'next/link'
+import { AuthShell } from '@/components/auth/auth-shell'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { departments, roles } from '@/lib/data'
 
 export default function RegisterPage() {
   return (
-    <div className="h-screen bg-slate-100 flex items-center justify-center p-3 overflow-hidden">
-      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-lg border border-gray-200 overflow-hidden">
-        <div className="grid grid-cols-2 h-[92vh]">
-          {/* Left Side */}
-          <div className="bg-slate-900 text-white flex flex-col justify-center px-10">
-            <h1 className="text-3xl font-bold mb-3">
-              AI Knowledge Assistant
-            </h1>
+    <AuthShell>
+      <div className="space-y-2">
+        <h1 className="text-2xl font-semibold tracking-tight">Create your account</h1>
+        <p className="text-sm text-muted-foreground">
+          Register with your Xeven Solutions work email to get started.
+        </p>
+      </div>
 
-            <p className="text-slate-300 text-base leading-relaxed">
-              Create your account to access company knowledge,
-              internal policies, AI-powered search and document intelligence.
-            </p>
+      <form className="mt-6 space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="fullName">Full Name</Label>
+          <Input id="fullName" placeholder="Your Name" />
+        </div>
 
-            <div className="mt-6 space-y-2 text-slate-300 text-sm">
-              <p>✓ AI Powered Answers</p>
-              <p>✓ Enterprise Security</p>
-              <p>✓ Internal Knowledge Discovery</p>
-              <p>✓ Document Intelligence</p>
-            </div>
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input id="email" type="email" placeholder="name@xevensolutions.com" />
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="password">Password</Label>
+            <Input id="password" type="password" placeholder="••••••••" />
           </div>
-
-          {/* Right Side */}
-          <div className="flex items-center justify-center px-8 py-5">
-            <div className="w-full max-w-md">
-              <h2 className="text-2xl font-bold text-slate-900 text-center">
-                Create Account
-              </h2>
-
-              <p className="text-gray-600 text-center mt-1 mb-5 text-sm">
-                Register to access the platform
-              </p>
-
-              <div className="grid grid-cols-2 gap-3">
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  className="rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900 placeholder:text-gray-600"
-                />
-
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  className="rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900 placeholder:text-gray-600"
-                />
-
-                <select className="rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900">
-                  <option>Engineering</option>
-                  <option>HR</option>
-                  <option>Finance</option>
-                  <option>Operations</option>
-                </select>
-
-                <input
-                  type="text"
-                  placeholder="Role"
-                  className="rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900 placeholder:text-gray-600"
-                />
-
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900 placeholder:text-gray-600"
-                />
-
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  className="rounded-xl border border-gray-300 px-4 py-2.5 text-gray-900 placeholder:text-gray-600"
-                />
-              </div>
-
-              <button className="w-full mt-5 bg-blue-600 text-white py-2.5 rounded-xl font-medium hover:bg-blue-700 transition">
-                Create Account
-              </button>
-
-              <div className="text-center text-gray-600 text-sm mt-4">
-                Already have an account?{" "}
-                <Link
-                  href="/login"
-                  className="text-blue-600 font-medium hover:underline"
-                >
-                  Sign In
-                </Link>
-              </div>
-
-              <div className="mt-4 text-center text-xs text-gray-500">
-                Xeven Solutions Internal Platform
-              </div>
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Input id="confirmPassword" type="password" placeholder="••••••••" />
           </div>
         </div>
-      </div>
-    </div>
-  );
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="department">Department</Label>
+            <select
+              id="department"
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900"
+            >
+              <option>Select Department</option>
+              <option>Engineering</option>
+              <option>HR</option>
+              <option>Finance</option>
+              <option>Operations</option>
+            </select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="role">Role</Label>
+            <select
+              id="role"
+              className="w-full rounded-xl border border-gray-300 px-4 py-3 text-gray-900"
+            >
+              <option>Select Role</option>
+              <option>Employee</option>
+              <option>Manager</option>
+              <option>Admin</option>
+            </select>
+          </div>
+        </div>
+
+        <Link href="/dashboard">
+          <Button className="w-full py-2.5">
+            Register
+          </Button>
+        </Link>
+      </form>
+
+      <p className="mt-4 text-center text-sm text-muted-foreground">
+        Already have an account?{' '}
+        <Link href="/login" className="font-medium text-primary hover:underline">
+          Login
+        </Link>
+      </p>
+    </AuthShell>
+  )
 }

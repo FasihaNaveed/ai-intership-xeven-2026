@@ -5,15 +5,13 @@ export default function ChatPage() {
   return (
     <DashboardLayout>
       <div className="h-[85vh] flex flex-col">
-        <div className="mb-6">
+        <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-gray-900">
             AI Assistant
           </h1>
 
           <p className="text-gray-600 mt-2">
-            Ask questions about company policies,
-            onboarding, engineering practices and
-            internal documentation.
+            Ask questions and receive answers from company knowledge.
           </p>
         </div>
 
@@ -39,7 +37,7 @@ export default function ChatPage() {
           <input
             type="text"
             placeholder="Ask anything about company knowledge..."
-            className="flex-1 rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-800 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-blue-500"          />
+            className="flex-1 rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-800 placeholder:text-gray-500 outline-none focus:ring-2 focus:ring-blue-500" />
 
           <button className="bg-blue-600 text-white px-6 rounded-xl hover:bg-blue-700">
             Send

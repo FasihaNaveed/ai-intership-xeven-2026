@@ -4,13 +4,13 @@ export default function ProfilePage() {
   return (
     <DashboardLayout>
       <div className="space-y-6 pb-10">
-        <div>
+        <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-gray-900">
             Profile
           </h1>
 
           <p className="text-gray-600 mt-2">
-            Manage your account information and preferences.
+            Manage your personal information and account details.
           </p>
         </div>
 

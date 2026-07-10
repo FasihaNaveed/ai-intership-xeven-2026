@@ -26,13 +26,13 @@ export default function ConversationsPage() {
     <DashboardLayout>
       <div className="space-y-6 pb-10">
         {/* Header */}
-        <div>
+        <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-gray-900">
-            Conversation History
+            Conversations
           </h1>
 
           <p className="text-gray-600 mt-2">
-            Review previous employee conversations and AI responses.
+            Browse previous conversations and revisit important answers.
           </p>
         </div>
 

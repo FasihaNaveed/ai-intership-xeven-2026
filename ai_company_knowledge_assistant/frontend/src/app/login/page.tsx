@@ -1,63 +1,68 @@
 import Link from "next/link";
+import { AuthShell } from "@/components/auth/auth-shell";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-8 border border-gray-200">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">
-            AI Knowledge Assistant
-          </h1>
+    <AuthShell>
+      <div className="space-y-2">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Welcome back
+        </h1>
 
-          <p className="text-gray-600 mt-3">
-            Sign in to access company knowledge and AI assistance.
-          </p>
+        <p className="text-sm text-gray-500">
+          Sign in with your Xeven Solutions employee account.
+        </p>
+      </div>
+
+      <form className="mt-8 space-y-5">
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+
+          <Input
+            id="email"
+            type="email"
+            placeholder="name@xevensolutions.com"
+          />
         </div>
 
-        <div className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address
-            </label>
-
-            <input
-              type="email"
-              placeholder="name@xevensolutions.com"
-              className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">
               Password
-            </label>
+            </Label>
 
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <button className="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition">
-            Sign In
-          </button>
-
-          <div className="text-center text-gray-600 text-sm">
-            Don't have an account?{" "}
             <Link
-              href="/register"
-              className="text-blue-600 font-medium hover:underline"
+              href="#"
+              className="text-xs font-medium text-blue-600 hover:underline"
             >
-              Create Account
+              Forgot Password?
             </Link>
           </div>
+
+          <Input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+          />
         </div>
 
-        <div className="mt-8 text-center text-sm text-gray-500">
-          Xeven Solutions Internal Platform
-        </div>
-      </div>
-    </div>
+        <Button className="w-full py-3">
+          Login
+        </Button>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-gray-500">
+        Don't have an account?{" "}
+        <Link
+          href="/register"
+          className="font-medium text-blue-600 hover:underline"
+        >
+          Create Account
+        </Link>
+      </p>
+    </AuthShell>
   );
 }

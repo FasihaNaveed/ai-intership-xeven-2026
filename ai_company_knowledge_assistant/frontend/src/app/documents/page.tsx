@@ -4,13 +4,13 @@ export default function DocumentsPage() {
     return (
         <DashboardLayout>
             <div className="space-y-6 pb-10">
-                <div>
+                <div className="text-center mb-10">
                     <h1 className="text-3xl font-bold text-gray-900">
-                        Document Management
+                        Documents
                     </h1>
 
                     <p className="text-gray-600 mt-2">
-                        Upload and manage company documents for AI-powered knowledge retrieval.
+                        Manage and search internal company documents.
                     </p>
                 </div>
 
@@ -57,7 +57,7 @@ export default function DocumentsPage() {
                                 <option className="text-gray-900">Technical Documentation</option>
                                 <option className="text-gray-900">Employee Handbook</option>
                             </select>
-                            
+
                         </div>
 
                         <div>
@@ -114,9 +114,20 @@ export default function DocumentsPage() {
                                     <td>HR</td>
                                     <td>Policy</td>
                                     <td className="text-green-600 font-medium">Indexed</td>
-                                    <td className="space-x-3">
-                                        <button className="text-blue-600">View</button>
-                                        <button className="text-red-600">Delete</button>
+                                    <td className="py-4">
+                                        <div className="flex items-center gap-3">
+                                            <button className="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition">
+                                                View
+                                            </button>
+
+                                            <button className="px-3 py-1 rounded-lg bg-yellow-50 text-yellow-700 hover:bg-yellow-100 transition">
+                                                Edit
+                                            </button>
+
+                                            <button className="px-3 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
+                                                Delete
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
 
@@ -125,9 +136,20 @@ export default function DocumentsPage() {
                                     <td>Engineering</td>
                                     <td>SOP</td>
                                     <td className="text-green-600 font-medium">Indexed</td>
-                                    <td className="space-x-3">
-                                        <button className="text-blue-600">View</button>
-                                        <button className="text-red-600">Delete</button>
+                                    <td className="py-4">
+                                        <div className="flex items-center gap-3">
+                                            <button className="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition">
+                                                View
+                                            </button>
+
+                                            <button className="px-3 py-1 rounded-lg bg-yellow-50 text-yellow-700 hover:bg-yellow-100 transition">
+                                                Edit
+                                            </button>
+
+                                            <button className="px-3 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
+                                                Delete
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
