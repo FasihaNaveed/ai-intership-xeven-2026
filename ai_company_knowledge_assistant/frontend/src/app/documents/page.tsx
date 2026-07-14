@@ -1,6 +1,38 @@
+"use client";
+
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
+import { useEffect, useState } from "react";
+import {
+    getDocuments,
+    uploadDocument,
+    deleteDocument,
+} from "@/services/documentService";
+
 export default function DocumentsPage() {
+
+    const [documentName, setDocumentName] = useState("");
+    const [department, setDepartment] = useState("");
+    const [documentType, setDocumentType] = useState("");
+    const [tags, setTags] = useState("");
+    const [file, setFile] = useState<File | null>(null);
+
+    const [documents, setDocuments] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    const loadDocuments = async () => {
+        try {
+            const data = await getDocuments();
+            setDocuments(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        loadDocuments();
+    }, []);
+
     return (
         <DashboardLayout>
             <div className="space-y-6 pb-10">
@@ -109,49 +141,28 @@ export default function DocumentsPage() {
                             </thead>
 
                             <tbody>
-                                <tr className="border-b">
-                                    <td className="py-4">HR Policy.pdf</td>
-                                    <td>HR</td>
-                                    <td>Policy</td>
-                                    <td className="text-green-600 font-medium">Indexed</td>
-                                    <td className="py-4">
-                                        <div className="flex items-center gap-3">
-                                            <button className="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition">
-                                                View
-                                            </button>
+                                {documents.map((doc) => (
+                                    <tr key={doc.id} className="border-b">
+                                        <td className="py-4">{doc.document_name}</td>
+                                        <td>{doc.department}</td>
+                                        <td>{doc.document_type}</td>
+                                        <td className="text-green-600 font-medium">
+                                            {doc.status}
+                                        </td>
 
-                                            <button className="px-3 py-1 rounded-lg bg-yellow-50 text-yellow-700 hover:bg-yellow-100 transition">
-                                                Edit
-                                            </button>
+                                        <td className="py-4">
+                                            <div className="flex gap-3">
 
-                                            <button className="px-3 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                                <button
+                                                    className="px-3 py-1 rounded-lg bg-red-50 text-red-600"
+                                                >
+                                                    Delete
+                                                </button>
 
-                                <tr className="border-b">
-                                    <td className="py-4">Engineering SOP.pdf</td>
-                                    <td>Engineering</td>
-                                    <td>SOP</td>
-                                    <td className="text-green-600 font-medium">Indexed</td>
-                                    <td className="py-4">
-                                        <div className="flex items-center gap-3">
-                                            <button className="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition">
-                                                View
-                                            </button>
-
-                                            <button className="px-3 py-1 rounded-lg bg-yellow-50 text-yellow-700 hover:bg-yellow-100 transition">
-                                                Edit
-                                            </button>
-
-                                            <button className="px-3 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition">
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

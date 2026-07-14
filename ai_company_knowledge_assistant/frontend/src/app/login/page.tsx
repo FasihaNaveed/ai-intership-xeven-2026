@@ -1,10 +1,53 @@
+"use client";
+
 import Link from "next/link";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { login } from "@/services/authService";
+
 export default function LoginPage() {
+
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  setLoading(true);
+  setError("");
+
+  try {
+    const data = await login({
+      email,
+      password,
+    });
+
+    console.log("SUCCESS:", data);
+
+    localStorage.setItem("token", data.access_token);
+
+    router.push("/dashboard");
+  } catch (err: any) {
+    console.log("LOGIN ERROR:", err);
+    console.log("RESPONSE:", err.response);
+    console.log("DATA:", err.response?.data);
+    console.log("STATUS:", err.response?.status);
+
+    setError(err.response?.data?.detail || "Login failed");
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <AuthShell>
       <div className="space-y-2">
@@ -17,7 +60,11 @@ export default function LoginPage() {
         </p>
       </div>
 
-      <form className="mt-8 space-y-5">
+      <form
+        onSubmit={handleLogin}
+        className="mt-8 space-y-5"
+      >
+
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
 
@@ -25,7 +72,10 @@ export default function LoginPage() {
             id="email"
             type="email"
             placeholder="name@xevensolutions.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
+
         </div>
 
         <div className="space-y-2">
@@ -46,12 +96,26 @@ export default function LoginPage() {
             id="password"
             type="password"
             placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
+
         </div>
 
-        <Button className="w-full py-3">
-          Login
+        {error && (
+          <p className="text-red-500 text-sm">
+            {error}
+          </p>
+        )}
+
+        <Button
+          type="submit"
+          className="w-full py-3"
+          disabled={loading}
+        >
+          {loading ? "Logging in..." : "Login"}
         </Button>
+
       </form>
 
       <p className="mt-6 text-center text-sm text-gray-500">

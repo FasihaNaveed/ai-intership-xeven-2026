@@ -30,33 +30,67 @@ class DocumentService:
         db: AsyncSession
     ):
 
-        # ==========================
-        # PDF Text Extraction
-        # ==========================
         extracted_text = ""
 
-        if file_path.endswith(".pdf"):
-            try:
-                reader = PdfReader(file_path)
+        print("\n")
+        print("=" * 50)
+        print("FILE PATH:", file_path)
+        print("=" * 50)
 
-                for page in reader.pages:
+        if file_path.endswith(".pdf"):
+
+            try:
+                reader = PdfReader(
+                    file_path
+                )
+
+                print(
+                    "TOTAL PAGES:",
+                    len(reader.pages)
+                )
+
+                for index, page in enumerate(
+                    reader.pages
+                ):
+
                     page_text = page.extract_text()
 
+                    print(
+                        f"PAGE {index + 1} LENGTH:",
+                        len(page_text)
+                        if page_text
+                        else 0
+                    )
+
                     if page_text:
-                        extracted_text += page_text + "\n"
+                        extracted_text += (
+                            page_text + "\n"
+                        )
 
             except Exception as e:
                 print(
-                    f"PDF Extraction Error: {e}"
+                    "PDF Extraction Error:",
+                    e
                 )
 
-        # ==========================
-        # Chunking + Embeddings
-        # ==========================
+        print("\n")
+        print("=" * 50)
+        print(
+            "TOTAL EXTRACTED CHARACTERS:",
+            len(extracted_text)
+        )
+        print("=" * 50)
+        print("\n")
+
         if extracted_text:
 
             chunks = chunk_text(
                 extracted_text
+            )
+
+            print(
+                "TOTAL CHUNKS CREATED:",
+                len(chunks)
             )
 
             embedding_service = (
@@ -68,6 +102,11 @@ class DocumentService:
                 .generate_embeddings(
                     chunks
                 )
+            )
+
+            print(
+                "TOTAL EMBEDDINGS:",
+                len(embeddings)
             )
 
             vector_store = (
@@ -86,9 +125,18 @@ class DocumentService:
 
             vector_store.save()
 
-        # ==========================
-        # Save Document Metadata
-        # ==========================
+            print(
+                "TOTAL DOCUMENTS IN VECTOR DB:",
+                len(
+                    vector_store.documents
+                )
+            )
+
+        else:
+            print(
+                "NO TEXT EXTRACTED FROM PDF"
+            )
+
         document = Document(
             document_name=payload.document_name,
             file_name=file_name,
@@ -99,11 +147,15 @@ class DocumentService:
             status="Uploaded"
         )
 
-        db.add(document)
+        db.add(
+            document
+        )
 
         await db.commit()
 
-        await db.refresh(document)
+        await db.refresh(
+            document
+        )
 
         return document
 
@@ -112,7 +164,9 @@ class DocumentService:
         db: AsyncSession
     ):
 
-        query = select(Document)
+        query = select(
+            Document
+        )
 
         result = await db.execute(
             query
@@ -126,7 +180,9 @@ class DocumentService:
         db: AsyncSession
     ):
 
-        query = select(Document).where(
+        query = select(
+            Document
+        ).where(
             Document.id == document_id
         )
 

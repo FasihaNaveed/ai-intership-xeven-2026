@@ -10,6 +10,7 @@ from src.chat.schemas import (
 )
 
 from src.rag.pipeline import RAGPipeline
+from src.users.models import User
 
 
 class ChatService:
@@ -20,6 +21,26 @@ class ChatService:
         db: AsyncSession
     ):
 
+        # ==========================
+        # Check User Exists
+        # ==========================
+        user_result = await db.execute(
+            select(User).where(
+                User.id == payload.user_id
+            )
+        )
+
+        user = user_result.scalar_one_or_none()
+
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with id {payload.user_id} does not exist"
+            )
+
+        # ==========================
+        # Run RAG Pipeline
+        # ==========================
         rag_pipeline = RAGPipeline()
 
         result = rag_pipeline.run(
@@ -34,6 +55,16 @@ class ChatService:
             else "No sources found"
         )
 
+        print("\n")
+        print("=" * 50)
+        print("QUESTION:", payload.question)
+        print("RETRIEVED DOCUMENTS:", result["sources"])
+        print("=" * 50)
+        print("\n")
+
+        # ==========================
+        # Save Chat History
+        # ==========================
         chat = ChatMessage(
             user_id=payload.user_id,
             question=payload.question,
@@ -54,26 +85,61 @@ class ChatService:
 
     @staticmethod
     async def get_chat_history(
+        user_id: int,
         db: AsyncSession,
         page_no: int = 1,
         page_size: int = 10
     ):
 
-        total_records = await db.execute(
-            select(func.count()).select_from(
-                ChatMessage
+        # ==========================
+        # Check User Exists
+        # ==========================
+        user_result = await db.execute(
+            select(User).where(
+                User.id == user_id
             )
         )
 
-        total_records = total_records.scalar()
+        user = user_result.scalar_one_or_none()
 
-        offset = (page_no - 1) * page_size
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with id {user_id} does not exist"
+            )
 
+        # ==========================
+        # Total Records of User
+        # ==========================
+        total_records_query = await db.execute(
+            select(func.count())
+            .select_from(ChatMessage)
+            .where(
+                ChatMessage.user_id == user_id
+            )
+        )
+
+        total_records = (
+            total_records_query.scalar()
+        )
+
+        offset = (
+            page_no - 1
+        ) * page_size
+
+        # ==========================
+        # User Specific Chats
+        # ==========================
         result = await db.execute(
             select(ChatMessage)
+            .where(
+                ChatMessage.user_id == user_id
+            )
             .offset(offset)
             .limit(page_size)
-            .order_by(ChatMessage.created_at.desc())
+            .order_by(
+                ChatMessage.created_at.desc()
+            )
         )
 
         chats = result.scalars().all()

@@ -75,6 +75,32 @@ class FAISSStore:
 
         return results
 
+    def remove_document(
+        self,
+        document_name: str
+    ):
+
+        filtered_documents = []
+
+        for doc in self.documents:
+
+            if isinstance(doc, dict):
+
+                if (
+                    doc.get("document_name")
+                    != document_name
+                ):
+                    filtered_documents.append(
+                        doc
+                    )
+
+            else:
+                filtered_documents.append(
+                    doc
+                )
+
+        self.documents = filtered_documents
+
     def save(
         self,
         path: str = "vector_db"

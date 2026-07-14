@@ -37,11 +37,13 @@ async def ask_question(
     response_model=ChatListingResponse
 )
 async def get_chat_history(
+    user_id: int,
     page_no: int = 1,
     page_size: int = 10,
     db: AsyncSession = Depends(get_db)
 ):
     return await ChatService.get_chat_history(
+        user_id=user_id,
         db=db,
         page_no=page_no,
         page_size=page_size

@@ -17,12 +17,36 @@ class RAGPipeline:
             question
         )
 
+        print("\n")
+        print("=" * 50)
+        print("QUESTION:", question)
+        print("RETRIEVED DOCUMENTS:", documents)
+        print("=" * 50)
+        print("\n")
+
+        if not documents:
+            return {
+                "answer": (
+                    "I could not find this information "
+                    "in the uploaded company documents."
+                ),
+                "sources": []
+            }
+
+        # documents already contain strings
+        context_documents = documents
+
         answer = self.generator.generate_answer(
             question,
-            documents
+            context_documents
         )
+
+        # temporary source handling
+        sources = [
+            "Uploaded Company Documents"
+        ]
 
         return {
             "answer": answer,
-            "sources": documents
+            "sources": sources
         }

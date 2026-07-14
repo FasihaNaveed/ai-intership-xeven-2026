@@ -20,8 +20,10 @@ class Retriever:
 
         try:
             self.vector_store.load()
-        except Exception:
-            pass
+        except Exception as e:
+            print(
+                f"Vector store load error: {e}"
+            )
 
     def retrieve(
         self,
@@ -40,5 +42,17 @@ class Retriever:
                 top_k
             )
         )
+
+        print("\n")
+        print("=" * 50)
+        print("QUERY:", query)
+        print(
+            "TOTAL DOCUMENTS IN VECTOR DB:",
+            len(self.vector_store.documents)
+        )
+        print("RETRIEVED DOCUMENTS:")
+        print(documents)
+        print("=" * 50)
+        print("\n")
 
         return documents
