@@ -1,32 +1,26 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
 import DashboardLayout from "@/components/layout/DashboardLayout";
 
+import { getAuditLogs } from "@/services/auditLogService";
+
 export default function AuditLogsPage() {
-  const logs = [
-    {
-      user: "Ahmed Khan",
-      action: "Uploaded document",
-      resource: "HR_Policy.pdf",
-      time: "09 Jul 2026 - 09:15 AM",
-    },
-    {
-      user: "Fatima Ali",
-      action: "Asked AI question",
-      resource: "Annual Leave Policy",
-      time: "09 Jul 2026 - 10:02 AM",
-    },
-    {
-      user: "Usman Tariq",
-      action: "Deleted document",
-      resource: "Old_SOP.pdf",
-      time: "09 Jul 2026 - 11:30 AM",
-    },
-    {
-      user: "Admin",
-      action: "Created new user",
-      resource: "Bilal Ahmed",
-      time: "09 Jul 2026 - 12:10 PM",
-    },
-  ];
+  const [logs, setLogs] = useState<any[]>([]);
+
+  const loadLogs = async () => {
+    try {
+      const data = await getAuditLogs();
+      setLogs(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    loadLogs();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -53,16 +47,39 @@ export default function AuditLogsPage() {
             </thead>
 
             <tbody>
-              {logs.map((log, index) => (
-                <tr key={index} className="border-b hover:bg-gray-50">
-                  <td className="py-4 px-6">{log.user}</td>
-                  <td className="py-4 px-6">{log.action}</td>
-                  <td className="py-4 px-6">{log.resource}</td>
-                  <td className="py-4 px-6 text-gray-500">
-                    {log.time}
+              {logs.length > 0 ? (
+                logs.map((log) => (
+                  <tr
+                    key={log.id}
+                    className="border-b hover:bg-gray-50"
+                  >
+                    <td className="py-4 px-6">
+                      {log.user_name}
+                    </td>
+
+                    <td className="py-4 px-6">
+                      {log.action}
+                    </td>
+
+                    <td className="py-4 px-6">
+                      {log.resource}
+                    </td>
+
+                    <td className="py-4 px-6 text-gray-500">
+                      {new Date(log.created_at).toLocaleString()}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={4}
+                    className="text-center py-10 text-gray-500"
+                  >
+                    No audit logs found.
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

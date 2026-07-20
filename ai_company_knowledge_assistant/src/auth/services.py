@@ -6,6 +6,8 @@ from fastapi import HTTPException, status
 from src.users.models import User
 from src.users.schemas import UserCreate
 
+from src.audit_logs.services import AuditLogService
+
 from src.core.security import (
     hash_password,
     verify_password,
@@ -81,6 +83,14 @@ class AuthService:
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid credentials"
             )
+
+        # Save Audit Log
+        await AuditLogService.create_log(
+            user_name=user.full_name,
+            action="Login",
+            resource="System",
+            db=db
+        )
 
         token = create_access_token(
             {

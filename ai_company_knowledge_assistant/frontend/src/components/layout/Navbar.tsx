@@ -1,13 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import {
-  FiMenu,
-  FiMessageSquare,
-  FiFileText,
-  FiBarChart2,
-  FiSettings,
-} from "react-icons/fi";
+import Image from "next/image";
+import { FiMenu } from "react-icons/fi";
 
 interface NavbarProps {
   sidebarOpen: boolean;
@@ -19,9 +14,11 @@ export default function Navbar({
   setSidebarOpen,
 }: NavbarProps) {
   return (
-    <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between relative z-50">
+    <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between">
+
       {/* Left Side */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
+
         {/* Sidebar Toggle */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -30,44 +27,24 @@ export default function Navbar({
           <FiMenu size={22} />
         </button>
 
-        {/* Quick Navigation */}
-        <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-600">
-          <Link
-            href="/chat"
-            className="flex items-center gap-2 hover:text-blue-600 transition"
-          >
-            <FiMessageSquare size={16} />
-            AI Assistant
-          </Link>
+        {/* Logo */}
+        <Link href="/dashboard" className="flex items-center gap-3">
 
-          <Link
-            href="/documents"
-            className="flex items-center gap-2 hover:text-blue-600 transition"
-          >
-            <FiFileText size={16} />
-            Documents
-          </Link>
+          <div className="w-10 h-10 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold">
+            X
+          </div>
 
-          <Link
-            href="/analytics"
-            className="flex items-center gap-2 hover:text-blue-600 transition"
-          >
-            <FiBarChart2 size={16} />
-            Analytics
-          </Link>
+          <span className="hidden md:block text-lg font-semibold text-gray-900">
+            Xeven Solutions
+          </span>
 
-          <Link
-            href="/settings"
-            className="flex items-center gap-2 hover:text-blue-600 transition"
-          >
-            <FiSettings size={16} />
-            Settings
-          </Link>
-        </div>
+        </Link>
+
       </div>
 
       {/* Right Side */}
       <div className="flex items-center gap-4">
+
         <div className="hidden sm:block text-right">
           <p className="text-sm font-medium text-gray-800">
             Welcome, Employee
@@ -80,11 +57,13 @@ export default function Navbar({
 
         <Link
           href="/profile"
-          className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold hover:bg-blue-700 transition cursor-pointer"
+          className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold hover:bg-blue-700 transition"
         >
           F
         </Link>
+
       </div>
+
     </header>
   );
 }

@@ -19,6 +19,10 @@ from src.vector_store.faiss_store import (
     FAISSStore
 )
 
+from src.audit_logs.services import (
+    AuditLogService
+)
+
 
 class DocumentService:
 
@@ -30,6 +34,51 @@ class DocumentService:
         db: AsyncSession
     ):
 
+        # Check duplicate document name
+        query = select(Document).where(
+            Document.document_name == payload.document_name
+        )
+
+        result = await db.execute(query)
+
+        existing_document = result.scalar_one_or_none()
+
+        if existing_document:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Document name already exists."
+            )
+
+        # Check duplicate uploaded file
+        query = select(Document).where(
+            Document.file_name == file_name
+        )
+
+        result = await db.execute(query)
+
+        existing_file = result.scalar_one_or_none()
+
+        if existing_file:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="This PDF has already been uploaded."
+            )
+
+        # Check duplicate file path
+        query = select(Document).where(
+            Document.file_path == file_path
+        )
+
+        result = await db.execute(query)
+
+        existing_path = result.scalar_one_or_none()
+
+        if existing_path:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="This file already exists."
+            )
+        
         extracted_text = ""
 
         print("\n")
@@ -157,6 +206,15 @@ class DocumentService:
             document
         )
 
+        # Save Audit Log
+        await AuditLogService.create_log(
+            user_id=None,
+            user_name="Employee",
+            action="Uploaded Document",
+            resource=document.document_name,
+            db=db
+        )
+
         return document
 
     @staticmethod
@@ -200,11 +258,22 @@ class DocumentService:
                 detail="Document not found"
             )
 
+        document_name = document.document_name
+
         await db.delete(
             document
         )
 
         await db.commit()
+
+        # Save Audit Log
+        await AuditLogService.create_log(
+            user_id=None,
+            user_name="Employee",
+            action="Deleted Document",
+            resource=document_name,
+            db=db
+        )
 
         return {
             "message":

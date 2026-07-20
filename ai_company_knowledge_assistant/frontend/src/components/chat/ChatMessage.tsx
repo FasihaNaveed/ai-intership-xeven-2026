@@ -13,7 +13,7 @@ export default function ChatMessage({ sender, message }: Props) {
       }`}
     >
       <div
-        className={`max-w-2xl rounded-2xl px-5 py-3 ${
+        className={`max-w-2xl rounded-2xl px-5 py-3 whitespace-pre-wrap leading-7 ${
           isUser
             ? "bg-blue-600 text-white"
             : "bg-white border border-gray-200 text-gray-800"
