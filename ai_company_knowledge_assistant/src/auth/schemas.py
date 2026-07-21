@@ -12,6 +12,24 @@ class LoginRequest(BaseModel):
     password: str
 
 
+# ==========================
+# User Info
+# ==========================
+
+class LoginUserResponse(BaseModel):
+    id: int
+    full_name: str
+    email: EmailStr
+    role: str
+    organization: str
+
+
+# ==========================
+# Login Response
+# ==========================
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+    user: LoginUserResponse

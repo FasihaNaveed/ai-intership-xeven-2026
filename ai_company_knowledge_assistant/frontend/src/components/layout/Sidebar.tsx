@@ -14,52 +14,69 @@ import {
   FiShield,
 } from "react-icons/fi";
 
-const menuItems = [
+const menuSections = [
   {
-    title: "Dashboard",
-    icon: FiHome,
-    href: "/dashboard",
+    title: "WORKSPACE",
+    items: [
+      {
+        title: "Dashboard",
+        icon: FiHome,
+        href: "/dashboard",
+      },
+      {
+        title: "AI Assistant",
+        icon: FiMessageSquare,
+        href: "/chat",
+      },
+      {
+        title: "Conversations",
+        icon: FiClock,
+        href: "/conversations",
+      },
+    ],
   },
   {
-    title: "AI Assistant",
-    icon: FiMessageSquare,
-    href: "/chat",
+    title: "KNOWLEDGE",
+    items: [
+      {
+        title: "Documents",
+        icon: FiFileText,
+        href: "/documents",
+      },
+      {
+        title: "Analytics",
+        icon: FiBarChart2,
+        href: "/analytics",
+      },
+    ],
   },
   {
-    title: "Documents",
-    icon: FiFileText,
-    href: "/documents",
-  },
-  {
-    title: "Conversations",
-    icon: FiClock,
-    href: "/conversations",
-  },
-  {
-    title: "Analytics",
-    icon: FiBarChart2,
-    href: "/analytics",
-  },
-  {
-    title: "Audit Logs",
-    icon: FiShield,
-    href: "/audit-logs",
-  },
-  {
-    title: "Settings",
-    icon: FiSettings,
-    href: "/settings",
-  },
-  {
-    title: "Profile",
-    icon: FiUser,
-    href: "/profile",
+    title: "SYSTEM",
+    items: [
+      {
+        title: "Audit Logs",
+        icon: FiShield,
+        href: "/audit-logs",
+      },
+      {
+        title: "Settings",
+        icon: FiSettings,
+        href: "/settings",
+      },
+      {
+        title: "Profile",
+        icon: FiUser,
+        href: "/profile",
+      },
+    ],
   },
 ];
 
 interface SidebarProps {
   sidebarOpen: boolean;
-  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setSidebarOpen: React.Dispatch<
+    React.SetStateAction<boolean>
+  >;
 }
 
 export default function Sidebar({
@@ -69,61 +86,158 @@ export default function Sidebar({
   const pathname = usePathname();
 
   return (
+
     <aside
-      className={`fixed left-0 top-0 z-40 h-screen w-64 bg-slate-900 text-white flex flex-col transform transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      className={`fixed inset-y-0 left-0 z-40 w-72 bg-slate-950 border-r border-slate-800 text-white transition-transform duration-300 ${sidebarOpen
+        ? "translate-x-0"
+        : "-translate-x-full"
         }`}
     >
-      {/* Header */}
-      <div className="px-6 pt-5 pb-4 border-b border-slate-800 whitespace-nowrap">
-        <h1 className="text-lg font-bold">
-          AI Knowledge Assistant
-        </h1>
 
-        <p className="text-slate-400 text-xs mt-1">
-          Enterprise Internal Knowledge Platform
-        </p>
-      </div>
+      <div className="flex h-screen flex-col">
 
-      {/* Navigation */}
-      <nav className="flex-1 px-4 py-4 space-y-1 whitespace-nowrap">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href;
+        {/* LOGO */}
 
-          return (
-            <Link
-              key={item.title}
-              href={item.href}
-              className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 ${isActive
-                ? "bg-blue-600 text-white"
-                : "text-slate-300 hover:bg-slate-800 hover:text-white"
-                }`}
-            >
-              <Icon size={18} />
-              <span className="text-sm font-medium">
-                {item.title}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
+        <div className="border-b border-slate-800 px-5 py-2.5">
 
-      {/* Footer */}
-      <div className="p-4 border-t border-slate-800 whitespace-nowrap">
-        <div className="bg-slate-800 rounded-xl p-3">
-          <p className="text-xs text-slate-400">
-            Logged in as
-          </p>
+          <div className="flex items-center gap-3">
 
-          <p className="font-semibold text-sm mt-1">
-            Employee
-          </p>
+            <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 font-bold text-white">
+              AI
+            </div>
 
-          <p className="text-xs text-slate-500 mt-1">
-            Xeven Solutions
-          </p>
+            <div>
+
+              <h1 className="text-[15px] font-bold leading-tight">
+                AI Knowledge Assistant
+              </h1>
+
+              <p className="text-[11px] text-slate-400">
+                Enterprise Workspace
+              </p>
+
+            </div>
+
+          </div>
+
         </div>
+
+        {/* MENU */}
+
+        <div className="flex-1 overflow-hidden px-4 py-1.5">
+
+          {menuSections.map((section) => (
+
+            <div
+              key={section.title}
+              className="mb-3"
+            >
+
+              <p className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-500">
+                {section.title}
+              </p>
+
+              <div className="space-y-0.5">
+
+                {section.items.map((item) => {
+
+                  const Icon = item.icon;
+
+                  const isActive =
+                    pathname === item.href;
+
+                  return (
+
+                    <Link
+                      key={item.title}
+                      href={item.href}
+                      className={`group flex items-center justify-between rounded-2xl px-4 py-1.5 transition-all duration-200 ${isActive
+                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/30"
+                        : "text-slate-300 hover:bg-slate-900 hover:text-white"
+                        }`}
+                    >
+
+                      <div className="flex items-center gap-3">
+
+                        <Icon
+                          size={18}
+                          className={
+                            isActive
+                              ? "text-white"
+                              : "text-slate-400 group-hover:text-white"
+                          }
+                        />
+
+                        <span className="text-sm font-medium">
+                          {item.title}
+                        </span>
+
+                      </div>
+
+                      {isActive && (
+                        <div className="h-2 w-2 rounded-full bg-white"></div>
+                      )}
+
+                    </Link>
+
+                  );
+
+                })}
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+        {/* USER PANEL */}
+
+        <div className="shrink-0 border-t border-slate-800 bg-slate-950 px-4 py-2.5">
+
+          <p className="text-xs uppercase tracking-wider text-slate-500">
+            Logged In
+          </p>
+
+          <div className="mt-2 flex items-center gap-3">
+
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 font-bold text-white">
+              F
+            </div>
+
+            <div>
+
+              <p className="text-sm font-semibold text-white">
+                Fasiha Naveed
+              </p>
+
+              <p className="text-xs text-slate-400">
+                Administrator
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="mt-2 rounded-xl bg-slate-900 p-2">
+
+            <p className="text-xs text-slate-500">
+              Organization
+            </p>
+
+            <p className="mt-1 text-sm font-medium text-white">
+              Xeven Solutions
+            </p>
+
+          </div>
+
+        </div>
+
       </div>
+
     </aside>
+
   );
 }
+

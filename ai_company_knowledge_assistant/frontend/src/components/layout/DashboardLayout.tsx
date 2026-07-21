@@ -12,28 +12,40 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden">
+    <div className="bg-slate-100">
+
+      {/* Fixed Sidebar */}
       <Sidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
 
+      {/* Main Area */}
       <div
-        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${
-          sidebarOpen ? "lg:ml-64" : "ml-0"
+        className={`transition-all duration-300 ${
+          sidebarOpen ? "lg:ml-72" : "ml-0"
         }`}
       >
+
+        {/* Navbar */}
         <Navbar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
 
-        <main className="flex-1 overflow-y-auto bg-slate-50 px-6 py-8">
-          <div className="mx-auto w-full max-w-7xl">
+        {/* Page Content */}
+        <main className="min-h-screen bg-slate-100 px-8 py-8">
+
+          <div className="mx-auto max-w-7xl">
+
             {children}
+
           </div>
+
         </main>
+
       </div>
+
     </div>
   );
 }
