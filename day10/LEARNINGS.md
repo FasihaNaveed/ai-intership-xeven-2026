@@ -90,9 +90,7 @@ students = {
 
 }
 
-
 Used for storing complex data.
-
 
 ---
 
@@ -111,7 +109,6 @@ json.dump()
 json.load()
 - Reads JSON file data
 
-
 ---
 
 ## 5. Dictionary Comprehension
@@ -125,11 +122,9 @@ x:x*x
 for x in range(5)
 }
 
-
 ---
 
 # Research Comparison
-
 
 | Source | Information |
 |---|---|
@@ -138,11 +133,9 @@ for x in range(5)
 | Claude AI | Provided practical implementation approaches |
 | Medium Article | Explained real-world dictionary usage |
 
-
 ---
 
 # References
-
 
 1. ChatGPT
 
@@ -153,11 +146,9 @@ Date: June 13 2026
 
 Date: June 13 2026
 
-
 3. Claude AI
 
 Date: June 13 2026
-
 
 4. Medium Article
 
@@ -166,13 +157,11 @@ https://medium.com/
 
 Date: June 13 2026
 
-
 ---
 
 # Clearest Explanation
 
 Claude examples were useful because they connected dictionary concepts with practical projects.
-
 
 ---
 

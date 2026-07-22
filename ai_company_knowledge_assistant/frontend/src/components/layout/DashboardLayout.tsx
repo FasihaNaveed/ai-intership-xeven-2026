@@ -12,36 +12,32 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="bg-slate-100">
+    <div className="h-screen overflow-hidden bg-slate-100 dark:bg-[#0f172a]">
 
-      {/* Fixed Sidebar */}
-      <Sidebar
+      {/* Navbar - Sticky at top full-width */}
+      <Navbar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
 
-      {/* Main Area */}
-      <div
-        className={`transition-all duration-300 ${
-          sidebarOpen ? "lg:ml-72" : "ml-0"
-        }`}
-      >
+      {/* Below Navbar: Sidebar + Main Content */}
+      <div className="flex h-[calc(100vh-4rem)] relative">
 
-        {/* Navbar */}
-        <Navbar
+        {/* Sidebar - Fixed below Navbar */}
+        <Sidebar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
 
-        {/* Page Content */}
-        <main className="min-h-screen bg-slate-100 px-8 py-8">
-
-          <div className="mx-auto max-w-7xl">
-
+        {/* Main Content Area - Scrollable with custom scrollbar */}
+        <main
+          className={`flex-1 overflow-y-auto custom-scrollbar bg-slate-100 dark:bg-[#0f172a] text-slate-900 dark:text-slate-200 transition-all duration-300 ${
+            sidebarOpen ? "lg:ml-72" : "ml-0"
+          }`}
+        >
+          <div className="mx-auto max-w-7xl px-8 py-8">
             {children}
-
           </div>
-
         </main>
 
       </div>

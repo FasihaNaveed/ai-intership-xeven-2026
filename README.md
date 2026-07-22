@@ -308,8 +308,287 @@ ai-internship-xeven-2026/
 │   └── README.md
 |
 ├──day28/
-│   ├──day28_notes.ipynb/
+│   ├── day28_notes.ipynb/
 |
+├──user_management/
+│   ├── main.py
+│   ├── uploads/
+│   ├── requirements.txt
+│   └── notes.ipynb/
+│
+├──user_management_advanced/
+│   ├── uploads/
+│   ├── app.log
+│   ├── main.py
+│   ├── database.py
+│   ├── models.py
+│   ├── requirements.txt
+│   └── .env
+│
+├──user_management_pro/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── database.py
+│   │   ├── models.py
+│   │   ├── settings.py
+│   │   ├── api/
+│   │   │   └── user_routes.py
+│   │   ├── core/
+│   │   │   └── logger.py
+│   │   ├── middleware/
+│   │   │    └── request_logger.py
+│   ├── uploads/
+│   ├── app.log
+│   ├── requirements.txt
+│   └── .env
+├──adaptive_rag/
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── rag.py
+│   │   ├── graph/
+│   │   │   ├── graph.py
+│   │   │   ├── nodes.py
+│   │   │   ├── state.py
+│   │   │   └── router.py
+│   │   ├── rag/
+│   │   │   ├── loaders.py
+│   │   │   ├── embeddings.py
+│   │   │   ├── vectorstore.py
+│   │   │   ├── retriever.py
+│   │   │   └── prompts.py
+│   │   ├── services/
+│   │   │   ├── llm_service.py
+│   │   │   └── web_search.py
+│   │   ├── middlewares/
+│   │   ├── utils/
+│   │   │   └── logger.py
+│   │   ├── core/
+│   │   │   ├── settings.py
+│   │   │   └── database.py
+│   │   ├── tests/
+│   │   │   └── test_loader.py
+│   │   └── schemas/
+│   ├── data/
+│   ├── logs/
+│   ├── .env
+│   ├── notes.ipynb
+│   ├── streamlit_app.py
+│   ├── requirements.txt
+│   └── README.md
+│
+├──ai_management_chatbot_system/
+│   ├── src/
+│   │   ├── users/
+│   │   │   ├── __init__.py
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── router.py
+│   │   │   ├── services.py
+│   │   │   ├── utils.py
+│   │   ├── subjects/
+│   │   │   ├── __init__.py
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── router.py
+│   │   │   ├── services.py
+│   │   │   ├── utils.py
+│   │   ├── instructors/
+│   │   │   ├── __init__.py
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── router.py
+│   │   │   ├── services.py
+│   │   │   ├── utils.py
+│   │   ├── chatbot/
+│   │   │   ├── __init__.py
+│   │   │   ├── schemas.py
+│   │   │   ├── router.py
+│   │   │   ├── services.py
+│   │   │   ├── utils.py
+│   │   ├── database.py
+│   │   ├── settings.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   └── associatons.py
+│   ├── documents/
+│   ├── vector_store/
+│   ├── logs/
+│   │   └── app.log
+│   ├── streamlit_app.py
+│   ├── requirements.txt
+│   ├── .env
+│   ├── .gitignore
+│   ├── notes.ipynb
+│   └── README.md
+│ 
+├──first_poc_ideas/
+│   ├── 1_AI_SQL_Query_Builder.pdf
+│   ├── 2_Fake_News_Detector.pdf
+│   ├── 3_Crop_Disease_Detection.pdf
+│   ├── 4_Flood_Prediction.pdf
+│   └── 5_TB_Detection.pdf
+│ 
+├──second_poc_ideas/
+│   ├── 1_waqeel_ai
+|   |   ├── images
+|   |   ├── 1_waqeel_ai.pdf
+│   |   ├── documentation.pdf
+│   |   ├── problem_statement.pdf
+│   ├── 2_tax_compliance_copilot.pdf
+│   ├── 3_banking_regulatory_compliance_copilot.pdf
+│   ├── 4_aI_company_knowledge_assistant.pdf
+│   └── 5_ai_meeting_summarization_assistant.pdf
+|
+├──approved_poc_idea/
+│   ├── notes.ipynb
+|
+├──ai_company_knowledge_assistant/
+│   ├── frontend
+│   │   ├───src
+│   │   │   ├───app
+│   │   │   │   ├─── favicon.ico
+│   │   │   │   ├─── globals.css
+│   │   │   │   ├─── layout.tsx
+│   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── analytics
+│   │   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── audit-logs
+│   │   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── chat
+│   │   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── conversations
+│   │   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── dashboard
+│   │   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── documents
+│   │   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── login
+│   │   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── profile
+│   │   │   │   │   ├─── page.tsx
+│   │   │   │   ├─── register
+│   │   │   │   │   ├─── page.tsx         
+│   │   │   │   ├───settings
+│   │   │   │   │   ├─── page.tsx
+│   │   │   ├─── assets
+│   │   │   ├─── components
+│   │   │   │   ├─── analytics
+│   │   │   │   ├─── auth
+│   │   │   │   ├─── chat
+│   │   │   │   │   ├─── ChatMessage.tsx
+│   │   │   │   ├─── common
+│   │   │   │   │   ├─── PageHeader.tsx
+│   │   │   │   ├─── dashboard
+│   │   │   │   │   ├─── StatsCard.tsx
+│   │   │   │   ├─── documents
+│   │   │   │   ├─── layout
+│   │   │   │   │   ├─── DashboardLayout.tsx
+│   │   │   │   │   ├─── Navbar.tsx
+│   │   │   │   │   ├─── Sidebar.tsx
+│   │   │   │   ├─── ui
+│   │   │   │   │   ├─── button.tsx
+│   │   │   │   │   ├─── input.tsx
+│   │   │   │   │   ├─── label.tsx
+│   │   │   ├─── constants
+│   │   │   ├─── context
+│   │   │   ├─── hooks
+│   │   │   ├─── lib
+│   │   │   │   │   ├─── data.ts
+│   │   │   │   │   ├─── utils.ts
+│   │   │   ├─── services
+│   │   │   |   ├── analyticsService.ts
+│   │   │   |   ├── api.ts
+│   │   │   |   ├── auditLogService.ts
+│   │   │   |   ├── authService.ts
+│   │   │   |   ├── chatService.ts
+│   │   │   |   └── documentService.ts
+│   │   │   |   └── profileService.ts
+│   │   │   ├─── store
+│   │   │   ├─── types
+│   │   │   ├─── utils
+│   ├── src/
+│   │   ├── auth/
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── services.py
+│   │   │   ├── router.py
+│   │   │   └── utils.py
+│   │   ├── users/
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── services.py
+│   │   │   ├── router.py
+│   │   │   └── utils.py
+│   │   ├── documents/
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── services.py
+│   │   │   ├── router.py
+│   │   │   └── utils.py
+│   │   ├── chat/
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── services.py
+│   │   │   ├── router.py
+│   │   │   └── utils.py
+│   │   ├── conversations/
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── services.py
+│   │   │   ├── router.py
+│   │   │   └── utils.py
+│   │   ├── audit_logs/
+│   │   │   ├── models.py
+│   │   │   ├── schemas.py
+│   │   │   ├── services.py
+│   │   │   ├── router.py
+│   │   │   └── utils.py
+│   │   ├── analytics/
+│   │   │   ├── schemas.py
+│   │   │   ├── services.py
+│   │   │   └── router.py
+│   │   ├── embeddings/
+│   │   │   ├── embedding_service.py
+│   │   │   └── utils.py
+│   │   ├── vector_store/
+│   │   │   └── faiss_store.py
+│   │   ├── rag/
+│   │   │   ├── retriever.py
+│   │   │   ├── reranker.py
+│   │   │   ├── generator.py
+│   │   │   ├── citation_formatter.py
+│   │   │   └── pipeline.py
+│   │   ├── langgraph/
+│   │   │   ├── graph.py
+│   │   │   ├── nodes.py
+│   │   │   └── state.py
+│   │   ├── middlewares/
+│   │   │   ├── logging_middleware.py
+│   │   │   ├── exception_handler.py
+│   │   │   └── auth_middleware.py
+│   │   ├── core/
+│   │   │   ├── security.py
+│   │   │   ├── dependencies.py
+│   │   │   ├── logger.py
+│   │   │   └── constants.py
+│   │   ├── database.py
+│   │   ├── settings.py
+│   │   ├── associations.py
+│   │   └── base.py
+│   ├── uploaded_documents/
+|   ├── vector_db/
+│   |   ├── index.faiss
+│   |   └── documents.pkl
+│   ├── logs/
+│   │   └── app.log
+│   ├── streamlit_app.py
+│   ├── main.py
+│   ├── notes.ipynb
+│   ├── requirements.txt
+│   ├── .env
+│   ├── .gitignore
+│   └── README.md
+│ 
 ├── README.md
 ├── LEARNINGS.md
 └── requirements.txt
@@ -335,19 +614,19 @@ Each folder contains:
 * ✅ Day 5 – Loops (for, while), Iteration Control, Pattern Printing, Number Guessing Game, and Practical Problem Solving
 * ✅ Day 6 – Python Lists, List Methods (append, insert, remove, pop), Slicing, Sorting, and Student Management System
 * ✅ Day 7 – Week 1 Assessment, Presentation, Documentation, Research Comparison, and Learning Reflection
-* ✅ Day 8 – Advanced List Operations, List Comprehensions, Student Grade Manager, Shopping Cart System, and Data Cleaning Pipeline
-* ✅ Day 9 – Tuples, Tuple Packing & Unpacking, Sets, Set Operations, Geographic Coordinates System, Unique Visitor Tracker, and Email Validation System
-* ✅ Day 10 – Dictionaries, Dictionary Methods, Nested Dictionaries, JSON Handling, Dictionary Comprehension, Student Information System, Product Inventory Manager, and Configuration Manager
-* ✅ Day 11 – For Loops, While Loops, range(), enumerate(), zip(), Break Statement, Continue Statement, Else with Loops, Nested Loops, Data Processing Pipeline, Pattern Generators, Matrix Operations, Prime Number Finder, Factorial Calculator, Fibonacci Sequence, and Number Guessing Game.
-* ✅ Day 12 – Function Definition, Parameters, Return Values, Positional Arguments, Keyword Arguments, Default Parameters, Argument Unpacking, Local & Global Scope, Function Design Principles, Docstrings, Math Utility Library, Text Processing Functions, and Validation Function Suite.
-* ✅ Day 13 – Advanced Functions: *args, **kwargs, Lambda Functions, map(), filter(), sorted(), List & Dictionary Comprehensions, Nested Comprehensions, Performance Comparison, Flexible Logger System, Data Transformer Suite, and Comprehension-based Data Processing.
-* ✅ Day 14 – Week 2 Review & Mini Project: Data Structures Comparison (List, Tuple, Set, Dictionary), Time Complexity Analysis, Contact Management System, CRUD Operations (Add, Search, Update, Delete Contacts), Tag Management using Sets, Advanced Search with Comprehensions, JSON File Handling (Save & Load), Statistics (Total Contacts, Most Used Tags), and CLI-based Interactive Menu System.
-* ✅ Day 15 – Introduction to Large Language Models: Understanding Transformers, Attention Mechanism, Tokens, Context Window, Temperature, API Parameters, LLM Providers, Use Cases, Limitations, and Building a Basic AI Chatbot using API Integration.
-* ✅ Day 16 – LangChain Setup & First Chains: Understanding LangChain framework, LCEL (Expression Language), Prompt Templates, Document Loaders (Text, PDF, Web, CSV), and building a basic Document Q&A system using chained LLM workflows.
-* ✅ Day 17 – Text Embeddings & Semantic Search: Learned how embeddings represent text as numerical vectors and capture semantic relationships. Explored embedding models, vector spaces, and similarity techniques. Built practical implementations including sentence similarity comparison, semantic search over a knowledge base, and document similarity detection using cosine similarity and vector embeddings.
-* ✅ Day 18 – Text Splitters & Chunking Strategies: Learned how long documents are divided into smaller chunks for efficient embedding and retrieval in LLM systems. Explored different chunking methods including fixed-size, recursive, and semantic-aware splitting along with chunk size optimization and overlap techniques. Built practical implementations to compare chunking strategies, experiment with different chunk sizes for retrieval quality, and design a smart document processor that automatically detects document type (text, markdown, code), applies appropriate splitters, and preserves metadata for better context retention in downstream AI applications.
-* ✅ Day 19 - Compared different prompting techniques, design structured prompts, enforce output control 
-* ✅ Day 20 - Focused on structured outputs using Pydantic, implemented data validation, type safety, nested models, and ensured LLM-like outputs follow strict schemas with error handling and JSON serialization.
+* ✅ Day 8 - Lists & List Operations – Advanced List Operations, List Comprehensions, Student Grade Manager, Shopping Cart System, and Data Cleaning Pipeline
+* ✅ Day 9 - Tuples & Sets – Tuples, Tuple Packing & Unpacking, Sets, Set Operations, Geographic Coordinates System, Unique Visitor Tracker, and Email Validation System
+* ✅ Day 10: Dictionaries & JSON - Dictionaries, Dictionary Methods, Nested Dictionaries, JSON Handling, Dictionary Comprehension, Student Information System, Product Inventory Manager, and Configuration Manager
+* ✅ Day 11: Loops & Iteration - For Loops, While Loops, range(), enumerate(), zip(), Break Statement, Continue Statement, Else with Loops, Nested Loops, Data Processing Pipeline, Pattern Generators, Matrix Operations, Prime Number Finder, Factorial Calculator, Fibonacci Sequence, and Number Guessing Game.
+* ✅ Day 12: Functions Fundamentals - Function Definition, Parameters, Return Values, Positional Arguments, Keyword Arguments, Default Parameters, Argument Unpacking, Local & Global Scope, Function Design Principles, Docstrings, Math Utility Library, Text Processing Functions, and Validation Function Suite.
+* ✅ Day 13 – Advanced Functions - *args, **kwargs, Lambda Functions, map(), filter(), sorted(), List & Dictionary Comprehensions, Nested Comprehensions, Performance Comparison, Flexible Logger System, Data Transformer Suite, and Comprehension-based Data Processing.
+* ✅ Day 14 – Week 2 Review & Mini Project - Data Structures Comparison (List, Tuple, Set, Dictionary), Time Complexity Analysis, Contact Management System, CRUD Operations (Add, Search, Update, Delete Contacts), Tag Management using Sets, Advanced Search with Comprehensions, JSON File Handling (Save & Load), Statistics (Total Contacts, Most Used Tags), and CLI-based Interactive Menu System.
+* ✅ Day 15 – Introduction to Large Language Models - Understanding Transformers, Attention Mechanism, Tokens, Context Window, Temperature, API Parameters, LLM Providers, Use Cases, Limitations, and Building a Basic AI Chatbot using API Integration.
+* ✅ Day 16 – LangChain Setup & First Chains - Understanding LangChain framework, LCEL (Expression Language), Prompt Templates, Document Loaders (Text, PDF, Web, CSV), and building a basic Document Q&A system using chained LLM workflows.
+* ✅ Day 17 – Text Embeddings & Semantic Search - Learned how embeddings represent text as numerical vectors and capture semantic relationships. Explored embedding models, vector spaces, and similarity techniques. Built practical implementations including sentence similarity comparison, semantic search over a knowledge base, and document similarity detection using cosine similarity and vector embeddings.
+* ✅ Day 18 – Text Splitters & Chunking Strategies - Learned how long documents are divided into smaller chunks for efficient embedding and retrieval in LLM systems. Explored different chunking methods including fixed-size, recursive, and semantic-aware splitting along with chunk size optimization and overlap techniques. Built practical implementations to compare chunking strategies, experiment with different chunk sizes for retrieval quality, and design a smart document processor that automatically detects document type (text, markdown, code), applies appropriate splitters, and preserves metadata for better context retention in downstream AI applications.
+* ✅ Day 19: Prompt Engineering Mastery - Compared different prompting techniques, design structured prompts, enforce output control 
+* ✅ Day 20 - Structured Outputs with Pydantic - Focused on structured outputs using Pydantic, implemented data validation, type safety, nested models, and ensured LLM-like outputs follow strict schemas with error handling and JSON serialization.
 * ✅ Day 21 - Week 3 Presentations & Review - Integrated all Week 3 concepts into a complete Document Analyzer, including document loading, smart chunking with RecursiveCharacterTextSplitter, semantic search using embeddings, structured entity extraction with Pydantic, and generation of analysis reports through an end-to-end pipeline.
 * ✅ Day 22 - Vector Stores & Databases - Explored Vector Databases and implemented practical vector search workflows using FAISS and Chroma. Created vector stores from document embeddings, performed similarity search with top-K retrieval, implemented index save/load operations, added metadata-based filtering, and built a searchable document library. Compared FAISS and Chroma by measuring indexing time, query latency, memory usage, and retrieval performance, gaining hands-on experience with vector storage, semantic search, embeddings, and vector database evaluation.
 * ✅ Day 23 - RAG Pipeline Development – Implemented Retrieval Augmented Generation (RAG) pipelines and explored advanced retrieval techniques. Learned how document chunking, embeddings, vector stores, and similarity search work together to provide relevant context to LLMs. Built a complete RAG workflow by loading documents, splitting text into chunks, creating embeddings, storing vectors, retrieving relevant information, and generating context-aware responses. Improved understanding of semantic search, retrieval pipelines, prompt context, and AI knowledge augmentation.
@@ -356,6 +635,12 @@ Each folder contains:
 * ✅ Day 26 – LangChain Agents & Tool Calling -Explored the fundamentals of AI agents, including the ReAct (Reason → Act → Observe → Repeat) framework, autonomous decision-making, tool selection, and agent execution workflows. Studied different agent types, tool integration strategies, and challenges such as tool misuse, reasoning failures, and iteration control. Built custom tools including a Calculator Tool, Web Search Tool, RAG Search Tool, and Date/Time Tool with proper input handling and error management. Developed an agent system capable of analyzing user queries, selecting the appropriate tool, executing tasks, and returning structured results. Integrated the agent with FastAPI to expose API endpoints for interactive tool-based reasoning. Implemented conversation memory to retain previous interactions and maintain context across requests. Gained hands-on experience with agent architectures, tool calling workflows, retrieval integration, memory management, and AI-powered task automation.
 * ✅ Day 27: Weekend Integration - Full-Stack RAG Application - Designed and implemented a production-ready full-stack RAG (Retrieval-Augmented Generation) system with a scalable backend architecture using FastAPI, FAISS, LangChain, and Docker. Structured the project into modular components including API layer, document processing pipeline, vector database integration, and testing environment.
 * ✅ Day 28: Final Presentations & Portfolio Building – Final Presentation & Portfolio Building Finalized AI Document Intelligence project presentation, demo workflow, and GitHub portfolio documentation. Improved project README with architecture, features, and setup details.
+
+1.How to do pay load in get,post,delete,edit
+Chat gpt : https://chatgpt.com/c/6a3a17c3-1970-83ee-bc65-5487847eb217
+
+2.Inside post api want to insert both media upload and params can be different how to perform this the api should work
+Chat gpt : https://chatgpt.com/c/6a3a1da1-3bfc-83ee-8897-26ccd0507e7b
 
 ### Overall Progress
 

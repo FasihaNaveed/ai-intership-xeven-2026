@@ -27,11 +27,11 @@ export default function AuditLogsPage() {
       <div className="space-y-6 pb-10">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-gray-900">
-            Audit Logs
+            Access Audit
           </h1>
 
           <p className="text-gray-600 mt-2">
-            Monitor user activity and maintain enterprise compliance.
+            Monitor user activity, document access, and maintain enterprise compliance.
           </p>
         </div>
 

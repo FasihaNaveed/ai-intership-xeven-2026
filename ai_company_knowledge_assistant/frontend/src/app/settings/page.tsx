@@ -12,7 +12,7 @@ export default function SettingsPage() {
           </h1>
 
           <p className="text-gray-600 mt-2">
-            Configure application preferences and security settings.
+            Configure AI preferences, system behavior, and access policies.
           </p>
         </div>
 
@@ -95,20 +95,13 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Security Settings - moved to end */}
-        <div className="bg-white rounded-2xl border border-red-200 p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-red-600 mb-6">
-            Security Settings
+        {/* Access & Security Settings */}
+        <div className="bg-white rounded-2xl border border-blue-200 p-6 shadow-sm">
+          <h2 className="text-xl font-semibold text-blue-700 mb-6">
+            Access & Security
           </h2>
 
           <div className="space-y-5">
-            <div className="flex justify-between items-center border-b pb-3">
-              <span>Two Factor Authentication</span>
-              <span className="text-green-600 font-semibold">
-                Enabled
-              </span>
-            </div>
-
             <div className="flex justify-between items-center border-b pb-3">
               <span>Session Timeout</span>
               <span className="text-blue-600 font-semibold">
@@ -130,15 +123,8 @@ export default function SettingsPage() {
               </span>
             </div>
 
-            <div className="flex justify-between items-center border-b pb-3">
-              <span>Role Based Access Control</span>
-              <span className="text-green-600 font-semibold">
-                Enabled
-              </span>
-            </div>
-
             <div className="flex justify-between items-center">
-              <span>JWT Authentication</span>
+              <span>Role Based Access Control</span>
               <span className="text-green-600 font-semibold">
                 Enabled
               </span>

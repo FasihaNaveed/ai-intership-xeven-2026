@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #111827;
+  --navy: #0f172a;
+  --indigo: #6366f1;
 }
 
 @theme inline {
@@ -12,7 +14,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Force Light Theme */
+/* Force Light Theme & Strictly Remove Global Scrollbars */
 html,
 body {
   background: #ffffff;
@@ -20,6 +22,81 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+}
+
+/* =============================================
+   XEVEN SOLUTIONS DARK MODE
+   Brand: Deep Slate/Navy #0f172a, Indigo #6366f1
+   ============================================= */
+.dark,
+html.dark,
+.dark html,
+body.dark,
+.dark body {
+  background: #0B0F19 !important;
+  color: #e2e8f0 !important;
+}
+
+.dark .bg-slate-100,
+html.dark .bg-slate-100 {
+  background: #0B0F19 !important;
+}
+
+.dark .bg-white,
+html.dark .bg-white {
+  background: #111827 !important;
+}
+
+.dark .border-gray-200,
+html.dark .border-gray-200 {
+  border-color: #1e293b !important;
+}
+
+.dark .text-gray-900,
+html.dark .text-gray-900 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-gray-600,
+html.dark .text-gray-600 {
+  color: #94a3b8 !important;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  color: #e2e8f0 !important;
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+.dark option {
+  color: #e2e8f0;
+  background: #1e293b;
+}
+
+/* Dark custom scrollbar */
+.dark .custom-scrollbar::-webkit-scrollbar-thumb,
+html.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover,
+html.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.dark .custom-scrollbar,
+html.dark .custom-scrollbar {
+  scrollbar-color: #475569 transparent;
 }
 
 /* Inputs */
@@ -41,4 +118,48 @@ textarea::placeholder {
 option {
   color: #111827;
   background: #ffffff;
+}
+
+/* Custom thin scrollbar for internal containers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* Modal Backdrop animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-backdrop {
+  animation: fadeIn 0.15s ease-out;
+}
+
+.modal-content {
+  animation: slideUp 0.2s ease-out;
 }

@@ -27,6 +27,8 @@ import os
 import time
 
 from loguru import logger
+import logging # Use this library for logging, make your handler (file, console) through this library 
+
 
 
 Base.metadata.create_all(bind=engine)
@@ -105,6 +107,8 @@ def get_users():
             User
         ).all()
 
+        # Use sql alchemy functions for frtching, inserting of data in db
+
         result = []
 
         for user in users:
@@ -118,8 +122,14 @@ def get_users():
 
             })
 
+        content= {
+            "data": result,
+            "message": "",
+            "status": "success"
+        }
+
         return JSONResponse(
-            status_code=200,
+            status_code=200, # import status library from fastapi and then use status code from it
             content=result
         )
 
@@ -132,8 +142,7 @@ def get_users():
         return JSONResponse(
             status_code=500,
             content={
-                "message":
-                str(e)
+                "message": f"Error while getting users: {e}"
             }
         )
 
@@ -284,3 +293,5 @@ def delete_user(id: int):
                 str(e)
             }
         )
+    
+    #create through folder structure

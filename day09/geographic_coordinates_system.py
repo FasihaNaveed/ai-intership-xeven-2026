@@ -20,7 +20,6 @@ def calculate_distance(coord1, coord2):
 
     return math.sqrt((lat2 - lat1)**2 + (lon2 - lon1)**2)
 
-
 # Find closest city
 def closest_city(user_location):
     closest = None
@@ -35,14 +34,12 @@ def closest_city(user_location):
 
     return closest, min_distance
 
-
 # Example usage
 user_location = (32.0, 74.0)
 
 result = closest_city(user_location)
 
 print("Closest City:", result)
-
 
 # Tuple immutability demo
 location = ("Lahore", 31.5, 74.3)
@@ -51,8 +48,6 @@ try:
     location[0] = "Karachi"
 except TypeError as e:
     print("Immutability Error:", e)
-
-
 
 # HaverSine Formula
 # https://chatgpt.com/c/6a2e8421-ce38-83ee-b7b9-220b05bad38f

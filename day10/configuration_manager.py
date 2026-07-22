@@ -1,7 +1,5 @@
 import json
 
-
-
 def load_config():
 
     try:
@@ -12,15 +10,11 @@ def load_config():
 
             return config
 
-
     except FileNotFoundError:
 
         print("File not found")
 
         return {}
-
-
-
 
 def validate_config(config):
 
@@ -28,7 +22,6 @@ def validate_config(config):
         "database",
         "api_key"
     ]
-
 
     for key in required:
 
@@ -39,13 +32,9 @@ def validate_config(config):
             "missing"
             )
 
-
-
 config=load_config()
 
-
 validate_config(config)
-
 
 print(
 config.get(

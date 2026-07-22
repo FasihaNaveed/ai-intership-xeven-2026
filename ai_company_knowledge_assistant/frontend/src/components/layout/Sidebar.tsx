@@ -9,9 +9,9 @@ import {
   FiFileText,
   FiBarChart2,
   FiSettings,
-  FiUser,
   FiClock,
   FiShield,
+  FiBookOpen,
 } from "react-icons/fi";
 
 const menuSections = [
@@ -44,7 +44,12 @@ const menuSections = [
         href: "/documents",
       },
       {
-        title: "Analytics",
+        title: "Knowledge Base",
+        icon: FiBookOpen,
+        href: "/documents",
+      },
+      {
+        title: "Usage Insights",
         icon: FiBarChart2,
         href: "/analytics",
       },
@@ -54,7 +59,7 @@ const menuSections = [
     title: "SYSTEM",
     items: [
       {
-        title: "Audit Logs",
+        title: "Access Audit",
         icon: FiShield,
         href: "/audit-logs",
       },
@@ -62,11 +67,6 @@ const menuSections = [
         title: "Settings",
         icon: FiSettings,
         href: "/settings",
-      },
-      {
-        title: "Profile",
-        icon: FiUser,
-        href: "/profile",
       },
     ],
   },
@@ -88,52 +88,27 @@ export default function Sidebar({
   return (
 
     <aside
-      className={`fixed inset-y-0 left-0 z-40 w-72 bg-slate-950 border-r border-slate-800 text-white transition-transform duration-300 ${sidebarOpen
-        ? "translate-x-0"
-        : "-translate-x-full"
+      className={`fixed left-0 top-16 z-30 h-[calc(100vh-4rem)] w-72 bg-slate-950 border-r border-slate-800 text-white transition-transform duration-300 dark:bg-[#0B0F19] dark:border-slate-800 ${
+        sidebarOpen
+          ? "translate-x-0"
+          : "-translate-x-full"
         }`}
     >
 
-      <div className="flex h-screen flex-col">
-
-        {/* LOGO */}
-
-        <div className="border-b border-slate-800 px-5 py-2.5">
-
-          <div className="flex items-center gap-3">
-
-            <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 font-bold text-white">
-              AI
-            </div>
-
-            <div>
-
-              <h1 className="text-[15px] font-bold leading-tight">
-                AI Knowledge Assistant
-              </h1>
-
-              <p className="text-[11px] text-slate-400">
-                Enterprise Workspace
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
+      <div className="flex h-full flex-col">
 
         {/* MENU */}
 
-        <div className="flex-1 overflow-hidden px-4 py-1.5">
+        <div className="flex-1 overflow-y-auto custom-scrollbar px-4 py-4">
 
           {menuSections.map((section) => (
 
             <div
               key={section.title}
-              className="mb-3"
+              className="mb-4"
             >
 
-              <p className="mb-1 px-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-500">
+              <p className="mb-1.5 px-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-500">
                 {section.title}
               </p>
 
@@ -151,9 +126,10 @@ export default function Sidebar({
                     <Link
                       key={item.title}
                       href={item.href}
-                      className={`group flex items-center justify-between rounded-2xl px-4 py-1.5 transition-all duration-200 ${isActive
-                        ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/30"
-                        : "text-slate-300 hover:bg-slate-900 hover:text-white"
+                      className={`group flex items-center justify-between rounded-2xl px-4 py-2 transition-all duration-200 ${
+                        isActive
+                          ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/30"
+                          : "text-slate-300 hover:bg-slate-900 hover:text-white"
                         }`}
                     >
 
@@ -189,48 +165,6 @@ export default function Sidebar({
             </div>
 
           ))}
-
-        </div>
-
-        {/* USER PANEL */}
-
-        <div className="shrink-0 border-t border-slate-800 bg-slate-950 px-4 py-2.5">
-
-          <p className="text-xs uppercase tracking-wider text-slate-500">
-            Logged In
-          </p>
-
-          <div className="mt-2 flex items-center gap-3">
-
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 font-bold text-white">
-              F
-            </div>
-
-            <div>
-
-              <p className="text-sm font-semibold text-white">
-                Fasiha Naveed
-              </p>
-
-              <p className="text-xs text-slate-400">
-                Administrator
-              </p>
-
-            </div>
-
-          </div>
-
-          <div className="mt-2 rounded-xl bg-slate-900 p-2">
-
-            <p className="text-xs text-slate-500">
-              Organization
-            </p>
-
-            <p className="mt-1 text-sm font-medium text-white">
-              Xeven Solutions
-            </p>
-
-          </div>
 
         </div>
 
