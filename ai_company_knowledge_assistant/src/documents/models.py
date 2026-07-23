@@ -1,6 +1,7 @@
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy import Text
 from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy.sql import func
@@ -30,6 +31,11 @@ class Document(Base):
     file_path = Column(
         String,
         nullable=False
+    )
+
+    document_content = Column(
+        Text,
+        nullable=True
     )
 
     department = Column(

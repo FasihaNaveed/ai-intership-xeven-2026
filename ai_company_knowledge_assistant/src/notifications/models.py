@@ -2,18 +2,18 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    Text,
     DateTime,
+    Boolean,
     ForeignKey
 )
 
-from datetime import datetime, timezone
+from sqlalchemy.sql import func
 
 from src.base import Base
 
 
-class ChatMessage(Base):
-    __tablename__ = "chat_messages"
+class Notification(Base):
+    __tablename__ = "notifications"
 
     id = Column(
         Integer,
@@ -24,31 +24,27 @@ class ChatMessage(Base):
     user_id = Column(
         Integer,
         ForeignKey("users.id"),
-        nullable=False
-    )
-
-    conversation_id = Column(
-        Integer,
-        ForeignKey("conversations.id"),
         nullable=True
     )
 
-    question = Column(
-        Text,
+    type = Column(
+        String,
+        nullable=False,
+        default="info"
+    )
+
+    message = Column(
+        String,
         nullable=False
     )
 
-    answer = Column(
-        Text,
-        nullable=False
-    )
-
-    sources = Column(
-        Text,
-        nullable=True
+    is_read = Column(
+        Boolean,
+        default=False
     )
 
     created_at = Column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc)
+        server_default=func.now()
     )
+

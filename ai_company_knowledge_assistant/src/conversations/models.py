@@ -6,7 +6,7 @@ from sqlalchemy import (
     ForeignKey
 )
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from src.base import Base
 
@@ -32,12 +32,12 @@ class Conversation(Base):
     )
 
     created_at = Column(
-        DateTime,
-        default=datetime.utcnow
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc)
     )
 
     updated_at = Column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow
+        DateTime(timezone=True),
+        default=lambda: datetime.now(timezone.utc),
+        onupdate=lambda: datetime.now(timezone.utc)
     )

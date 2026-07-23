@@ -46,7 +46,7 @@ const menuSections = [
       {
         title: "Knowledge Base",
         icon: FiBookOpen,
-        href: "/documents",
+        href: "/knowledge-base",
       },
       {
         title: "Usage Insights",
@@ -126,10 +126,10 @@ export default function Sidebar({
                     <Link
                       key={item.title}
                       href={item.href}
-                      className={`group flex items-center justify-between rounded-2xl px-4 py-2 transition-all duration-200 ${
+                      className={`group flex items-center justify-between rounded-2xl px-4 py-2.5 transition-all duration-200 ${
                         isActive
-                          ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-900/30"
-                          : "text-slate-300 hover:bg-slate-900 hover:text-white"
+                          ? "bg-blue-500/10 text-blue-400 font-semibold shadow-sm shadow-blue-900/10 border border-blue-500/20"
+                          : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
                         }`}
                     >
 

@@ -11,6 +11,7 @@ import {
   FiUser,
   FiMail,
   FiShield,
+  FiSettings,
   FiSun,
   FiMoon,
   FiX,
@@ -23,6 +24,13 @@ import {
   FiFileText,
 } from "react-icons/fi";
 import { useTheme } from "../../context/ThemeContext";
+import {
+  getNotifications,
+  markAsRead,
+  markAllAsRead as markAllReadApi,
+  getUnreadCount,
+  NotificationItem,
+} from "@/services/notificationsService";
 
 interface NavbarProps {
   sidebarOpen: boolean;
@@ -37,13 +45,6 @@ interface UserData {
   email: string;
   role: string;
   organization: string;
-}
-
-interface Notification {
-  id: number;
-  type: "indexed" | "alert" | "success";
-  message: string;
-  time: string;
 }
 
 export default function Navbar({
@@ -65,36 +66,57 @@ export default function Navbar({
   const notifRef = useRef<HTMLDivElement>(null);
   const helpRef = useRef<HTMLDivElement>(null);
 
-  // Sample notifications data with read state
-  const [allNotifications, setAllNotifications] = useState<Notification[]>([
-    { id: 1, type: "indexed", message: "Employee Handbook (v2) vector indexing completed", time: "2 min ago" },
-    { id: 2, type: "alert", message: "Document upload threshold at 85% capacity", time: "15 min ago" },
-    { id: 3, type: "success", message: "SOP documents batch indexed successfully", time: "1 hour ago" },
-    { id: 4, type: "indexed", message: "New policy document added to Knowledge Base", time: "2 hours ago" },
-    { id: 5, type: "alert", message: "Embedding API rate limit approaching (78% used)", time: "3 hours ago" },
-  ]);
+  // Dynamic notifications from backend API
+  const [allNotifications, setAllNotifications] = useState<NotificationItem[]>([]);
   const [readIds, setReadIds] = useState<Set<number>>(new Set());
   const [notifTab, setNotifTab] = useState<"all" | "unread">("all");
+  const [unreadCount, setUnreadCount] = useState(0);
 
-  const markAllAsRead = () => {
-    setReadIds(new Set(allNotifications.map((n) => n.id)));
+  const loadNotifications = async () => {
+    try {
+      const notifs = await getNotifications();
+      setAllNotifications(notifs);
+      const count = await getUnreadCount();
+      setUnreadCount(count);
+    } catch (error) {
+      console.error("Failed to load notifications:", error);
+    }
   };
 
-  const toggleRead = (id: number) => {
-    setReadIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  useEffect(() => {
+    if (notificationsOpen) {
+      loadNotifications();
+    }
+  }, [notificationsOpen]);
+
+  const markAllAsRead = async () => {
+    try {
+      await markAllReadApi();
+      setReadIds(new Set(allNotifications.map((n) => n.id)));
+      setUnreadCount(0);
+    } catch (error) {
+      console.error("Failed to mark all as read:", error);
+    }
+  };
+
+  const toggleRead = async (id: number) => {
+    try {
+      await markAsRead(id);
+      setReadIds((prev) => {
+        const next = new Set(prev);
+        next.add(id);
+        return next;
+      });
+      setUnreadCount((prev) => Math.max(0, prev - 1));
+    } catch (error) {
+      console.error("Failed to mark as read:", error);
+    }
   };
 
   const filteredNotifications = allNotifications.filter((n) => {
-    if (notifTab === "unread") return !readIds.has(n.id);
+    if (notifTab === "unread") return !readIds.has(n.id) && !n.is_read;
     return true;
   });
-
-  const unreadCount = allNotifications.filter((n) => !readIds.has(n.id)).length;
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -136,6 +158,8 @@ export default function Navbar({
       ? "Settings"
       : pathname === "/profile"
       ? "Profile"
+      : pathname === "/knowledge-base"
+      ? "Knowledge Base"
       : pathname.replace("/", "").replace("-", " ");
 
   const handleLogout = () => {
@@ -146,20 +170,20 @@ export default function Navbar({
 
   const userInitial = user?.full_name?.charAt(0)?.toUpperCase() || "U";
 
-  const getNotifIcon = (type: Notification["type"]) => {
-    switch (type) {
-      case "indexed": return <FiFileText size={14} className="text-blue-500" />;
-      case "alert": return <FiAlertCircle size={14} className="text-amber-500" />;
-      case "success": return <FiCheckCircle size={14} className="text-emerald-500" />;
-    }
+  const getNotifIcon = (notification: NotificationItem) => {
+    const type = notification.type;
+    if (type === "info" || type === "indexed") return <FiFileText size={14} className="text-blue-500" />;
+    if (type === "alert" || type === "warning") return <FiAlertCircle size={14} className="text-amber-500" />;
+    if (type === "success") return <FiCheckCircle size={14} className="text-emerald-500" />;
+    return <FiFileText size={14} className="text-blue-500" />;
   };
 
-  const getNotifBg = (type: Notification["type"]) => {
-    switch (type) {
-      case "indexed": return "bg-blue-50";
-      case "alert": return "bg-amber-50";
-      case "success": return "bg-emerald-50";
-    }
+  const getNotifBg = (notification: NotificationItem) => {
+    const type = notification.type;
+    if (type === "info" || type === "indexed") return "bg-blue-50";
+    if (type === "alert" || type === "warning") return "bg-amber-50";
+    if (type === "success") return "bg-emerald-50";
+    return "bg-slate-50";
   };
 
   return (
@@ -274,19 +298,21 @@ export default function Navbar({
                       <div
                         key={n.id}
                         onClick={() => toggleRead(n.id)}
-                        className={`flex items-start gap-3 px-5 py-3 border-b border-slate-50 dark:border-slate-700/50 ${getNotifBg(n.type)} dark:bg-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50 transition cursor-pointer ${
-                          readIds.has(n.id) ? "opacity-60" : ""
+                        className={`flex items-start gap-3 px-5 py-3 border-b border-slate-50 dark:border-slate-700/50 ${getNotifBg(n)} dark:bg-transparent hover:bg-slate-50 dark:hover:bg-slate-700/50 transition cursor-pointer ${
+                          readIds.has(n.id) || n.is_read ? "opacity-60" : ""
                         }`}
                       >
                         <div className="mt-0.5 flex h-7 w-7 items-center justify-center rounded-full bg-white dark:bg-slate-700 shadow-sm">
-                          {getNotifIcon(n.type)}
+                          {getNotifIcon(n)}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-slate-700 dark:text-slate-300 leading-tight">{n.message}</p>
                           <div className="flex items-center gap-1 mt-1">
                             <FiClock size={10} className="text-slate-400" />
-                            <span className="text-[10px] text-slate-400 dark:text-slate-500">{n.time}</span>
-                            {!readIds.has(n.id) && (
+                            <span className="text-[10px] text-slate-400 dark:text-slate-500">
+                              {n.created_at ? new Date(n.created_at).toLocaleString() : ""}
+                            </span>
+                            {!readIds.has(n.id) && !n.is_read && (
                               <span className="ml-2 h-1.5 w-1.5 rounded-full bg-blue-500 dark:bg-indigo-400" />
                             )}
                           </div>
@@ -413,7 +439,7 @@ export default function Navbar({
             )}
           </div>
 
-          {/* Profile Dropdown */}
+          {/* Profile Dropdown - CLEANED: Only action items */}
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => {
@@ -444,30 +470,19 @@ export default function Navbar({
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 mt-2 w-72 rounded-2xl border border-slate-200 bg-white shadow-xl ring-1 ring-black/5 z-50 overflow-hidden dark:border-slate-700 dark:bg-slate-800">
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4 text-white">
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 font-bold text-white text-lg backdrop-blur">
-                      {userInitial}
-                    </div>
-                    <div>
-                      <p className="font-bold text-base">{user?.full_name || "User"}</p>
-                      <p className="text-sm text-blue-100">{user?.role || "Employee"}</p>
-                    </div>
+              <div className="absolute right-0 mt-2 w-64 rounded-2xl border border-slate-200 bg-white shadow-xl ring-1 ring-black/5 z-50 overflow-hidden dark:border-slate-700 dark:bg-slate-800">
+                {/* Simple avatar header */}
+                <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-100 dark:border-slate-700">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 font-bold text-white text-sm">
+                    {userInitial}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-white">{user?.full_name || "User"}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{user?.role || "Employee"}</p>
                   </div>
                 </div>
 
-                <div className="px-5 py-3 space-y-0.5 border-b border-slate-100 dark:border-slate-700">
-                  <div className="flex items-center gap-3 py-2">
-                    <FiMail size={15} className="text-slate-400 dark:text-slate-500" />
-                    <span className="text-sm text-slate-600 dark:text-slate-300">{user?.email || "user@company.com"}</span>
-                  </div>
-                  <div className="flex items-center gap-3 py-2">
-                    <FiShield size={15} className="text-slate-400 dark:text-slate-500" />
-                    <span className="text-sm text-slate-600 dark:text-slate-300">{user?.organization || "Xeven Solutions"}</span>
-                  </div>
-                </div>
-
+                {/* ONLY action items */}
                 <div className="px-3 py-2">
                   <button
                     onClick={() => {
@@ -480,7 +495,10 @@ export default function Navbar({
                     <span>View Profile</span>
                   </button>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      setProfileOpen(false);
+                      handleLogout();
+                    }}
                     className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
                   >
                     <FiLogOut size={16} />
@@ -495,3 +513,4 @@ export default function Navbar({
     </header>
   );
 }
+

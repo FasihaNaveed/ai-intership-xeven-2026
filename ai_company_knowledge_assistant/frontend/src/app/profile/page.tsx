@@ -46,7 +46,7 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+        <div className="backdrop-blur-md bg-white/80 dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800/80 p-8 shadow-sm transition-all duration-200 hover:shadow-md">
 
           <div className="flex items-center gap-6 mb-8">
 

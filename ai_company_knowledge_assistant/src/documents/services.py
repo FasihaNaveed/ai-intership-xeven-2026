@@ -23,6 +23,14 @@ from src.audit_logs.services import (
     AuditLogService
 )
 
+from src.notifications.services import (
+    NotificationService
+)
+
+from src.notifications.schemas import (
+    NotificationCreate
+)
+
 
 class DocumentService:
 
@@ -190,6 +198,7 @@ class DocumentService:
             document_name=payload.document_name,
             file_name=file_name,
             file_path=file_path,
+            document_content=extracted_text if extracted_text else None,
             department=payload.department,
             document_type=payload.document_type,
             tags=payload.tags,
@@ -215,6 +224,15 @@ class DocumentService:
             db=db
         )
 
+        # Create notification for document upload
+        await NotificationService.create_notification(
+            NotificationCreate(
+                type="success",
+                message=f"Document '{document.document_name}' has been uploaded and indexed successfully."
+            ),
+            db
+        )
+
         return document
 
     @staticmethod
@@ -231,6 +249,75 @@ class DocumentService:
         )
 
         return result.scalars().all()
+
+    @staticmethod
+    async def get_document_by_id(
+        document_id: int,
+        db: AsyncSession
+    ):
+
+        query = select(
+            Document
+        ).where(
+            Document.id == document_id
+        )
+
+        result = await db.execute(
+            query
+        )
+
+        return result.scalar_one_or_none()
+
+    @staticmethod
+    async def update_document(
+        document_id: int,
+        payload,
+        db: AsyncSession
+    ):
+
+        query = select(
+            Document
+        ).where(
+            Document.id == document_id
+        )
+
+        result = await db.execute(
+            query
+        )
+
+        document = result.scalar_one_or_none()
+
+        if not document:
+            return None
+
+        update_data = payload.model_dump(
+            exclude_unset=True
+        )
+
+        for key, value in update_data.items():
+            if value is not None:
+                setattr(
+                    document,
+                    key,
+                    value
+                )
+
+        await db.commit()
+
+        await db.refresh(
+            document
+        )
+
+        # Save Audit Log
+        await AuditLogService.create_log(
+            user_id=None,
+            user_name="Employee",
+            action="Updated Document",
+            resource=document.document_name,
+            db=db
+        )
+
+        return document
 
     @staticmethod
     async def delete_document(
@@ -273,6 +360,15 @@ class DocumentService:
             action="Deleted Document",
             resource=document_name,
             db=db
+        )
+
+        # Create notification for document deletion
+        await NotificationService.create_notification(
+            NotificationCreate(
+                type="alert",
+                message=f"Document '{document_name}' has been deleted from the knowledge base."
+            ),
+            db
         )
 
         return {

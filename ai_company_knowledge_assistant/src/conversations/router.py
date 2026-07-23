@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_db
@@ -42,12 +42,14 @@ async def create_conversation(
 async def get_conversations(
     page_no: int = 1,
     page_size: int = 10,
+    user_id: Optional[int] = Query(None),
     db: AsyncSession = Depends(get_db)
 ):
     return await ConversationService.get_conversations(
         db=db,
         page_no=page_no,
-        page_size=page_size
+        page_size=page_size,
+        user_id=user_id
     )
 
 

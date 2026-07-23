@@ -12,7 +12,7 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="h-screen overflow-hidden bg-slate-100 dark:bg-[#0f172a]">
+    <div className="h-screen overflow-hidden bg-slate-50/50 dark:bg-slate-950">
 
       {/* Navbar - Sticky at top full-width */}
       <Navbar
@@ -31,7 +31,7 @@ export default function DashboardLayout({
 
         {/* Main Content Area - Scrollable with custom scrollbar */}
         <main
-          className={`flex-1 overflow-y-auto custom-scrollbar bg-slate-100 dark:bg-[#0f172a] text-slate-900 dark:text-slate-200 transition-all duration-300 ${
+          className={`flex-1 overflow-y-auto custom-scrollbar bg-slate-50/80 dark:bg-[#0B0F19] text-slate-900 dark:text-slate-200 transition-all duration-300 ${
             sidebarOpen ? "lg:ml-72" : "ml-0"
           }`}
         >

@@ -19,12 +19,9 @@ import {
     FiEdit2,
     FiEye,
     FiTrash2,
-    FiChevronDown,
-    FiChevronUp,
     FiSave,
     FiAlertTriangle,
     FiCheck,
-    FiInfo,
 } from "react-icons/fi";
 
 interface FormErrors {
@@ -65,8 +62,6 @@ export default function DocumentsPage() {
     const [department, setDepartment] = useState("");
     const [documentType, setDocumentType] = useState("");
     const [tags, setTags] = useState("");
-    const [assignedDepartments, setAssignedDepartments] = useState<string[]>([]);
-    const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 
     const [file, setFile] = useState<File | null>(null);
     const [editingFileName, setEditingFileName] = useState(false);
@@ -177,14 +172,6 @@ export default function DocumentsPage() {
         setFileNameEditValue("");
     };
 
-    const toggleDepartment = (dept: string) => {
-        setAssignedDepartments((prev) =>
-            prev.includes(dept)
-                ? prev.filter((d) => d !== dept)
-                : [...prev, dept]
-        );
-    };
-
     const validateForm = (): boolean => {
         const newErrors: FormErrors = {};
         if (!documentName.trim()) newErrors.documentName = "Document name is required.";
@@ -206,10 +193,6 @@ export default function DocumentsPage() {
             formData.append("tags", tags);
             formData.append("file", file!);
 
-            if (assignedDepartments.length > 0) {
-                assignedDepartments.forEach((dept) => formData.append("departments", dept));
-            }
-
             await uploadDocument(formData);
 
             setDocumentName("");
@@ -219,14 +202,18 @@ export default function DocumentsPage() {
             setFile(null);
             setEditingFileName(false);
             setFileNameEditValue("");
-            setAssignedDepartments([]);
             setErrors({});
             await loadDocuments();
 
             setActiveModal("success");
-        } catch (error) {
+        } catch (error: any) {
             console.error(error);
-            setErrors((prev) => ({ ...prev, file: "Upload failed. Please try again." }));
+            if (error?.response?.status === 409) {
+                const msg = error?.response?.data?.detail || "Document already exists in the system.";
+                setErrors((prev) => ({ ...prev, documentName: msg }));
+            } else {
+                setErrors((prev) => ({ ...prev, file: "Upload failed. Please try again." }));
+            }
         } finally {
             setUploading(false);
         }
@@ -265,35 +252,8 @@ export default function DocumentsPage() {
     const confirmEdit = async () => {
         if (!selectedDoc || !editNameValue.trim()) return;
 
-        // Build local updates object
-        const localUpdates: Partial<Document> = {};
-        if (editNameValue.trim() !== selectedDoc.document_name) {
-            localUpdates.document_name = editNameValue.trim();
-        }
-        if (editDepartmentValue !== selectedDoc.department) {
-            localUpdates.department = editDepartmentValue;
-        }
-        if (editContentValue.trim()) {
-            localUpdates.document_content = editContentValue.trim();
-        }
-
-        // Always update local state immediately for instant reflection
-        if (Object.keys(localUpdates).length > 0) {
-            setDocuments((prev) =>
-                prev.map((d) =>
-                    d.id === selectedDoc.id
-                        ? { ...d, ...localUpdates }
-                        : d
-                )
-            );
-        }
-
         try {
             setModalLoading(true);
-            // Also set selectedDoc so the edit modal itself reflects the new name
-            setSelectedDoc((prev) =>
-                prev ? { ...prev, ...localUpdates } : prev
-            );
 
             const updateData: Record<string, string> = {};
             if (editNameValue.trim() !== selectedDoc.document_name) {
@@ -310,14 +270,18 @@ export default function DocumentsPage() {
                 await updateDocument(selectedDoc.id, updateData);
             }
 
-            setToastMessage("Document updated successfully (Local Workspace).");
+            // Re-fetch documents to get fresh data from backend
+            await loadDocuments();
+
+            setToastMessage("Document updated successfully.");
             setTimeout(() => setToastMessage(""), 4000);
             closeModal();
         } catch (error) {
             console.error(error);
-            // Local state already updated above, just show toast
-            setToastMessage("Document updated successfully (Local Workspace).");
+            setToastMessage("Document updated (local changes applied).");
             setTimeout(() => setToastMessage(""), 4000);
+            // Still re-fetch to sync
+            await loadDocuments();
             closeModal();
         } finally {
             setModalLoading(false);
@@ -382,11 +346,12 @@ export default function DocumentsPage() {
             } else {
                 // Check if file URL is available
                 const fileUrl = apiDoc.file_url || (apiDoc.file_name
-                    ? `http://localhost:8000/uploads/${apiDoc.file_name}`
+                    ? `/uploads/${apiDoc.file_name}`
                     : `http://localhost:8000/documents/${doc.id}/file`);
                 try {
                     const headResponse = await fetch(fileUrl, { method: "HEAD" });
                     if (headResponse.ok) {
+                        console.log(fileUrl)
                         window.open(fileUrl, "_blank", "noopener,noreferrer");
                     } else {
                         throw new Error("File not accessible");
@@ -444,8 +409,8 @@ export default function DocumentsPage() {
                 </div>
 
                 {/* Upload Section */}
-                <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm dark:bg-slate-800 dark:border-slate-700">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-6 dark:text-white">
+        <div className="bg-white/80 backdrop-blur-md dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800/80 p-6 shadow-sm transition-all duration-200 hover:shadow-md">
+                    <h2 className="text-xl font-semibold text-slate-900 mb-6 dark:text-white">
                         Upload New Document
                     </h2>
 
@@ -466,37 +431,47 @@ export default function DocumentsPage() {
                             {errors.documentName && <p className="mt-1.5 text-sm text-red-500">{errors.documentName}</p>}
                         </div>
 
-                        {/* Department */}
+                        {/* Department - Custom Dropdown */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-slate-300">Department</label>
-                            <select
-                                value={department}
-                                onChange={(e) => {
-                                    setDepartment(e.target.value);
-                                    if (e.target.value.trim()) setErrors((prev) => ({ ...prev, department: undefined }));
-                                }}
-                                className={`w-full rounded-xl border bg-white px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:text-slate-200 ${errors.department ? "border-red-400 ring-2 ring-red-200" : "border-gray-300 dark:border-slate-600"}`}
-                            >
-                                <option value="">Select Department</option>
-                                {departmentOptions.map((dept) => (<option key={dept} value={dept}>{dept}</option>))}
-                            </select>
+                            <div className="relative">
+                                <select
+                                    value={department}
+                                    onChange={(e) => {
+                                        setDepartment(e.target.value);
+                                        if (e.target.value.trim()) setErrors((prev) => ({ ...prev, department: undefined }));
+                                    }}
+                                    className={`w-full rounded-xl border appearance-none bg-white px-4 py-3 pr-10 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-600 ${errors.department ? "border-red-400 ring-2 ring-red-200" : "border-gray-300 dark:border-slate-600"}`}
+                                >
+                                    <option value="">Select Department</option>
+                                    {departmentOptions.map((dept) => (<option key={dept} value={dept}>{dept}</option>))}
+                                </select>
+                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <svg className="h-4 w-4 text-gray-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                                </div>
+                            </div>
                             {errors.department && <p className="mt-1.5 text-sm text-red-500">{errors.department}</p>}
                         </div>
 
-                        {/* Document Type */}
+                        {/* Document Type - Custom Dropdown */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-slate-300">Document Type</label>
-                            <select
-                                value={documentType}
-                                onChange={(e) => {
-                                    setDocumentType(e.target.value);
-                                    if (e.target.value.trim()) setErrors((prev) => ({ ...prev, documentType: undefined }));
-                                }}
-                                className={`w-full rounded-xl border bg-white px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:text-slate-200 ${errors.documentType ? "border-red-400 ring-2 ring-red-200" : "border-gray-300 dark:border-slate-600"}`}
-                            >
-                                <option value="">Select Type</option>
-                                {documentTypeOptions.map((type) => (<option key={type} value={type}>{type}</option>))}
-                            </select>
+                            <div className="relative">
+                                <select
+                                    value={documentType}
+                                    onChange={(e) => {
+                                        setDocumentType(e.target.value);
+                                        if (e.target.value.trim()) setErrors((prev) => ({ ...prev, documentType: undefined }));
+                                    }}
+                                    className={`w-full rounded-xl border appearance-none bg-white px-4 py-3 pr-10 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-600 ${errors.documentType ? "border-red-400 ring-2 ring-red-200" : "border-gray-300 dark:border-slate-600"}`}
+                                >
+                                    <option value="">Select Type</option>
+                                    {documentTypeOptions.map((type) => (<option key={type} value={type}>{type}</option>))}
+                                </select>
+                                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <svg className="h-4 w-4 text-gray-500 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                                </div>
+                            </div>
                             {errors.documentType && <p className="mt-1.5 text-sm text-red-500">{errors.documentType}</p>}
                         </div>
 
@@ -560,28 +535,6 @@ export default function DocumentsPage() {
                             </div>
                         )}
                         {errors.file && <p className="mt-1.5 text-sm text-red-500">{errors.file}</p>}
-                    </div>
-
-                    {/* Advanced Options Toggle */}
-                    <div className="mt-6">
-                        <button onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
-                            className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition dark:text-blue-400 dark:hover:text-blue-300">
-                            {showAdvancedOptions ? <FiChevronUp size={16} /> : <FiChevronDown size={16} />}
-                            Advanced Options
-                        </button>
-                        {showAdvancedOptions && (
-                            <div className="mt-4 p-4 rounded-xl bg-gray-50 border border-gray-200 dark:bg-slate-700/50 dark:border-slate-600">
-                                <label className="block text-sm font-medium text-gray-700 mb-3 dark:text-slate-300">Assign to Departments</label>
-                                <div className="flex flex-wrap gap-2">
-                                    {departmentOptions.map((dept) => (
-                                        <button key={dept} onClick={() => toggleDepartment(dept)}
-                                            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition border ${assignedDepartments.includes(dept) ? "bg-blue-600 text-white border-blue-600" : "bg-white text-gray-700 border-gray-300 hover:border-blue-400 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-500 dark:hover:border-blue-500"}`}
-                                        >{dept}</button>
-                                    ))}
-                                </div>
-                                {assignedDepartments.length > 0 && (<p className="mt-2 text-xs text-gray-500 dark:text-slate-400">Selected: {assignedDepartments.join(", ")}</p>)}
-                            </div>
-                        )}
                     </div>
 
                     {/* Submit Button */}
@@ -668,15 +621,19 @@ export default function DocumentsPage() {
 
             {/* === EDIT DOCUMENT MODAL (Title + Content) === */}
             {activeModal === "edit" && selectedDoc && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 modal-backdrop">
-                    <div className="absolute inset-0 bg-black/50" onClick={closeModal} />
-                    <div className="relative w-full max-w-lg rounded-2xl bg-white dark:bg-slate-800 shadow-2xl border border-amber-200 dark:border-amber-900/50 p-6 modal-content">
-                        <div className="flex flex-col">
-                            <div className="flex items-center justify-between mb-6">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-hidden">
+                    <div className="absolute inset-0" onClick={closeModal} />
+                    <div className="relative w-full max-w-2xl max-h-[85vh] h-auto flex flex-col bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        {/* Header */}
+                        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 shrink-0">
+                            <div className="flex items-center justify-between">
                                 <h3 className="text-xl font-bold text-gray-900 dark:text-white">Edit Document</h3>
                                 <button onClick={closeModal} className="rounded-xl p-1.5 hover:bg-gray-100 dark:hover:bg-slate-700 transition"><FiX size={18} className="text-gray-400" /></button>
                             </div>
-                            <div className="inline-flex items-center gap-2 rounded-lg bg-amber-50 dark:bg-amber-900/10 px-4 py-2 mb-4 border border-amber-100 dark:border-amber-900/30">
+                        </div>
+                        {/* Scrollable Content */}
+                        <div className="p-6 overflow-y-auto space-y-4 flex-1">
+                            <div className="inline-flex items-center gap-2 rounded-lg bg-amber-50 dark:bg-amber-900/10 px-4 py-2 border border-amber-100 dark:border-amber-900/30">
                                 <FiFile size={14} className="text-amber-500" />
                                 <span className="text-sm font-medium text-amber-700 dark:text-amber-400">{selectedDoc.document_name}</span>
                             </div>
@@ -686,7 +643,7 @@ export default function DocumentsPage() {
                                 placeholder="Enter new document title" autoFocus
                                 onKeyDown={(e) => { if (e.key === "Enter") confirmEdit(); if (e.key === "Escape") closeModal(); }}
                             />
-                            <label className="block text-sm font-medium text-gray-700 mb-2 mt-4 dark:text-slate-300">Department</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-slate-300">Department</label>
                             <select
                                 value={editDepartmentValue}
                                 onChange={(e) => setEditDepartmentValue(e.target.value)}
@@ -695,18 +652,21 @@ export default function DocumentsPage() {
                                 <option value="">Select Department</option>
                                 {departmentOptions.map((dept) => (<option key={dept} value={dept}>{dept}</option>))}
                             </select>
-                            <label className="block text-sm font-medium text-gray-700 mb-2 mt-4 dark:text-slate-300">Document Content</label>
-                            <textarea
-                                value={editContentValue}
-                                onChange={(e) => setEditContentValue(e.target.value)}
-                                rows={4}
-                                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-500 dark:bg-slate-900 dark:text-slate-200 dark:border-slate-600 resize-vertical"
-                                placeholder="Edit document text content here..."
-                            />
-                            <div className="flex gap-3 mt-6">
-                                <button onClick={closeModal} className="flex-1 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancel</button>
-                                <button onClick={confirmEdit} disabled={modalLoading || !editNameValue.trim()} className="flex-1 rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-amber-700 transition disabled:bg-amber-400 dark:bg-amber-700 dark:hover:bg-amber-600">{modalLoading ? "Saving..." : "Save Changes"}</button>
+                            <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-slate-300">Document Content</label>
+                            <div className="max-h-60 overflow-y-auto rounded-xl border border-gray-300 bg-white dark:bg-slate-900 dark:border-slate-600">
+                                <textarea
+                                    value={editContentValue}
+                                    onChange={(e) => setEditContentValue(e.target.value)}
+                                    rows={4}
+                                    className="w-full px-4 py-3 text-gray-900 dark:text-slate-200 focus:outline-none resize-vertical bg-transparent"
+                                    placeholder="Edit document text content here..."
+                                />
                             </div>
+                        </div>
+                        {/* Footer */}
+                        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 shrink-0 flex justify-end gap-3 bg-slate-50/50 dark:bg-slate-900/50">
+                            <button onClick={closeModal} className="flex-1 rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600 dark:hover:bg-slate-600">Cancel</button>
+                            <button onClick={confirmEdit} disabled={modalLoading || !editNameValue.trim()} className="flex-1 rounded-xl bg-amber-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-amber-700 transition disabled:bg-amber-400 dark:bg-amber-700 dark:hover:bg-amber-600">{modalLoading ? "Saving..." : "Save Changes"}</button>
                         </div>
                     </div>
                 </div>
@@ -714,14 +674,18 @@ export default function DocumentsPage() {
 
             {/* === VIEW DOCUMENT MODAL === */}
             {activeModal === "view" && selectedDoc && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 modal-backdrop">
-                    <div className="absolute inset-0 bg-black/50" onClick={closeModal} />
-                    <div className="relative w-full max-w-lg rounded-2xl bg-white dark:bg-slate-800 shadow-2xl border border-blue-200 dark:border-blue-900/50 overflow-hidden modal-content">
-                        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-4 text-white flex items-center justify-between">
-                            <h3 className="text-lg font-bold">Document Details</h3>
-                            <button onClick={closeModal} className="rounded-xl p-1 hover:bg-white/20 transition"><FiX size={18} /></button>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-hidden">
+                    <div className="absolute inset-0" onClick={closeModal} />
+                    <div className="relative w-full max-w-2xl max-h-[85vh] h-auto flex flex-col bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        {/* Header */}
+                        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 shrink-0">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Document Details</h3>
+                                <button onClick={closeModal} className="rounded-xl p-1.5 hover:bg-gray-100 dark:hover:bg-slate-700 transition"><FiX size={18} className="text-gray-400" /></button>
+                            </div>
                         </div>
-                        <div className="p-6 space-y-4">
+                        {/* Scrollable Content */}
+                        <div className="p-6 overflow-y-auto space-y-4 flex-1">
                             <div>
                                 <p className="text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide">Name</p>
                                 <p className="text-base font-semibold text-gray-900 dark:text-white mt-1">{selectedDoc.document_name}</p>
@@ -753,7 +717,8 @@ export default function DocumentsPage() {
                                 </div>
                             )}
                         </div>
-                        <div className="px-6 py-4 border-t border-gray-100 dark:border-slate-700 flex items-center justify-between gap-3">
+                        {/* Footer */}
+                        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 shrink-0 flex justify-end gap-3 bg-slate-50/50 dark:bg-slate-900/50">
                             <button
                                 onClick={() => {
                                     const fileUrl = selectedDoc.file_name
@@ -773,14 +738,18 @@ export default function DocumentsPage() {
 
             {/* === VIEW FALLBACK MODAL (File not found) === */}
             {activeModal === "view-fallback" && viewFallbackPreview && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 modal-backdrop">
-                    <div className="absolute inset-0 bg-black/50" onClick={closeModal} />
-                    <div className="relative w-full max-w-lg rounded-2xl bg-white dark:bg-slate-800 shadow-2xl border border-amber-200 dark:border-amber-900/50 overflow-hidden modal-content">
-                        <div className="bg-gradient-to-r from-amber-500 to-orange-600 px-6 py-4 text-white flex items-center justify-between">
-                            <h3 className="text-lg font-bold">Document Preview</h3>
-                            <button onClick={closeModal} className="rounded-xl p-1 hover:bg-white/20 transition"><FiX size={18} /></button>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-hidden">
+                    <div className="absolute inset-0" onClick={closeModal} />
+                    <div className="relative w-full max-w-2xl max-h-[85vh] h-auto flex flex-col bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+                        {/* Header */}
+                        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 shrink-0">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Document Preview</h3>
+                                <button onClick={closeModal} className="rounded-xl p-1.5 hover:bg-gray-100 dark:hover:bg-slate-700 transition"><FiX size={18} className="text-gray-400" /></button>
+                            </div>
                         </div>
-                        <div className="p-6 space-y-4">
+                        {/* Scrollable Content */}
+                        <div className="p-6 overflow-y-auto space-y-4 flex-1">
                             {/* Simulated Preview Box */}
                             <div className="rounded-xl border-2 border-dashed border-amber-200 dark:border-amber-700 bg-amber-50 dark:bg-amber-900/10 p-6 text-center">
                                 <div className="flex justify-center mb-3">
@@ -791,6 +760,16 @@ export default function DocumentsPage() {
                                 <p className="font-semibold text-amber-800 dark:text-amber-300 text-lg">{viewFallbackPreview.title}</p>
                                 <p className="text-sm text-amber-600 dark:text-amber-400 mt-1">File preview not available (offline/backend)</p>
                             </div>
+
+                            {/* Inline text preview from DB */}
+                            {selectedDoc?.document_content && (
+                                <div>
+                                    <p className="text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wide mb-2">Extracted Text Preview</p>
+                                    <div className="max-h-60 overflow-y-auto p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-mono whitespace-pre-wrap">
+                                        {selectedDoc.document_content}
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Metadata */}
                             <div className="grid grid-cols-2 gap-4">
@@ -816,20 +795,8 @@ export default function DocumentsPage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="px-6 py-4 border-t border-gray-100 dark:border-slate-700 flex items-center justify-between gap-3">
-                            <button
-                                onClick={() => {
-                                    const fileUrl = selectedDoc?.file_name
-                                        ? `http://localhost:8000/uploads/${selectedDoc.file_name}`
-                                        : selectedDoc
-                                        ? `http://localhost:8000/documents/${selectedDoc.id}/file`
-                                        : "#";
-                                    window.open(fileUrl, "_blank", "noopener,noreferrer");
-                                }}
-                                className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-medium text-amber-700 hover:bg-amber-100 transition dark:border-amber-700 dark:bg-amber-900/20 dark:text-amber-400 dark:hover:bg-amber-900/30"
-                            >
-                                <FiFile size={14} className="inline mr-1" /> Open in New Tab
-                            </button>
+                        {/* Footer */}
+                        <div className="px-6 py-4 border-t border-slate-200 dark:border-slate-800 shrink-0 flex justify-end gap-3 bg-slate-50/50 dark:bg-slate-900/50">
                             <button onClick={closeModal} className="rounded-xl bg-amber-600 px-6 py-2 text-sm font-medium text-white hover:bg-amber-700 transition dark:bg-amber-700 dark:hover:bg-amber-600">Close</button>
                         </div>
                     </div>

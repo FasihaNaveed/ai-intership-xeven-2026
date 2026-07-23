@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+from typing import Optional
+
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import get_db
@@ -6,7 +8,8 @@ from src.database import get_db
 from src.chat.schemas import (
     ChatRequest,
     ChatResponse,
-    ChatListingResponse
+    ChatListingResponse,
+    ChatHistoryResponse
 )
 
 from src.chat.services import ChatService
@@ -40,13 +43,29 @@ async def get_chat_history(
     user_id: int,
     page_no: int = 1,
     page_size: int = 10,
+    conversation_id: Optional[int] = Query(None),
     db: AsyncSession = Depends(get_db)
 ):
     return await ChatService.get_chat_history(
         user_id=user_id,
         db=db,
         page_no=page_no,
-        page_size=page_size
+        page_size=page_size,
+        conversation_id=conversation_id
+    )
+
+
+@router.get(
+    "/conversation/{conversation_id}",
+    response_model=list[ChatHistoryResponse]
+)
+async def get_chat_messages_by_conversation(
+    conversation_id: int,
+    db: AsyncSession = Depends(get_db)
+):
+    return await ChatService.get_chat_messages_by_conversation(
+        conversation_id,
+        db
     )
 
 

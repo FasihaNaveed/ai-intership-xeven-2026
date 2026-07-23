@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 from fastapi import HTTPException, status
@@ -35,21 +37,23 @@ class ConversationService:
     async def get_conversations(
         db: AsyncSession,
         page_no: int = 1,
-        page_size: int = 10
+        page_size: int = 10,
+        user_id: Optional[int] = None
     ):
+        query = select(Conversation)
+        count_query = select(func.count()).select_from(Conversation)
 
-        total_records = await db.execute(
-            select(func.count()).select_from(
-                Conversation
-            )
-        )
+        if user_id is not None:
+            query = query.where(Conversation.user_id == user_id)
+            count_query = count_query.where(Conversation.user_id == user_id)
 
-        total_records = total_records.scalar()
+        total_records_result = await db.execute(count_query)
+        total_records = total_records_result.scalar()
 
         offset = (page_no - 1) * page_size
 
         result = await db.execute(
-            select(Conversation)
+            query
             .offset(offset)
             .limit(page_size)
             .order_by(
@@ -61,7 +65,7 @@ class ConversationService:
 
         total_pages = (
             total_records + page_size - 1
-        ) // page_size
+        ) // page_size if total_records else 1
 
         return ConversationsListingResponse(
             total_records=total_records,

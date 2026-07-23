@@ -12,14 +12,13 @@ export const getDocumentById = async (documentId: number) => {
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;
-    // Gracefully handle 405 Method Not Allowed or any other error
-    if (axiosError.response?.status === 405) {
-      console.warn(`API 405 for document ${documentId}, returning fallback`);
-      return null;
-    }
-    console.error(`Failed to fetch document ${documentId}:`, error);
+    console.warn(`Failed to fetch document ${documentId}:`, axiosError.message);
     return null;
   }
+};
+
+export const getDocumentFileUrl = (documentId: number) => {
+  return `${api.defaults.baseURL}/documents/file/${documentId}`;
 };
 
 export const uploadDocument = async (formData: FormData) => {
@@ -28,26 +27,16 @@ export const uploadDocument = async (formData: FormData) => {
       "Content-Type": "multipart/form-data",
     },
   });
-
   return response.data;
 };
 
 export const updateDocument = async (documentId: number, data: any) => {
-  try {
-    const response = await api.put(`/documents/${documentId}`, data);
-    return response.data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-    // Gracefully handle 405 Method Not Allowed - return a placeholder so the UI can update locally
-    if (axiosError.response?.status === 405) {
-      console.warn(`API 405 for document ${documentId} update, applying local fallback`);
-      return { id: documentId, ...data, updated_local: true };
-    }
-    throw error;
-  }
+  const response = await api.put(`/documents/${documentId}`, data);
+  return response.data;
 };
 
 export const deleteDocument = async (documentId: number) => {
   const response = await api.delete(`/documents/${documentId}`);
   return response.data;
 };
+

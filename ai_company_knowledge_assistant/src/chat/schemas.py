@@ -6,16 +6,19 @@ from typing import Optional
 class ChatRequest(BaseModel):
     question: str
     user_id: int
+    conversation_id: Optional[int] = None
 
 
 class ChatResponse(BaseModel):
     answer: str
     sources: list[str]
+    conversation_id: int
 
 
 class ChatHistoryResponse(BaseModel):
     id: int
     user_id: int
+    conversation_id: Optional[int] = None
     question: str
     answer: str
     sources: Optional[str] = None

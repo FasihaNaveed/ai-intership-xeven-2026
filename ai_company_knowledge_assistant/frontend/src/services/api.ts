@@ -1,10 +1,12 @@
 import axios from "axios";
 
-// Check if environment variable is loading
-console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+// Proxy via Next.js rewrites to avoid CORS issues
+const baseURL = "/api";
+
+console.log("API base URL:", baseURL);
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL,
   headers: {
     "Content-Type": "application/json",
   },

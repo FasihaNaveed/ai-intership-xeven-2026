@@ -18,44 +18,38 @@ export default function StatsCard({
   const getIcon = () => {
     switch (title) {
       case "Total Documents":
-        return <FiFileText className="h-6 w-6 text-blue-600" />;
-
+        return <FiFileText className="h-6 w-6 text-blue-600 dark:text-blue-400" />;
       case "Total Users":
-        return <FiUsers className="h-6 w-6 text-emerald-600" />;
-
+        return <FiUsers className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />;
       case "Total Chats":
-        return <FiMessageSquare className="h-6 w-6 text-violet-600" />;
-
+        return <FiMessageSquare className="h-6 w-6 text-violet-600 dark:text-violet-400" />;
       default:
-        return <FiBarChart2 className="h-6 w-6 text-orange-600" />;
+        return <FiBarChart2 className="h-6 w-6 text-orange-600 dark:text-orange-400" />;
     }
   };
 
   const getIconBg = () => {
     switch (title) {
       case "Total Documents":
-        return "bg-blue-100";
-
+        return "bg-blue-100 dark:bg-blue-900/30";
       case "Total Users":
-        return "bg-emerald-100";
-
+        return "bg-emerald-100 dark:bg-emerald-900/30";
       case "Total Chats":
-        return "bg-violet-100";
-
+        return "bg-violet-100 dark:bg-violet-900/30";
       default:
-        return "bg-orange-100";
+        return "bg-orange-100 dark:bg-orange-900/30";
     }
   };
 
   return (
-    <div className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <div className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium text-slate-500">
+          <p className="text-sm font-medium text-slate-500 dark:text-slate-300">
             {title}
           </p>
 
-          <h2 className="mt-3 text-4xl font-bold text-slate-900">
+          <h2 className="mt-3 text-4xl font-bold text-slate-900 dark:text-slate-100">
             {value}
           </h2>
         </div>
@@ -68,15 +62,16 @@ export default function StatsCard({
       </div>
 
       <div className="mt-6 flex items-center justify-between">
-        <div className="flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600">
+        <div className="flex items-center gap-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
           <FiArrowUpRight />
           Live Data
         </div>
 
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-slate-400 dark:text-slate-500">
           Updated now
         </span>
       </div>
     </div>
   );
 }
+
